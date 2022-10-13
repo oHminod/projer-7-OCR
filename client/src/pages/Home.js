@@ -1,11 +1,11 @@
 import React from "react";
-import LoginForm from "../components/LoginForm";
+import LoginSignupModal from "../components/LoginSignupModal";
 
 const Home = () => {
     return (
         <div>
             <h1>Hello</h1>
-            <LoginForm />
+            <LoginSignupModal />
         </div>
     );
 };
