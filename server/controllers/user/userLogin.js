@@ -23,16 +23,14 @@ const userLogin = (req, res, next) => {
     UserModel.findOne({ email: req.body.email })
         .then((user) => {
             if (!user) {
-                return next(ApiError.unauthorized("Utilisateur non trouvé!"));
+                return next(ApiError.notFound("Utilisateur non trouvé!"));
             } else {
                 bcrypt
                     .compare(req.body.password, user.password)
                     .then((valid) => {
                         if (!valid) {
                             return next(
-                                ApiError.unauthorized(
-                                    "Mot de passe incorrect !"
-                                )
+                                ApiError.forbidden("Mot de passe incorrect !")
                             );
                         } else {
                             res.status(200).json({

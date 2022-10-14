@@ -25,8 +25,8 @@ const userSignUp = async (req, res, next) => {
         .then(() =>
             res.status(201).json({ message: "Utilisateur enregistré !" })
         )
-        .catch((err) => {
-            return next(err);
+        .catch((error) => {
+            return next(ApiError.badRequest(error.message));
         });
 };
 

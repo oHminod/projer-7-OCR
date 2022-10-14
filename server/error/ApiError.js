@@ -28,6 +28,15 @@ class ApiError {
     }
 
     /**
+     * Défini le message de l'erreur 401
+     * @param {String} msg Message de l'erreur
+     * @returns Nouvelle erreur de l'API
+     */
+    static forbidden(msg) {
+        return new ApiError(403, msg);
+    }
+
+    /**
      * Défini le message de l'erreur 404
      * @param {String} msg Message de l'erreur
      * @returns Nouvelle erreur de l'API
