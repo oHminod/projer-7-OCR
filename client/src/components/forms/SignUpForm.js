@@ -23,8 +23,12 @@ const SignUpForm = () => {
                     })
                     .then((res) => {
                         window.localStorage.setItem(
-                            "session_groupomania",
-                            JSON.stringify(res.data)
+                            "token_groupomania",
+                            JSON.stringify(res.data.token)
+                        );
+                        window.localStorage.setItem(
+                            "userId_groupomania",
+                            JSON.stringify(res.data.userId)
                         );
                         setAuthToken(res.data.token);
                     })

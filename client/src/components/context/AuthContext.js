@@ -15,11 +15,11 @@ export function AuthProvider({ children }) {
     const [authToken, setAuthToken] = useState();
 
     useEffect(() => {
-        if (window.localStorage.getItem("session_groupomania")) {
-            const { token } = JSON.parse(
-                window.localStorage.getItem("session_groupomania")
+        if (window.localStorage.getItem("token_groupomania")) {
+            const token = JSON.parse(
+                window.localStorage.getItem("token_groupomania")
             );
-            token && setAuthToken(token);
+            setAuthToken(token);
         }
     }, []);
 

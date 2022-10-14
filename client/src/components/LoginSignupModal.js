@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LoginForm from "./forms/LoginForm";
 import SignUpForm from "./forms/SignUpForm";
 
-const LoginSignupModal = () => {
+export const LoginSignupModal = () => {
     const [connexion, setConnexion] = useState(true);
 
     return connexion ? (
