@@ -1,12 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useAuthUpdate } from "../context/AuthContext";
 
 const SignUpForm = () => {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [dbError, setDbError] = useState("");
+    const setAuthToken = useAuthUpdate();
 
-    const handleSignup = () => {
-        // e.preventDefault();
+    const handleSignup = (e) => {
+        e.preventDefault();
         axios
             .post("http://localhost:36500/signup", {
                 email: email,
@@ -23,13 +26,14 @@ const SignUpForm = () => {
                             "session_groupomania",
                             JSON.stringify(res.data)
                         );
+                        setAuthToken(res.data.token);
                     })
                     .catch((err) => {
-                        return;
+                        setDbError(err.response.data);
                     });
             })
             .catch((err) => {
-                return;
+                setDbError(err.response.data);
             });
     };
 
@@ -51,26 +55,29 @@ const SignUpForm = () => {
 
     return (
         <div>
-            <input
-                type="text"
-                name="email-inscription"
-                placeholder="email-inscription"
-                value={email}
-                id="email-inscription"
-                onChange={(e) => {
-                    setEmail(e.target.value);
-                    verifEmail(e.target.value);
-                    console.log(e.target.value);
-                }}
-            />
-            <input
-                type="password"
-                name="password-inscription"
-                placeholder="password-inscription"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button onClick={handleSignup}>S'inscrire</button>
+            <form method="post">
+                <input
+                    type="text"
+                    name="email-inscription"
+                    placeholder="email"
+                    value={email}
+                    id="email-inscription"
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                        verifEmail(e.target.value);
+                    }}
+                />
+                <input
+                    type="password"
+                    name="password-inscription"
+                    placeholder="password"
+                    autoComplete="password-inscription"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button onClick={(e) => handleSignup(e)}>S'inscrire</button>
+            </form>
+            {dbError && <p>{dbError}</p>}
         </div>
     );
 };

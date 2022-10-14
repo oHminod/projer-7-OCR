@@ -1,5 +1,6 @@
 const UserModel = require("../../models/user");
 const bcrypt = require("bcrypt");
+const ApiError = require("../../error/ApiError");
 require("dotenv").config();
 
 /**
@@ -24,8 +25,8 @@ const userSignUp = async (req, res, next) => {
         .then(() =>
             res.status(201).json({ message: "Utilisateur enregistré !" })
         )
-        .catch((error) => {
-            return next(ApiError.badRequest(error.message));
+        .catch((err) => {
+            return next(err);
         });
 };
 

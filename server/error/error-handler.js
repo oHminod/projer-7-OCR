@@ -34,7 +34,6 @@ function errorHandler(err, req, res, next) {
     if (err && Object.keys(err).length === 0) {
         return res.status(500).json("Erreur interne du serveur");
     }
-
     res.status(500).json(err);
 }
 

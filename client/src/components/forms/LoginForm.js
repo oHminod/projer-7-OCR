@@ -1,13 +1,16 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useAuthUpdate } from "../context/AuthContext";
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [dbError, setDbError] = useState("");
     // const [emailOk, setEmailOk] = useState();
+    const setAuthToken = useAuthUpdate();
 
-    const handleLogin = () => {
-        // e.preventDefault();
+    const handleLogin = (e) => {
+        e.preventDefault();
         axios
             .post("http://localhost:36500/login", {
                 email: email,
@@ -18,9 +21,10 @@ const LoginForm = () => {
                     "session_groupomania",
                     JSON.stringify(res.data)
                 );
+                setAuthToken(res.data.token);
             })
             .catch((err) => {
-                return;
+                setDbError(err.response.data);
             });
     };
 
@@ -37,30 +41,33 @@ const LoginForm = () => {
             // setEmailOk(false);
             document.getElementById("email").style.backgroundColor = "red";
         }
-        console.log(emailString);
     };
 
     return (
         <div>
-            <input
-                type="text"
-                name="email"
-                placeholder="email"
-                value={email}
-                id="email"
-                onChange={(e) => {
-                    setEmail(e.target.value);
-                    verifEmail(e.target.value);
-                }}
-            />
-            <input
-                type="password"
-                name="password"
-                placeholder="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button onClick={handleLogin}>Se connecter</button>
+            <form method="post">
+                <input
+                    type="text"
+                    name="email"
+                    placeholder="email"
+                    value={email}
+                    id="email"
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                        verifEmail(e.target.value);
+                    }}
+                />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="password"
+                    value={password}
+                    autoComplete="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button onClick={(e) => handleLogin(e)}>Se connecter</button>
+            </form>
+            {dbError && <p>{dbError}</p>}
         </div>
     );
 };

@@ -3,7 +3,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
 const helmet = require("helmet");
-// const errorHandler = require("./error/error-handler");
+const errorHandler = require("./error/error-handler");
 
 const routes = require("./routes");
 
@@ -48,5 +48,5 @@ groupomania.use("/images", express.static(path.join(__dirname, "images")));
 groupomania.use(helmet());
 groupomania.use("/", routes);
 
-// groupomania.use(errorHandler);
+groupomania.use(errorHandler);
 module.exports = groupomania;
