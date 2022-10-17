@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useAuthUpdate } from "../context/AuthContext";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
     const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ const SignUpForm = () => {
     const [password, setPassword] = useState("");
     const [dbError, setDbError] = useState("");
     const setAuthToken = useAuthUpdate();
+    const navigate = useNavigate();
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -33,6 +35,7 @@ const SignUpForm = () => {
                             JSON.stringify(res.data.userId)
                         );
                         setAuthToken(res.data.token);
+                        navigate("/home");
                     })
                     .catch((err) => {
                         setDbError(err.response.data);

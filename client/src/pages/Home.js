@@ -1,40 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BackgroundLogoSvg from "../components/BackgroundLogoSvg";
 import { useAuth } from "../components/context/AuthContext";
 import Header from "../components/Header";
-import LoginSignupModal from "../components/LoginSignupModal";
-import { AnimatePresence, motion } from "framer-motion";
-// import Navigation from "../components/Navigation";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const authToken = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        authToken || navigate("/");
+    });
 
     return (
-        <AnimatePresence>
-            <motion.div
-                className="home"
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{
-                    width: { duration: 0.3 },
-                }}
-                exit={{
-                    x: window.innerWidth,
-                }}
-            >
-                <BackgroundLogoSvg />
-                {authToken ? (
-                    <div className="content">
-                        <Header />
-                        <h2>Fil d'actu</h2>
-                    </div>
-                ) : (
-                    <div className="loginModal">
-                        <LoginSignupModal />
-                    </div>
-                )}
-            </motion.div>
-        </AnimatePresence>
+        <motion.div
+            className="home"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+                opacity: { duration: 0.3, ease: "easeInOut" },
+            }}
+            exit={{
+                opacity: 0,
+            }}
+        >
+            <BackgroundLogoSvg />
+            <div className="content">
+                <Header />
+                <h2>Fil d'actu</h2>
+            </div>
+        </motion.div>
     );
 };
 
