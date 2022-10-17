@@ -4,6 +4,7 @@ import { useAuthUpdate } from "../context/AuthContext";
 
 const SignUpForm = () => {
     const [email, setEmail] = useState("");
+    const [emailOk, setEmailOk] = useState(false);
     const [password, setPassword] = useState("");
     const [dbError, setDbError] = useState("");
     const setAuthToken = useAuthUpdate();
@@ -53,12 +54,15 @@ const SignUpForm = () => {
         } else {
             // setEmailOk(false);
             document.getElementById("email-inscription").style.backgroundColor =
-                "red";
+                "#FD2D01";
         }
+        setEmailOk(re.test(emailString));
+        return re.test(emailString);
     };
 
     return (
         <div>
+            {dbError && <p className="error">{dbError}</p>}
             <form method="post">
                 <input
                     type="text"
@@ -79,9 +83,14 @@ const SignUpForm = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button onClick={(e) => handleSignup(e)}>S'inscrire</button>
+                {emailOk && (
+                    <button
+                        onClick={(e) => verifEmail(email) && handleSignup(e)}
+                    >
+                        S'inscrire
+                    </button>
+                )}
             </form>
-            {dbError && <p>{dbError}</p>}
         </div>
     );
 };

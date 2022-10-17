@@ -1,0 +1,144 @@
+.loginSignupModal {
+    display: flex;
+    flex-direction: column;
+    // margin-top: calc(50vh - 200px);
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, .60);
+    backdrop-filter: blur(5px);
+    @extend .card_shadow;
+
+    @media screen and (min-width: 400px) {
+        width: 90%;
+        max-width: 850px;
+    }
+
+    .logo {
+        margin: 20px;
+
+        @media screen and (min-width: 600px) {
+            width: 500px;
+            margin: 20px auto;
+        }
+
+    }
+
+    .LogoOrigin {
+        fill: $tertiaire;
+    }
+
+    input[type=text] {
+        background-color: transparent;
+        backdrop-filter: blur(5px);
+        border-radius: 15px;
+        padding: 20px;
+        border: none;
+        margin: 20px;
+        width: calc(100% - 80px);
+
+        &::placeholder {
+            font-size: 26px;
+            font-weight: 300;
+        }
+    }
+
+    input[type=password] {
+        background-color: transparent;
+        backdrop-filter: blur(5px);
+        border-radius: 5px;
+        padding: 20px;
+        border: none;
+        margin: 20px;
+        width: calc(100% - 60px);
+        width: calc(100% - 80px);
+
+        &::placeholder {
+            font-size: 26px;
+            font-weight: 300;
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        button {
+            align-self: flex-end;
+        }
+    }
+
+    p {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 300;
+        margin: 18px 16px;
+        color: $tertiaire;
+
+        button {
+            color: $tertiaire;
+            font-style: italic;
+            background-color: transparent;
+            font-size: 26px;
+            font-weight: 300;
+
+            &:hover {
+                text-decoration: underline;
+                color: $primaire;
+                background-color: transparent;
+            }
+        }
+    }
+
+    h2 {
+        margin: 20px;
+        font-size: 40px;
+        font-weight: 400;
+        text-align: center;
+        color: $tertiaire;
+
+        button {
+            vertical-align: 4px;
+            font-style: italic;
+            display: inline;
+            color: $tertiaire;
+            background-color: transparent;
+            font-size: 26px;
+            font-weight: 300;
+            margin: 0;
+            padding: 0;
+
+            &:hover {
+                text-decoration: underline;
+                color: $primaire;
+                background-color: transparent;
+            }
+        }
+    }
+
+    button {
+        background-color: $tertiaire;
+        color: white;
+        padding: 10px;
+        border-radius: 15px;
+        margin: 0 20px;
+        border: none;
+        transition: background-color .3s;
+        margin: 20px;
+        align-self: center;
+
+        &:hover {
+            background: $primaire;
+        }
+    }
+
+    .error {
+        text-align: center;
+        background-color: $primaire;
+        color: white;
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    &:hover {
+        @extend .card_shadow_hover;
+    }
+}

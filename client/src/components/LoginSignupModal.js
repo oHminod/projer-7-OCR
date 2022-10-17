@@ -1,25 +1,39 @@
 import React, { useState } from "react";
 import LoginForm from "./forms/LoginForm";
 import SignUpForm from "./forms/SignUpForm";
+import LogoOrigin from "./LogoOrigin";
 
 export const LoginSignupModal = () => {
     const [connexion, setConnexion] = useState(true);
 
     return connexion ? (
-        <div>
-            <h2>Connexion</h2>
+        <div className="loginSignupModal">
+            <div className="logo">
+                <LogoOrigin />
+            </div>
+            <p>
+                Bienvenue sur le réseau social des employés de Groupomania ! 🚀
+            </p>
+            <p>
+                Pas encore inscrit ?{" "}
+                <button onClick={() => setConnexion(false)}>
+                    Cliquer ici !
+                </button>
+            </p>
             <LoginForm />
-            <button onClick={() => setConnexion(false)}>
-                Pas encore inscrit ? Cliquer ici.
-            </button>
         </div>
     ) : (
-        <div>
-            <h2>Inscription</h2>
+        <div className="loginSignupModal">
+            <div className="logo">
+                <LogoOrigin />
+            </div>
+            <h2>
+                Inscription{" - "}
+                <button onClick={() => setConnexion(true)}>
+                    Retour à la connexion
+                </button>
+            </h2>
             <SignUpForm />
-            <button onClick={() => setConnexion(true)}>
-                Retour à la connexion
-            </button>
         </div>
     );
 };

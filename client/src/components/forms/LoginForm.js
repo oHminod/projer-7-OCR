@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthUpdate } from "../context/AuthContext";
 
 const LoginForm = () => {
@@ -8,6 +9,7 @@ const LoginForm = () => {
     const [dbError, setDbError] = useState("");
     // const [emailOk, setEmailOk] = useState();
     const setAuthToken = useAuthUpdate();
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -26,6 +28,7 @@ const LoginForm = () => {
                     JSON.stringify(res.data.userId)
                 );
                 setAuthToken(res.data.token);
+                navigate("/home");
             })
             .catch((err) => {
                 setDbError(err.response.data);
@@ -43,12 +46,13 @@ const LoginForm = () => {
                 "transparent";
         } else {
             // setEmailOk(false);
-            document.getElementById("email").style.backgroundColor = "red";
+            document.getElementById("email").style.backgroundColor = "#FD2D01";
         }
     };
 
     return (
         <div>
+            {dbError && <p className="error">{dbError}</p>}
             <form method="post">
                 <input
                     type="text"
@@ -71,7 +75,6 @@ const LoginForm = () => {
                 />
                 <button onClick={(e) => handleLogin(e)}>Se connecter</button>
             </form>
-            {dbError && <p>{dbError}</p>}
         </div>
     );
 };

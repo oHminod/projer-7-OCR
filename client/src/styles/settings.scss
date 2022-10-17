@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+$primaire: #FD2D01;
+$secondaire: #FFD7D7;
+$tertiaire: #4e5166;
+
+.card_shadow {
+    transition: box-shadow .3s;
+    box-shadow: 0px 2px 15px rgba(15, 15, 15, .25);
+}
+
+.card_shadow_hover {
+    box-shadow: 0px 5px 20px rgba(15, 15, 15, .30);
+}
+
+.content {
+    z-index: 1;
+}

@@ -1,0 +1,40 @@
+.navigation {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    z-index: 1;
+
+    ul {
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+        border-radius: 15px;
+        margin: 0 10px;
+        transition: background-color .3s, color .3s;
+
+        &::before {
+            content: '';
+            background-color: $tertiaire;
+        }
+
+        &:hover {
+            background-color: $primaire;
+        }
+
+    }
+
+    li {
+        display: block;
+        padding: 8px;
+        list-style: none;
+        display: inline-block;
+    }
+
+    .nav-active {
+        background-color: $primaire;
+    }
+
+}

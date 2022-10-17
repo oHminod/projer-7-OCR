@@ -28,7 +28,7 @@ const UserInfo = () => {
             });
     }, [token]);
 
-    return userID && <p>ID du membre : {userID}</p>;
+    return userID && <p className="UserInfo">ID du membre : {userID}</p>;
 };
 
 export default UserInfo;

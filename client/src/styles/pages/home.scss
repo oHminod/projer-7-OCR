@@ -1,0 +1,21 @@
+.home {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    background: linear-gradient(270deg, $primaire, $secondaire);
+    max-width: 1600px;
+    margin: 0 auto;
+
+    h1 {
+        text-align: center;
+    }
+
+    .loginModal {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}

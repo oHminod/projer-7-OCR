@@ -10,7 +10,11 @@ const Deconnexion = () => {
         setToken();
     };
 
-    return <button onClick={deconnexion}>Deconnexion</button>;
+    return (
+        <button className="Deconnexion" onClick={deconnexion}>
+            Deconnexion
+        </button>
+    );
 };
 
 export default Deconnexion;

@@ -1,11 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "./context/AuthContext";
 import Deconnexion from "./Deconnexion";
 
 const Navigation = () => {
-    const authToken = useAuth();
-
     return (
         <div className="navigation">
             <ul>
@@ -13,18 +10,20 @@ const Navigation = () => {
                     to="/home"
                     className={(nav) => (nav.isActive ? "nav-active" : "")}
                 >
-                    <li>Accueil</li>
+                    <li>Fil d'actu</li>
                 </NavLink>
-                {authToken && (
-                    <NavLink
-                        to="/membre"
-                        className={(nav) => (nav.isActive ? "nav-active" : "")}
-                    >
-                        <li>Page membre</li>
-                    </NavLink>
-                )}
+                <NavLink
+                    to="/membre"
+                    className={(nav) => (nav.isActive ? "nav-active" : "")}
+                >
+                    <li>Page membre</li>
+                </NavLink>
+                <NavLink to="/">
+                    <li>
+                        <Deconnexion />
+                    </li>
+                </NavLink>
             </ul>
-            {authToken && <Deconnexion />}
         </div>
     );
 };
