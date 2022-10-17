@@ -6,13 +6,16 @@ body,
     height: 100%;
 }
 
-body {
-    font-family: 'Lato', sans-serif;
-}
 
 $primaire: #FD2D01;
 $secondaire: #FFD7D7;
 $tertiaire: #4e5166;
+
+body {
+    font-family: 'Lato', sans-serif;
+    background: linear-gradient(270deg, $secondaire, #fff);
+
+}
 
 .card_shadow {
     box-shadow: 0px 2px 15px rgba(15, 15, 15, .25);

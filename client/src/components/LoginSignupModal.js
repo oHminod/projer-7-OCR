@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import LoginForm from "./forms/LoginForm";
 import SignUpForm from "./forms/SignUpForm";
 import LogoOrigin from "./LogoOrigin";
+import { motion } from "framer-motion";
 
 export const LoginSignupModal = () => {
     const [connexion, setConnexion] = useState(true);
 
     return (
-        <div className="loginSignupModal">
+        <motion.div layout className="loginSignupModal">
             {connexion ? (
                 <>
                     <div className="logo">
@@ -40,7 +41,7 @@ export const LoginSignupModal = () => {
                     </button>
                 </>
             )}
-        </div>
+        </motion.div>
     );
 };
 

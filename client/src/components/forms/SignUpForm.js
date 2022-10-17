@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useAuthUpdate } from "../context/AuthContext";
+import { motion } from "framer-motion";
 
 const SignUpForm = () => {
     const [email, setEmail] = useState("");
@@ -12,13 +13,13 @@ const SignUpForm = () => {
     const handleSignup = (e) => {
         e.preventDefault();
         axios
-            .post("http://localhost:36500/signup", {
+            .post("http://localhost:36600/signup", {
                 email: email,
                 password: password,
             })
             .then((res) => {
                 axios
-                    .post("http://localhost:36500/login", {
+                    .post("http://localhost:36600/login", {
                         email: email,
                         password: password,
                     })
@@ -61,7 +62,7 @@ const SignUpForm = () => {
     };
 
     return (
-        <div>
+        <motion.div layout>
             {dbError && <p className="error">{dbError}</p>}
             <form method="post">
                 <input
@@ -91,7 +92,7 @@ const SignUpForm = () => {
                     </button>
                 )}
             </form>
-        </div>
+        </motion.div>
     );
 };
 

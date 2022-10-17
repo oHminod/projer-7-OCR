@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthUpdate } from "../context/AuthContext";
+import { motion } from "framer-motion";
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ const LoginForm = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         axios
-            .post("http://localhost:36500/login", {
+            .post("http://localhost:36600/login", {
                 email: email,
                 password: password,
             })
@@ -51,7 +52,7 @@ const LoginForm = () => {
     };
 
     return (
-        <div>
+        <motion.div layout>
             {dbError && <p className="error">{dbError}</p>}
             <form method="post">
                 <input
@@ -75,7 +76,7 @@ const LoginForm = () => {
                 />
                 <button onClick={(e) => handleLogin(e)}>Se connecter</button>
             </form>
-        </div>
+        </motion.div>
     );
 };
 
