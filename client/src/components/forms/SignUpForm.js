@@ -54,7 +54,7 @@ const SignUpForm = () => {
         } else {
             // setEmailOk(false);
             document.getElementById("email-inscription").style.backgroundColor =
-                "#FD2D01";
+                "#ffab9b";
         }
         setEmailOk(re.test(emailString));
         return re.test(emailString);

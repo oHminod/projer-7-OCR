@@ -46,7 +46,7 @@ const LoginForm = () => {
                 "transparent";
         } else {
             // setEmailOk(false);
-            document.getElementById("email").style.backgroundColor = "#FD2D01";
+            document.getElementById("email").style.backgroundColor = "#ffab9b";
         }
     };
 

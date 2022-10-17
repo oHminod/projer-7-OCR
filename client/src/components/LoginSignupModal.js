@@ -6,34 +6,40 @@ import LogoOrigin from "./LogoOrigin";
 export const LoginSignupModal = () => {
     const [connexion, setConnexion] = useState(true);
 
-    return connexion ? (
+    return (
         <div className="loginSignupModal">
-            <div className="logo">
-                <LogoOrigin />
-            </div>
-            <p>
-                Bienvenue sur le réseau social des employés de Groupomania ! 🚀
-            </p>
-            <p>
-                Pas encore inscrit ?{" "}
-                <button onClick={() => setConnexion(false)}>
-                    Cliquer ici !
-                </button>
-            </p>
-            <LoginForm />
-        </div>
-    ) : (
-        <div className="loginSignupModal">
-            <div className="logo">
-                <LogoOrigin />
-            </div>
-            <h2>
-                Inscription{" - "}
-                <button onClick={() => setConnexion(true)}>
-                    Retour à la connexion
-                </button>
-            </h2>
-            <SignUpForm />
+            {connexion ? (
+                <>
+                    <div className="logo">
+                        <LogoOrigin />
+                    </div>
+                    <p>
+                        Bienvenue sur le réseau social des employés de
+                        Groupomania ! 🚀
+                    </p>
+                    <LoginForm />
+                    <button
+                        className="nav-modal"
+                        onClick={() => setConnexion(false)}
+                    >
+                        Créer un compte
+                    </button>
+                </>
+            ) : (
+                <>
+                    <div className="logo">
+                        <LogoOrigin />
+                    </div>
+                    <h2>Inscription</h2>
+                    <SignUpForm />
+                    <button
+                        className="nav-modal"
+                        onClick={() => setConnexion(true)}
+                    >
+                        Retour à la connexion
+                    </button>
+                </>
+            )}
         </div>
     );
 };

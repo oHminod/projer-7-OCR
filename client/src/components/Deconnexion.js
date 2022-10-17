@@ -11,8 +11,12 @@ const Deconnexion = () => {
     };
 
     return (
-        <button className="Deconnexion" onClick={deconnexion}>
-            Deconnexion
+        <button
+            className="Deconnexion"
+            onClick={deconnexion}
+            title="Déconnexion"
+        >
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
         </button>
     );
 };

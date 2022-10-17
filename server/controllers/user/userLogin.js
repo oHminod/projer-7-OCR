@@ -23,7 +23,7 @@ const userLogin = (req, res, next) => {
     UserModel.findOne({ email: req.body.email })
         .then((user) => {
             if (!user) {
-                return next(ApiError.notFound("Utilisateur non trouvé!"));
+                return next(ApiError.notFound("Utilisateur non trouvé !"));
             } else {
                 bcrypt
                     .compare(req.body.password, user.password)

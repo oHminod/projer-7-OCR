@@ -4,11 +4,24 @@
     flex-direction: column;
     max-width: 1600px;
     margin: 0 auto;
-    background: linear-gradient(270deg, $primaire, $secondaire);
+    background: linear-gradient(270deg, $secondaire, #fff);
 
 
     h1 {
         text-align: center;
+    }
+
+    @media (min-width: 571px) {
+        .content {
+            margin-top: 9vh;
+
+        }
+
+        @media (max-height: 611px) {
+            .content {
+                margin-top: 56px;
+            }
+        }
     }
 
 }

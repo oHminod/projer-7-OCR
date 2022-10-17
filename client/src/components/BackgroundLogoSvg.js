@@ -8,8 +8,8 @@ const BackgroundLogoSvg = () => {
                     <svg viewBox="0 0 485 458.44">
                         <defs>
                             <linearGradient id="logoGradient">
-                                <stop stop-color="#ff2a00" offset="0%" />
-                                <stop stop-color="#ffefef" offset="100%" />
+                                <stop stop-color="#FD2D01" offset="0%" />
+                                <stop stop-color="#4e5166" offset="100%" />
                             </linearGradient>
                         </defs>
 

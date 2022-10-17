@@ -3,8 +3,9 @@
     flex-direction: column;
     // margin-top: calc(50vh - 200px);
     border-radius: 25px;
-    background-color: rgba(255, 255, 255, .60);
-    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, .7);
+    backdrop-filter: blur(10px);
+    transition: all .3s;
     @extend .card_shadow;
 
     @media screen and (min-width: 400px) {
@@ -27,33 +28,49 @@
     }
 
     input[type=text] {
-        background-color: transparent;
-        backdrop-filter: blur(5px);
-        border-radius: 15px;
+        background-color: rgba(255, 255, 255, .3);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
         padding: 20px;
         border: none;
         margin: 20px;
         width: calc(100% - 80px);
+        transition: all .3s;
+        @extend .card_shadow;
 
         &::placeholder {
             font-size: 26px;
             font-weight: 300;
         }
+
+        &:hover,
+        &:focus {
+            @extend .card_shadow_hover;
+            transform: scale(1.005);
+        }
     }
 
     input[type=password] {
-        background-color: transparent;
-        backdrop-filter: blur(5px);
-        border-radius: 5px;
+        background-color: rgba(255, 255, 255, .3);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
         padding: 20px;
         border: none;
         margin: 20px;
         width: calc(100% - 60px);
         width: calc(100% - 80px);
+        transition: all .3s;
+        @extend .card_shadow;
 
         &::placeholder {
             font-size: 26px;
             font-weight: 300;
+        }
+
+        &:hover,
+        &:focus {
+            @extend .card_shadow_hover;
+            transform: scale(1.005);
         }
     }
 
@@ -62,7 +79,8 @@
         flex-direction: column;
 
         button {
-            align-self: flex-end;
+            align-self: center;
+            @extend .card_shadow;
         }
     }
 
@@ -72,20 +90,6 @@
         font-weight: 300;
         margin: 18px 16px;
         color: $tertiaire;
-
-        button {
-            color: $tertiaire;
-            font-style: italic;
-            background-color: transparent;
-            font-size: 26px;
-            font-weight: 300;
-
-            &:hover {
-                text-decoration: underline;
-                color: $primaire;
-                background-color: transparent;
-            }
-        }
     }
 
     h2 {
@@ -94,39 +98,41 @@
         font-weight: 400;
         text-align: center;
         color: $tertiaire;
-
-        button {
-            vertical-align: 4px;
-            font-style: italic;
-            display: inline;
-            color: $tertiaire;
-            background-color: transparent;
-            font-size: 26px;
-            font-weight: 300;
-            margin: 0;
-            padding: 0;
-
-            &:hover {
-                text-decoration: underline;
-                color: $primaire;
-                background-color: transparent;
-            }
-        }
     }
 
     button {
         background-color: $tertiaire;
         color: white;
-        padding: 10px;
-        border-radius: 15px;
+        font-size: 24px;
+        font-weight: 600;
+        padding: 10px 30px;
+        border-radius: 8px;
         margin: 0 20px;
         border: none;
-        transition: background-color .3s;
+        transition: all .3s;
         margin: 20px;
         align-self: center;
+        @extend .card_shadow;
 
         &:hover {
-            background: $primaire;
+            background-color: #282c45;
+            @extend .card_shadow_hover;
+            transform: scale(1.015);
+        }
+    }
+
+    button.nav-modal {
+        background-color: rgb(0, 189, 0);
+        padding: 10px;
+        font-size: 24px;
+        font-weight: 600;
+        transition: all .3s;
+        @extend .card_shadow;
+
+        &:hover {
+            background-color: rgb(0, 145, 0);
+            @extend .card_shadow_hover;
+            transform: scale(1.015);
         }
     }
 
