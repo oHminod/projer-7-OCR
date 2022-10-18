@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, createContext, useContext, useEffect } from "react";
 
 export const AuthContext = createContext();
@@ -19,7 +20,20 @@ export function AuthProvider({ children }) {
             const token = JSON.parse(
                 window.localStorage.getItem("token_groupomania")
             );
-            setAuthToken(token);
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            axios
+                .get(`http://localhost:36600/verify`, config)
+                .then(() => {
+                    setAuthToken(token);
+                })
+                .catch(() => {
+                    setAuthToken("fin");
+                });
         }
     }, []);
 

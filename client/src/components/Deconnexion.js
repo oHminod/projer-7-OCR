@@ -1,13 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthUpdate } from "./context/AuthContext";
 
 const Deconnexion = () => {
     const setToken = useAuthUpdate();
+    const navigate = useNavigate();
 
     const deconnexion = () => {
         window.localStorage.removeItem("token_groupomania");
         window.localStorage.removeItem("userId_groupomania");
         setToken();
+        navigate("/");
     };
 
     return (

@@ -1,36 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BackgroundLogoSvg from "../components/BackgroundLogoSvg";
 import { useAuth } from "../components/context/AuthContext";
 import Header from "../components/Header";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Home = () => {
     const authToken = useAuth();
-    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        authToken || navigate("/");
-    });
+        authToken && setLoading(false);
+    }, [authToken]);
 
     return (
-        <motion.div
-            className="home"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-                opacity: { duration: 0.3, ease: "easeInOut" },
-            }}
-            exit={{
-                opacity: 0,
-            }}
-        >
-            <BackgroundLogoSvg />
-            <div className="content">
-                <Header />
-                <h2>Fil d'actu</h2>
-            </div>
-        </motion.div>
+        <>
+            {loading ||
+                (authToken !== "fin" ? (
+                    <motion.div
+                        className="home"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{
+                            opacity: { duration: 0.3, ease: "easeInOut" },
+                        }}
+                        exit={{
+                            opacity: 0,
+                        }}
+                    >
+                        <BackgroundLogoSvg />
+                        <div className="content">
+                            <Header />
+                            <h2>Fil d'actu</h2>
+                        </div>
+                    </motion.div>
+                ) : (
+                    <Navigate to={"/"} />
+                ))}
+        </>
     );
 };
 
