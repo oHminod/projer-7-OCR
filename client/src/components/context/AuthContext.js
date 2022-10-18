@@ -28,8 +28,12 @@ export function AuthProvider({ children }) {
             };
             axios
                 .get(`http://localhost:36600/verify`, config)
-                .then(() => {
-                    setAuthToken(token);
+                .then((data) => {
+                    setAuthToken(data.data.token);
+                    window.localStorage.setItem(
+                        "token_groupomania",
+                        JSON.stringify(data.data.token)
+                    );
                 })
                 .catch(() => {
                     setAuthToken("fin");

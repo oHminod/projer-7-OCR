@@ -28,7 +28,6 @@ const Membre = () => {
                     opacity: 0,
                 }}
             >
-                {console.log("membre : " + auth)}
                 <BackgroundLogoSvg />
                 <div className="content">
                     <Header />
