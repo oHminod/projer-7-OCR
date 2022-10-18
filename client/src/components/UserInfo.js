@@ -1,41 +1,24 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useAuth, useAuthUpdate } from "./context/AuthContext";
+import { useUser } from "./context/UserContext";
 
 const UserInfo = () => {
-    const [userID, setUserID] = useState("");
-    const token = useAuth();
-    const setToken = useAuthUpdate();
+    const user = useUser();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const deconnexion = () => {
-            window.localStorage.removeItem("token_groupomania");
-            window.localStorage.removeItem("userId_groupomania");
-            setToken();
-        };
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        const userId = JSON.parse(
-            window.localStorage.getItem("userId_groupomania")
-        );
-        if (!userId) {
-            return;
-        }
-        axios
-            .get(`http://localhost:36600/membre/${userId}`, config)
-            .then((res) => {
-                setUserID(res.data._id);
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-                deconnexion();
-            });
-    }, [token, setToken]);
+        user && setLoading(false);
+    }, [user]);
 
-    return userID && <p className="UserInfo">ID du membre : {userID}</p>;
+    return (
+        loading || (
+            <div>
+                <p>ID : {user._id} </p>
+                <p>Pseudo : {user.pseudo}</p>
+                <p>email : {user.email}</p>
+                <img src={user.avatar} alt="avatar" />
+            </div>
+        )
+    );
 };
 
 export default UserInfo;

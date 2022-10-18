@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthUpdate } from "../context/AuthContext";
 import { motion } from "framer-motion";
+import { useUserUpdate } from "../context/UserContext";
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ const LoginForm = () => {
     // const [emailOk, setEmailOk] = useState();
     const setAuthToken = useAuthUpdate();
     const navigate = useNavigate();
+    const setUser = useUserUpdate();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -28,6 +30,7 @@ const LoginForm = () => {
                     "userId_groupomania",
                     JSON.stringify(res.data.userId)
                 );
+                setUser(res.data.user);
                 setAuthToken(res.data.token);
                 navigate("/home");
             })

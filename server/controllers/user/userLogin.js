@@ -35,6 +35,7 @@ const userLogin = (req, res, next) => {
                         } else {
                             res.status(200).json({
                                 userId: user._id,
+                                user: user,
                                 token: jwt.sign(
                                     { userId: user._id },
                                     process.env.TOKEN,
