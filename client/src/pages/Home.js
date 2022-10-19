@@ -27,9 +27,7 @@ const Home = () => {
                     opacity: 0,
                 }}
             >
-                <BackgroundLogoSvg />
                 <div className="content">
-                    <Header />
                     <h2>Fil d'actu</h2>
                 </div>
             </motion.div>

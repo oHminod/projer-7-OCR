@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BackgroundLogoSvg from "../components/BackgroundLogoSvg";
 import LoginSignupModal from "../components/LoginSignupModal";
 import { motion } from "framer-motion";
+import { useAuth } from "../components/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const token = useAuth();
+    const navigate = useNavigate();
+    useEffect(() => {
+        token && navigate("/home");
+    }, [token, navigate]);
     return (
         <motion.div
             className="login"
@@ -16,7 +23,6 @@ const Login = () => {
                 opacity: 0,
             }}
         >
-            <BackgroundLogoSvg />
             <div className="loginModal">
                 <LoginSignupModal />
             </div>

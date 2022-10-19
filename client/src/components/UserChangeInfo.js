@@ -146,7 +146,7 @@ const UserChangeInfo = () => {
                     type="text"
                     ref={inputEmail}
                     placeholder={user.email}
-                    onChange={(e) => verifEmail(e.target.value)}
+                    onChange={verifEmail}
                 />
                 <button type="submit" className="success">
                     Enregistrer

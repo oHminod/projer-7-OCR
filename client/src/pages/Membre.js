@@ -28,9 +28,7 @@ const Membre = () => {
                     opacity: 0,
                 }}
             >
-                <BackgroundLogoSvg />
                 <div className="content">
-                    <Header />
                     <UserInfo />
                 </div>
             </motion.div>
