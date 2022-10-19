@@ -1,3 +1,78 @@
 .UserInfo {
-    z-index: 1;
+    background-color: rgba(255, 255, 255, .8);
+    backdrop-filter: blur(10px);
+    display: inline-flex;
+    flex-direction: column;
+    align-self: center;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 15px;
+    transition: all .3s;
+    @extend .card_shadow;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    input[type=text] {
+        background-color: rgba(255, 255, 255, .7);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
+        padding: 10px;
+        border: none;
+        transition: all .3s;
+        @extend .card_shadow;
+
+        &::placeholder {
+            font-size: 18px;
+            font-weight: 300;
+        }
+
+        &:hover,
+        &:focus {
+            @extend .card_shadow_hover;
+            transform: scale(1.005);
+        }
+    }
+
+
+    img {
+        align-self: center;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+
+    &:hover {
+        @extend .card_shadow_hover;
+        transform: scale(1.005);
+    }
+
+    button.success {
+        background-color: $success;
+        margin-bottom: 10px;
+
+        &:hover {
+            background-color: $successHover;
+        }
+    }
+
+    .label-file {
+        cursor: pointer;
+        color: white;
+        font-weight: bold;
+        background-color: $tertiaire;
+        text-align: center;
+        padding: 10px;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: #282c45;
+        }
+    }
+
+    .input-file {
+        display: none;
+    }
 }

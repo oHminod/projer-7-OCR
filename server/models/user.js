@@ -8,7 +8,7 @@ const userModel = mongoose.Schema({
         type: String,
         default: "http://localhost:36600/images/avatars/default-avatar.jpg",
     },
-    pseudo: { type: String, default: "", unique: true },
+    pseudo: { type: String, unique: true },
 });
 userModel.plugin(uniqueInDB);
 

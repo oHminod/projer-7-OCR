@@ -57,7 +57,7 @@ const LoginForm = () => {
     return (
         <motion.div layout>
             {dbError && <p className="error">{dbError}</p>}
-            <form method="post">
+            <form onSubmit={handleLogin}>
                 <input
                     type="text"
                     name="email"
@@ -77,7 +77,7 @@ const LoginForm = () => {
                     autoComplete="password"
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button onClick={(e) => handleLogin(e)}>Se connecter</button>
+                <button onClick={handleLogin}>Se connecter</button>
             </form>
         </motion.div>
     );

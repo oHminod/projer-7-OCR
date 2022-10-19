@@ -16,12 +16,13 @@ const SignUpForm = () => {
 
     const handleSignup = (e) => {
         e.preventDefault();
+        if (!verifEmail(email)) return;
         axios
             .post("http://localhost:36600/signup", {
                 email: email,
                 password: password,
             })
-            .then((res) => {
+            .then(() => {
                 axios
                     .post("http://localhost:36600/login", {
                         email: email,
@@ -70,7 +71,7 @@ const SignUpForm = () => {
     return (
         <motion.div layout>
             {dbError && <p className="error">{dbError}</p>}
-            <form method="post">
+            <form onSubmit={handleSignup}>
                 <input
                     type="text"
                     name="email-inscription"
@@ -90,13 +91,7 @@ const SignUpForm = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                {emailOk && (
-                    <button
-                        onClick={(e) => verifEmail(email) && handleSignup(e)}
-                    >
-                        S'inscrire
-                    </button>
-                )}
+                {emailOk && <button onClick={handleSignup}>S'inscrire</button>}
             </form>
         </motion.div>
     );

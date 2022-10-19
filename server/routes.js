@@ -8,12 +8,15 @@ const verify = require("./controllers/verify");
  */
 const router = express.Router();
 
-const getUserRoute = require("./controllers/user/getUser");
+const getUser = require("./controllers/user/getUser");
+const setUser = require("./controllers/user/setUser");
+const multer = require("./middleware/multer-config");
 
 router.get("/", (req, res) => res.status(200).send("hello"));
 router.post("/signup", userSignUp);
 router.post("/login", userLogin);
-router.get("/membre/:id", sessionOk, getUserRoute);
+router.post("/setuser/:id", sessionOk, multer, setUser);
+router.get("/membre/:id", sessionOk, getUser);
 router.get("/verify", sessionOk, verify);
 
 module.exports = router;
