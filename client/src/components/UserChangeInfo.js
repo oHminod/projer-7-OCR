@@ -11,6 +11,7 @@ const UserChangeInfo = () => {
     const inputEmail = useRef();
     const setModifier = useEditUpdate();
     const [selectedImage, setSelectedImage] = useState(null);
+    const [dbError, setDbError] = useState();
     const token = useAuth();
 
     const submitNewInfos = (e) => {
@@ -23,14 +24,12 @@ const UserChangeInfo = () => {
         selectedImage && (obj.avatar = URL.createObjectURL(selectedImage));
         pseudo && (obj.pseudo = pseudo);
         email && (obj.email = email);
-        // selectedImage && (obj.file = selectedImage);
-        setUser({ ...user, ...obj });
 
         if (selectedImage) {
             const data = new FormData();
             data.append("image", selectedImage);
             data.append("user", JSON.stringify(obj));
-            console.log(data.getAll("image"));
+
             const headers = {
                 Authorization: `Bearer ${token}`,
                 // accept: "application/json",
@@ -40,9 +39,21 @@ const UserChangeInfo = () => {
                 .post(`http://localhost:36600/setuser/${user._id}`, data, {
                     headers,
                 })
-                .then(() => {})
+                .then(() => {
+                    setUser({ ...user, ...obj });
+                    setModifier(false);
+                })
                 .catch((err) => {
-                    console.log(err.response.data);
+                    if (
+                        err.response.data.split(" ")[1] &&
+                        err.response.data.split(" ")[1] === "duplicate"
+                    ) {
+                        setDbError(
+                            "Pseudo ou adresse email déjà utilisé par un autre membre."
+                        );
+                    } else {
+                        console.log(err.response.data);
+                    }
                 });
         } else {
             const headers = {
@@ -52,15 +63,26 @@ const UserChangeInfo = () => {
                 .post(`http://localhost:36600/setuser/${user._id}`, obj, {
                     headers,
                 })
-                .then(() => {})
+                .then(() => {
+                    setUser({ ...user, ...obj });
+                    setModifier(false);
+                })
                 .catch((err) => {
-                    console.log(err.response.data);
+                    if (
+                        err.response.data.split(" ")[1] &&
+                        err.response.data.split(" ")[1] === "duplicate"
+                    ) {
+                        setDbError(
+                            "Pseudo ou adresse email déjà utilisé par un autre membre."
+                        );
+                    } else {
+                        console.log(err.response.data);
+                    }
                 });
         }
 
         inputPseudo.current.value = "";
         inputEmail.current.value = "";
-        setModifier(false);
     };
 
     const setImage = (e) => {
@@ -106,6 +128,7 @@ const UserChangeInfo = () => {
                 <label htmlFor="file" className="label-file">
                     Choisir une image
                 </label>
+                {dbError && <p className="error">{dbError}</p>}
                 <input
                     id="file"
                     name="file"
@@ -123,6 +146,7 @@ const UserChangeInfo = () => {
                     type="text"
                     ref={inputEmail}
                     placeholder={user.email}
+                    onChange={(e) => verifEmail(e.target.value)}
                 />
                 <button type="submit" className="success">
                     Enregistrer

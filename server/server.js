@@ -18,7 +18,6 @@ const port = normalizePort(process.env.PORT || "3000");
 groupomania.set("port", port);
 
 const errorHandler = (error) => {
-    console.log("tata");
     if (error.syscall !== "listen") {
         throw error;
     }

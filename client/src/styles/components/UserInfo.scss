@@ -75,4 +75,14 @@
     .input-file {
         display: none;
     }
+
+    .error {
+        text-align: center;
+        background-color: $primaire;
+        color: white;
+        max-width: 200px;
+        padding: 8px;
+        border-radius: 8px;
+    }
+
 }

@@ -1,32 +1,32 @@
-import React, { useState } from "react";
-import Avatar from "react-avatar-edit";
+// import React, { useState } from "react";
+// import Avatar from "react-avatar-edit";
 
-const CropAvatar = () => {
-    const [src, setSrc] = useState(null);
-    const [preview, setPreview] = useState(null);
+// const CropAvatar = () => {
+//     const [src, setSrc] = useState(null);
+//     const [preview, setPreview] = useState(null);
 
-    const onClose = () => {
-        setPreview(null);
-    };
+//     const onClose = () => {
+//         setPreview(null);
+//     };
 
-    const onCrop = (view) => {
-        setPreview(view);
-    };
+//     const onCrop = (view) => {
+//         setPreview(view);
+//     };
 
-    return (
-        <div>
-            <Avatar
-                width={200}
-                height={200}
-                onCrop={onCrop}
-                onClose={onClose}
-                src={src}
-            />
-        </div>
-    );
-};
+//     return (
+//         <div>
+//             <Avatar
+//                 width={200}
+//                 height={200}
+//                 onCrop={onCrop}
+//                 onClose={onClose}
+//                 src={src}
+//             />
+//         </div>
+//     );
+// };
 
-export default CropAvatar;
+// export default CropAvatar;
 
 // import { useCallback, useState } from "react";
 // import Cropper from "react-easy-crop";

@@ -7,6 +7,7 @@ import { useUserUpdate } from "../context/UserContext";
 
 const SignUpForm = () => {
     const [email, setEmail] = useState("");
+    const [pseudo, setPseudo] = useState("");
     const [emailOk, setEmailOk] = useState(false);
     const [password, setPassword] = useState("");
     const [dbError, setDbError] = useState("");
@@ -20,12 +21,14 @@ const SignUpForm = () => {
         axios
             .post("http://localhost:36600/signup", {
                 email: email,
+                pseudo: pseudo,
                 password: password,
             })
             .then(() => {
                 axios
                     .post("http://localhost:36600/login", {
                         email: email,
+                        pseudo: pseudo,
                         password: password,
                     })
                     .then((res) => {
@@ -46,7 +49,17 @@ const SignUpForm = () => {
                     });
             })
             .catch((err) => {
-                setDbError(err.response.data);
+                const error = err.response.data
+                    .split(".")[1]
+                    .split(":")[0]
+                    .trim();
+                if (error && error === "Value") {
+                    setDbError(
+                        "Pseudo ou adresse email déjà utilisé par un autre membre."
+                    );
+                } else {
+                    setDbError(err.response.data);
+                }
             });
     };
 
@@ -81,6 +94,16 @@ const SignUpForm = () => {
                     onChange={(e) => {
                         setEmail(e.target.value);
                         verifEmail(e.target.value);
+                    }}
+                />
+                <input
+                    type="text"
+                    name="pseudo-inscription"
+                    placeholder="pseudo"
+                    value={pseudo}
+                    id="pseudo-inscription"
+                    onChange={(e) => {
+                        setPseudo(e.target.value);
                     }}
                 />
                 <input
