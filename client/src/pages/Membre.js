@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import BackgroundLogoSvg from "../components/BackgroundLogoSvg";
 import { useAuth } from "../components/context/AuthContext";
-import Header from "../components/Header";
 import UserInfo from "../components/UserInfo";
 import { motion } from "framer-motion";
 
