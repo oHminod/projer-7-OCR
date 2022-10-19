@@ -28,9 +28,9 @@ const UserChangeInfo = () => {
 
         if (selectedImage) {
             const data = new FormData();
-            data.append("file", selectedImage);
+            data.append("image", selectedImage);
             data.append("user", JSON.stringify(obj));
-            console.log(data.getAll("file"));
+            console.log(data.getAll("image"));
             const headers = {
                 Authorization: `Bearer ${token}`,
                 // accept: "application/json",

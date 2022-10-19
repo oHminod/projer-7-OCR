@@ -1,0 +1,22 @@
+const ApiError = require("../../error/ApiError");
+const UserModel = require("../../models/user");
+
+/**
+ * * updateSauce :
+ * Fonction pour mettre à jour (update) une sauce.
+ * @param {json} req The req object represents the HTTP request
+ * and has properties for the request query string, parameters,
+ * body, HTTP headers, and so on.
+ * @param {json} res The res object represents the HTTP response
+ * that an Express app sends when it gets an HTTP request.
+ * @param {json} sauce Les données fournies par cet objet
+ * écraseront celles de la BDD.
+ * @param {string} message Message de réussite.
+ */
+module.exports = (req, res, next, user, message) => {
+    UserModel.updateOne({ _id: req.session.userId }, user)
+        .then(() => res.status(200).json({ message: message }))
+        .catch((error) => {
+            return next(ApiError.badRequest(error.message));
+        });
+};
