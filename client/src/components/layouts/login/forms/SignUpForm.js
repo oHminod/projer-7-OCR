@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useAuthUpdate } from "../context/AuthContext";
+import { useAuthUpdate } from "../../../context/AuthContext";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useUserUpdate } from "../context/UserContext";
-import { axiosSignup } from "../../utils/axiosCalls";
-import verifEmail from "../../utils/verifEmail";
+import { useUserUpdate } from "../../../context/UserContext";
+import { axiosSignup } from "../../../../utils/axiosCalls";
+import verifEmail from "../../../../utils/verifEmail";
 
 const SignUpForm = () => {
     const [email, setEmail] = useState("");

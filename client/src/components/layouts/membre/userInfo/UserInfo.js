@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useUser } from "./context/UserContext";
+import { useUser } from "../../../context/UserContext";
 import UserChangeInfo from "./UserChangeInfo";
 import UserFragment from "./UserFragment";
 import { motion } from "framer-motion";
-import { useEdit, useEditUpdate } from "./context/EditContext";
+import { useEdit, useEditUpdate } from "../../../context/EditContext";
+import "./UserInfo.scss";
 
 const UserInfo = () => {
     const user = useUser();

@@ -2,11 +2,11 @@ import React, { useRef, useState } from "react";
 import {
     axiosUserChangeInfoWithImage,
     axiosUserChangeInfoWithoutImage,
-} from "../utils/axiosCalls";
-import verifEmail from "../utils/verifEmail";
-import { useAuth } from "./context/AuthContext";
-import { useEditUpdate } from "./context/EditContext";
-import { useUser, useUserUpdate } from "./context/UserContext";
+} from "../../../../utils/axiosCalls";
+import verifEmail from "../../../../utils/verifEmail";
+import { useAuth } from "../../../context/AuthContext";
+import { useEditUpdate } from "../../../context/EditContext";
+import { useUser, useUserUpdate } from "../../../context/UserContext";
 
 const UserChangeInfo = () => {
     const user = useUser();

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import LoginForm from "./forms/LoginForm";
 import SignUpForm from "./forms/SignUpForm";
-import LogoOrigin from "./LogoOrigin";
+import LogoOrigin from "../svg/LogoOrigin";
 import { motion } from "framer-motion";
+import "./loginSignupModal.scss";
 
 export const LoginSignupModal = () => {
     const [connexion, setConnexion] = useState(true);

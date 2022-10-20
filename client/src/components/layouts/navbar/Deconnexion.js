@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthUpdate } from "./context/AuthContext";
+import { useAuthUpdate } from "../../context/AuthContext";
+import "./Deconnexion.scss";
 
 const Deconnexion = () => {
     const setToken = useAuthUpdate();

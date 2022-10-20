@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import LoginSignupModal from "../components/LoginSignupModal";
+import LoginSignupModal from "../components/layouts/login/LoginSignupModal";
 import { motion } from "framer-motion";
 import { useAuth } from "../components/context/AuthContext";
 import { useNavigate } from "react-router-dom";

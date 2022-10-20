@@ -1,5 +1,5 @@
 import React from "react";
-import { useUser } from "./context/UserContext";
+import { useUser } from "../../../context/UserContext";
 
 const UserFragment = () => {
     const user = useUser();

@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Deconnexion from "./Deconnexion";
+import "./navigation.scss";
 
 const Navigation = () => {
     return (

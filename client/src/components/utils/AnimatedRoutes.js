@@ -4,8 +4,8 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
 import Membre from "../../pages/Membre";
-import BackgroundLogoSvg from "../BackgroundLogoSvg";
-import Header from "../Header";
+import BackgroundLogoSvg from "../layouts/svg/BackgroundLogoSvg";
+import Header from "../layouts/navbar/Header";
 
 const AnimatedRoutes = () => {
     const location = useLocation();
