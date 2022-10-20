@@ -1,4 +1,4 @@
-// import React, { useState } from "react";
+// import React, { useEffect, useState } from "react";
 // import Avatar from "react-avatar-edit";
 
 // const CropAvatar = () => {
@@ -12,6 +12,10 @@
 //     const onCrop = (view) => {
 //         setPreview(view);
 //     };
+
+//     useEffect(() => {
+//         console.log(preview);
+//     }, [preview]);
 
 //     return (
 //         <div>

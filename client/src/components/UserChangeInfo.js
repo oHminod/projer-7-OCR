@@ -1,5 +1,9 @@
-import axios from "axios";
 import React, { useRef, useState } from "react";
+import {
+    axiosUserChangeInfoWithImage,
+    axiosUserChangeInfoWithoutImage,
+} from "../utils/axiosCalls";
+import verifEmail from "../utils/verifEmail";
 import { useAuth } from "./context/AuthContext";
 import { useEditUpdate } from "./context/EditContext";
 import { useUser, useUserUpdate } from "./context/UserContext";
@@ -30,55 +34,24 @@ const UserChangeInfo = () => {
             data.append("image", selectedImage);
             data.append("user", JSON.stringify(obj));
 
-            const headers = {
-                Authorization: `Bearer ${token}`,
-                // accept: "application/json",
-                "Content-Type": `multipart/form-data`,
-            };
-            axios
-                .post(`http://localhost:36600/setuser/${user._id}`, data, {
-                    headers,
-                })
-                .then(() => {
-                    setUser({ ...user, ...obj });
-                    setModifier(false);
-                })
-                .catch((err) => {
-                    if (
-                        err.response.data.split(" ")[1] &&
-                        err.response.data.split(" ")[1] === "duplicate"
-                    ) {
-                        setDbError(
-                            "Pseudo ou adresse email déjà utilisé par un autre membre."
-                        );
-                    } else {
-                        console.log(err.response.data);
-                    }
-                });
+            axiosUserChangeInfoWithImage(
+                token,
+                user,
+                data,
+                setUser,
+                setModifier,
+                obj,
+                setDbError
+            );
         } else {
-            const headers = {
-                Authorization: `Bearer ${token}`,
-            };
-            axios
-                .post(`http://localhost:36600/setuser/${user._id}`, obj, {
-                    headers,
-                })
-                .then(() => {
-                    setUser({ ...user, ...obj });
-                    setModifier(false);
-                })
-                .catch((err) => {
-                    if (
-                        err.response.data.split(" ")[1] &&
-                        err.response.data.split(" ")[1] === "duplicate"
-                    ) {
-                        setDbError(
-                            "Pseudo ou adresse email déjà utilisé par un autre membre."
-                        );
-                    } else {
-                        console.log(err.response.data);
-                    }
-                });
+            axiosUserChangeInfoWithoutImage(
+                token,
+                user,
+                obj,
+                setUser,
+                setModifier,
+                setDbError
+            );
         }
 
         inputPseudo.current.value = "";
@@ -89,21 +62,8 @@ const UserChangeInfo = () => {
         setSelectedImage(e.target.files[0]);
     };
 
-    const verifEmail = (emailString) => {
-        let re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
-        if (re.test(emailString) && emailString !== "") {
-            // setEmailOk(true);
-            document.getElementById("userEmail").style.backgroundColor =
-                "lightgreen";
-        } else if (emailString === "") {
-            document.getElementById("userEmail").style.backgroundColor =
-                "transparent";
-        } else {
-            // setEmailOk(false);
-            document.getElementById("userEmail").style.backgroundColor =
-                "#ffab9b";
-        }
-        return re.test(emailString);
+    const handleEmailChange = () => {
+        verifEmail(inputEmail.current.value, "userEmail");
     };
 
     return (
@@ -111,7 +71,7 @@ const UserChangeInfo = () => {
             <form onSubmit={submitNewInfos} method="post">
                 {selectedImage ? (
                     <img
-                        alt="not fount"
+                        alt="nouvel avatar"
                         width="200"
                         height="200"
                         src={URL.createObjectURL(selectedImage)}
@@ -146,7 +106,7 @@ const UserChangeInfo = () => {
                     type="text"
                     ref={inputEmail}
                     placeholder={user.email}
-                    onChange={verifEmail}
+                    onChange={handleEmailChange}
                 />
                 <button type="submit" className="success">
                     Enregistrer

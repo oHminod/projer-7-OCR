@@ -7,7 +7,14 @@ const BackgroundLogoSvg = () => {
                 <div className="svg-box">
                     <svg viewBox="0 0 485 458.44">
                         <defs>
-                            <linearGradient id="logoGradient">
+                            <linearGradient
+                                id="logoGradient"
+                                gradientUnits="userSpaceOnUse"
+                                x1="30%"
+                                y1="30%"
+                                x2="80%"
+                                y2="50%"
+                            >
                                 <stop stopColor="#FD2D01" offset="0%" />
                                 <stop stopColor="#4e5166" offset="100%" />
                             </linearGradient>

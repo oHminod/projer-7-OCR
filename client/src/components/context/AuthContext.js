@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState, createContext, useContext, useEffect } from "react";
+import { axiosAuthContext } from "../../utils/axiosCalls";
 
 export const AuthContext = createContext();
 export const AuthUpdateContext = createContext();
@@ -21,23 +21,7 @@ export function AuthProvider({ children }) {
                 window.localStorage.getItem("token_groupomania")
             );
 
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            axios
-                .get(`http://localhost:36600/verify`, config)
-                .then((data) => {
-                    setAuthToken(data.data.token);
-                    window.localStorage.setItem(
-                        "token_groupomania",
-                        JSON.stringify(data.data.token)
-                    );
-                })
-                .catch(() => {
-                    setAuthToken("fin");
-                });
+            axiosAuthContext(token, setAuthToken);
         }
     }, []);
 

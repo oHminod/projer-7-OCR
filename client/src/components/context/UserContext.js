@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState, createContext, useContext, useEffect } from "react";
+import { axiosUserContext } from "../../utils/axiosCalls";
 
 export const UserContext = createContext();
 export const UserUpdateContext = createContext();
@@ -24,19 +24,7 @@ export function UserProvider({ children }) {
                 window.localStorage.getItem("userId_groupomania")
             );
 
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            axios
-                .get(`http://localhost:36600/membre/${userId}`, config)
-                .then((res) => {
-                    setUser(res.data);
-                })
-                .catch((err) => {
-                    console.log(err.response.data);
-                });
+            axiosUserContext(token, userId, setUser);
         }
     }, []);
 

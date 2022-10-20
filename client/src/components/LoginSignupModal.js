@@ -16,9 +16,10 @@ export const LoginSignupModal = () => {
                     </div>
                     <p>
                         Bienvenue sur le réseau social des employés de
-                        Groupomania ! 🚀
+                        Groupomania&nbsp;!&nbsp;🚀
                     </p>
                     <LoginForm />
+                    <p>ou</p>
                     <button
                         className="nav-modal"
                         onClick={() => setConnexion(false)}

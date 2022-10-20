@@ -1,9 +1,10 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useAuthUpdate } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../context/UserContext";
+import { axiosSignup } from "../../utils/axiosCalls";
+import verifEmail from "../../utils/verifEmail";
 
 const SignUpForm = () => {
     const [email, setEmail] = useState("");
@@ -18,67 +19,28 @@ const SignUpForm = () => {
     const handleSignup = (e) => {
         e.preventDefault();
         if (!verifEmail(email)) return;
-        axios
-            .post("http://localhost:36600/signup", {
-                email: email,
-                pseudo: pseudo,
-                password: password,
-            })
-            .then(() => {
-                axios
-                    .post("http://localhost:36600/login", {
-                        email: email,
-                        pseudo: pseudo,
-                        password: password,
-                    })
-                    .then((res) => {
-                        window.localStorage.setItem(
-                            "token_groupomania",
-                            JSON.stringify(res.data.token)
-                        );
-                        window.localStorage.setItem(
-                            "userId_groupomania",
-                            JSON.stringify(res.data.userId)
-                        );
-                        setUser(res.data.user);
-                        setAuthToken(res.data.token);
-                        navigate("/home");
-                    })
-                    .catch((err) => {
-                        setDbError(err.response.data);
-                    });
-            })
-            .catch((err) => {
-                const error = err.response.data
-                    .split(".")[1]
-                    .split(":")[0]
-                    .trim();
-                if (error && error === "Value") {
-                    setDbError(
-                        "Pseudo ou adresse email déjà utilisé par un autre membre."
-                    );
-                } else {
-                    setDbError(err.response.data);
-                }
-            });
+        axiosSignup(
+            email,
+            pseudo,
+            password,
+            setUser,
+            setAuthToken,
+            navigate,
+            setDbError
+        );
     };
 
-    const verifEmail = (emailString) => {
-        let re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
-        if (re.test(emailString) && emailString !== "") {
-            // setEmailOk(true);
-            document.getElementById("email-inscription").style.backgroundColor =
-                "lightgreen";
-        } else if (emailString === "") {
-            document.getElementById("email-inscription").style.backgroundColor =
-                "transparent";
-        } else {
-            // setEmailOk(false);
-            document.getElementById("email-inscription").style.backgroundColor =
-                "#ffab9b";
-        }
-        setEmailOk(re.test(emailString));
-        return re.test(emailString);
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        verifEmail(e.target.value, "email-inscription", setEmailOk);
+    };
+
+    const handlePseudoChange = (e) => {
+        setPseudo(e.target.value);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
     };
 
     return (
@@ -91,10 +53,7 @@ const SignUpForm = () => {
                     placeholder="email"
                     value={email}
                     id="email-inscription"
-                    onChange={(e) => {
-                        setEmail(e.target.value);
-                        verifEmail(e.target.value);
-                    }}
+                    onChange={handleEmailChange}
                 />
                 <input
                     type="text"
@@ -102,9 +61,7 @@ const SignUpForm = () => {
                     placeholder="pseudo"
                     value={pseudo}
                     id="pseudo-inscription"
-                    onChange={(e) => {
-                        setPseudo(e.target.value);
-                    }}
+                    onChange={handlePseudoChange}
                 />
                 <input
                     type="password"
@@ -112,7 +69,7 @@ const SignUpForm = () => {
                     placeholder="password"
                     autoComplete="password-inscription"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handlePasswordChange}
                 />
                 {emailOk && <button onClick={handleSignup}>S'inscrire</button>}
             </form>
