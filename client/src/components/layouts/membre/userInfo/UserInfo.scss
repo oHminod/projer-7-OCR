@@ -6,11 +6,17 @@
     display: inline-flex;
     flex-direction: column;
     align-self: center;
+    width: 200px;
     padding: 20px;
     margin: 20px;
     border-radius: 15px;
     transition: all .3s;
     @extend .card_shadow;
+
+    p {
+        margin-top: 15px;
+        margin-bottom: 0;
+    }
 
     form {
         display: flex;
@@ -51,9 +57,13 @@
         transform: scale(1.005);
     }
 
+    button {
+        margin-top: 20px;
+    }
+
     button.success {
         background-color: $success;
-        margin-bottom: 10px;
+        margin-bottom: -10px;
 
         &:hover {
             background-color: $successHover;
