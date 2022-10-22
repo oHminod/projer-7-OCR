@@ -5,8 +5,9 @@ import {
 } from "../../../../utils/axiosCalls";
 import verifEmail from "../../../../utils/verifEmail";
 import { useAuth } from "../../../context/AuthContext";
-import { useEditUpdate } from "../../../context/EditContext";
+import { useEditUpdate } from "./EditContext";
 import { useUser, useUserUpdate } from "../../../context/UserContext";
+import { motion } from "framer-motion";
 
 const UserChangeInfo = () => {
     const user = useUser();
@@ -67,52 +68,52 @@ const UserChangeInfo = () => {
     };
 
     return (
-        <>
-            <form onSubmit={submitNewInfos} method="post">
-                {selectedImage ? (
-                    <img
-                        alt="nouvel avatar"
-                        width="200"
-                        height="200"
-                        src={URL.createObjectURL(selectedImage)}
-                    />
-                ) : (
-                    <img
-                        src={user.avatar}
-                        alt="avatar"
-                        width="200"
-                        height="200"
-                    />
-                )}
+        <motion.form
+            layout
+            animate={{ height: 423, opacity: 1 }}
+            initial={{ height: 305, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onSubmit={submitNewInfos}
+            method="post"
+        >
+            {selectedImage ? (
+                <img
+                    alt="nouvel avatar"
+                    width="200"
+                    height="200"
+                    src={URL.createObjectURL(selectedImage)}
+                />
+            ) : (
+                <img src={user.avatar} alt="avatar" width="200" height="200" />
+            )}
 
-                <label htmlFor="file" className="label-file">
-                    Choisir une image
-                </label>
-                {dbError && <p className="error">{dbError}</p>}
-                <input
-                    id="file"
-                    name="file"
-                    className="input-file"
-                    type="file"
-                    onChange={setImage}
-                ></input>
-                <input
-                    type="text"
-                    ref={inputPseudo}
-                    placeholder={user.pseudo ? user.pseudo : "Pseudo"}
-                />
-                <input
-                    id="userEmail"
-                    type="text"
-                    ref={inputEmail}
-                    placeholder={user.email}
-                    onChange={handleEmailChange}
-                />
-                <button type="submit" className="success">
-                    Enregistrer
-                </button>
-            </form>
-        </>
+            <label htmlFor="file" className="label-file">
+                Choisir une image
+            </label>
+            {dbError && <p className="error">{dbError}</p>}
+            <input
+                id="file"
+                name="file"
+                className="input-file"
+                type="file"
+                onChange={setImage}
+            ></input>
+            <input
+                type="text"
+                ref={inputPseudo}
+                placeholder={user.pseudo ? user.pseudo : "Pseudo"}
+            />
+            <input
+                id="userEmail"
+                type="text"
+                ref={inputEmail}
+                placeholder={user.email}
+                onChange={handleEmailChange}
+            />
+            <button type="submit" className="success">
+                Enregistrer
+            </button>
+        </motion.form>
     );
 };
 

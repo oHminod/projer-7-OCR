@@ -3,9 +3,14 @@ import { axiosUserContext } from "../../utils/axiosCalls";
 
 export const UserContext = createContext();
 export const UserUpdateContext = createContext();
+export const UserLoadingContext = createContext();
 
 export function useUser() {
     return useContext(UserContext);
+}
+
+export function useUserLoading() {
+    return useContext(UserLoadingContext);
 }
 
 export function useUserUpdate() {
@@ -13,6 +18,7 @@ export function useUserUpdate() {
 }
 export function UserProvider({ children }) {
     const [user, setUser] = useState();
+    const [loading, setLoading] = useState(true);
     /**
      * ! update le user avec axios en cas de modif ? À tester.
      */
@@ -25,14 +31,16 @@ export function UserProvider({ children }) {
                 window.localStorage.getItem("userId_groupomania")
             );
 
-            axiosUserContext(token, userId, setUser);
+            axiosUserContext(token, userId, setUser, setLoading);
         }
     }, []);
 
     return (
         <UserContext.Provider value={user}>
             <UserUpdateContext.Provider value={setUser}>
-                {children}
+                <UserLoadingContext.Provider value={loading}>
+                    {children}
+                </UserLoadingContext.Provider>
             </UserUpdateContext.Provider>
         </UserContext.Provider>
     );

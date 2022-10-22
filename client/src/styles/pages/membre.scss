@@ -1,5 +1,4 @@
 .membre {
-    height: 100%;
     display: flex;
     flex-direction: column;
     max-width: 1600px;
@@ -7,7 +6,7 @@
 
     .content {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
     }
 
     h1 {
@@ -17,12 +16,13 @@
     @media (min-width: 571px) {
         .content {
             margin-top: 9vh;
-
+            height: calc(100vh - 9vh);
         }
 
         @media (max-height: 611px) {
             .content {
                 margin-top: 56px;
+                height: calc(100vh - 56px);
             }
         }
     }

@@ -1,48 +1,16 @@
-import React, { useState } from "react";
-import LoginForm from "./forms/LoginForm";
-import SignUpForm from "./forms/SignUpForm";
-import LogoOrigin from "../svg/LogoOrigin";
+import React from "react";
 import { motion } from "framer-motion";
 import "./loginSignupModal.scss";
+import MotionLogin from "./motion/MotionLogin";
+import MotionSignup from "./motion/MotionSignup";
+import { useLogin } from "./LoginContext";
 
 export const LoginSignupModal = () => {
-    const [connexion, setConnexion] = useState(true);
+    const connexion = useLogin();
 
     return (
         <motion.div layout className="loginSignupModal">
-            {connexion ? (
-                <>
-                    <div className="logo">
-                        <LogoOrigin />
-                    </div>
-                    <p>
-                        Bienvenue sur le réseau social des employés de
-                        Groupomania&nbsp;!&nbsp;🚀
-                    </p>
-                    <LoginForm />
-                    <p>ou</p>
-                    <button
-                        className="nav-modal"
-                        onClick={() => setConnexion(false)}
-                    >
-                        Créer un compte
-                    </button>
-                </>
-            ) : (
-                <>
-                    <div className="logo">
-                        <LogoOrigin />
-                    </div>
-                    <h2>Inscription</h2>
-                    <SignUpForm />
-                    <button
-                        className="nav-modal"
-                        onClick={() => setConnexion(true)}
-                    >
-                        Retour à la connexion
-                    </button>
-                </>
-            )}
+            {connexion ? <MotionLogin /> : <MotionSignup />}
         </motion.div>
     );
 };

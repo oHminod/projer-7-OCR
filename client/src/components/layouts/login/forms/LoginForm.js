@@ -40,7 +40,7 @@ const LoginForm = () => {
             {dbError && <p className="error">{dbError}</p>}
             <form onSubmit={handleLogin}>
                 <input
-                    type="text"
+                    type="email"
                     name="email"
                     placeholder="email"
                     value={email}

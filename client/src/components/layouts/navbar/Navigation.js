@@ -1,9 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useUser, useUserLoading } from "../../context/UserContext";
 import Deconnexion from "./Deconnexion";
 import "./navigation.scss";
 
 const Navigation = () => {
+    const user = useUser();
+    const loading = useUserLoading();
     return (
         <nav>
             <div className="logo">
@@ -22,7 +25,14 @@ const Navigation = () => {
             <ul>
                 <li>
                     <NavLink className="nav-link" to="/membre">
-                        <i className="fa-regular fa-user" title="Profile"></i>
+                        {loading ? (
+                            <i
+                                className="fa-regular fa-user"
+                                title="Profile"
+                            ></i>
+                        ) : (
+                            <img src={user.avatar} alt="Profile" />
+                        )}
                     </NavLink>
                 </li>
                 <li>

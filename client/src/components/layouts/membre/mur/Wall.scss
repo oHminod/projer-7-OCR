@@ -1,0 +1,19 @@
+.wall {
+    width: 100%;
+    overflow-y: scroll;
+    background-color: antiquewhite;
+
+    @media (min-width: 571px) {
+        height: calc(100vh - 9vh);
+
+        @media (max-height: 611px) {
+            height: calc(100vh - 56px);
+        }
+    }
+
+    .fake {
+        height: 100px;
+        background-color: aqua;
+        margin: 20px;
+    }
+}

@@ -14,7 +14,7 @@ const AnimatedRoutes = () => {
         <>
             <BackgroundLogoSvg />
             <Header />
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" transition={{ duration: 0.8 }}>
                 <Routes location={location} key={location.pathname}>
                     <Route path="*" element={<Home />}></Route>
                     <Route path="/membre" element={<Membre />}></Route>

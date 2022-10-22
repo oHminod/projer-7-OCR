@@ -5,7 +5,7 @@
     backdrop-filter: blur(10px);
     display: inline-flex;
     flex-direction: column;
-    align-self: center;
+    align-self: flex-start;
     width: 200px;
     padding: 20px;
     margin: 20px;
@@ -13,7 +13,13 @@
     transition: all .3s;
     @extend .card_shadow;
 
+    h2 {
+        text-align: center;
+        font-weight: 500;
+    }
+
     p {
+        text-align: center;
         margin-top: 15px;
         margin-bottom: 0;
     }

@@ -48,7 +48,7 @@ const SignUpForm = () => {
             {dbError && <p className="error">{dbError}</p>}
             <form onSubmit={handleSignup}>
                 <input
-                    type="text"
+                    type="email"
                     name="email-inscription"
                     placeholder="email"
                     value={email}
