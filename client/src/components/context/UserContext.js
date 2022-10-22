@@ -3,22 +3,18 @@ import { axiosUserContext } from "../../utils/axiosCalls";
 
 export const UserContext = createContext();
 export const UserUpdateContext = createContext();
-export const UserLoadingContext = createContext();
 
 export function useUser() {
     return useContext(UserContext);
 }
 
-export function useUserLoading() {
-    return useContext(UserLoadingContext);
-}
-
 export function useUserUpdate() {
     return useContext(UserUpdateContext);
 }
+
 export function UserProvider({ children }) {
     const [user, setUser] = useState();
-    const [loading, setLoading] = useState(true);
+
     /**
      * ! update le user avec axios en cas de modif ? À tester.
      */
@@ -30,17 +26,18 @@ export function UserProvider({ children }) {
             const userId = JSON.parse(
                 window.localStorage.getItem("userId_groupomania")
             );
-
-            axiosUserContext(token, userId, setUser, setLoading);
+            axiosUserContext(token, userId, setUser);
         }
     }, []);
 
     return (
         <UserContext.Provider value={user}>
             <UserUpdateContext.Provider value={setUser}>
-                <UserLoadingContext.Provider value={loading}>
-                    {children}
-                </UserLoadingContext.Provider>
+                {/* <UserLoadingContext.Provider value={loading}>
+                    <UserLoadingUpdateContext.Provider value={setLoading}> */}
+                {children}
+                {/* </UserLoadingUpdateContext.Provider>
+                </UserLoadingContext.Provider> */}
             </UserUpdateContext.Provider>
         </UserContext.Provider>
     );

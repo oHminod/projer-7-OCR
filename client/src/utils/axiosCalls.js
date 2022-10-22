@@ -103,7 +103,7 @@ export function axiosAuthContext(token, setAuthToken) {
         });
 }
 
-export function axiosUserContext(token, userId, setUser, setLoading) {
+export function axiosUserContext(token, userId, setUser) {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -113,7 +113,6 @@ export function axiosUserContext(token, userId, setUser, setLoading) {
         .get(`http://localhost:36600/membre/${userId}`, config)
         .then((res) => {
             setUser(res.data);
-            setLoading(false);
         })
         .catch((err) => {
             console.log(err.response.data);
