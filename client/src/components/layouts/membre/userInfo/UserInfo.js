@@ -9,6 +9,8 @@ import "./UserInfo.scss";
 const UserInfo = () => {
     const user = useUser();
     const [loading, setLoading] = useState(true);
+    // const [changeInfoHeight, setChangeInfoHeight] = useState();
+    // const [fragmentHeight, setFragmentHeight] = useState();
     const modifier = useEdit();
     const setModifier = useEditUpdate();
 
@@ -24,8 +26,12 @@ const UserInfo = () => {
         loading || (
             <motion.aside
                 layout
-                animate={{ height: modifier ? 482 : 363 }}
-                initial={{ height: modifier ? 363 : 482 }}
+                animate={{
+                    height: modifier ? 482 : 363,
+                }}
+                initial={{
+                    height: modifier ? 363 : 482,
+                }}
                 transition={{ duration: 0.03 }}
                 className="UserInfo"
             >

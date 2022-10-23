@@ -187,3 +187,33 @@ export function axiosUserChangeInfoWithoutImage(
             }
         });
 }
+
+export function axiosPostPostWithImage(token, data, setDbError) {
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    axios
+        .post(`http://localhost:36600/post`, data, {
+            headers,
+        })
+        .then(() => {})
+        .catch((err) => {
+            console.log(err.response.data);
+            setDbError(err.response.data);
+        });
+}
+
+export function axiosPostPostWithoutImage(token, obj, setDbError) {
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    axios
+        .post(`http://localhost:36600/post`, obj, {
+            headers,
+        })
+        .then(() => {})
+        .catch((err) => {
+            console.log(err.response.data);
+            setDbError(err.response.data);
+        });
+}
