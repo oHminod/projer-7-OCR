@@ -1,6 +1,13 @@
 const mongoose = require("mongoose");
 const uniqueInDB = require("mongoose-unique-validator");
 
+const sharedPosts = mongoose.Schema(
+    {
+        postId: { type: String, required: true },
+    },
+    { timestamps: true }
+);
+
 const userModel = mongoose.Schema(
     {
         email: { type: String, required: true, unique: true },
@@ -14,12 +21,7 @@ const userModel = mongoose.Schema(
         amis: { type: Array, default: [] },
         demandesAmis: { type: Array, default: [] },
         posts: { type: Array, default: [] },
-        sharedPosts: [
-            {
-                postId: { type: String, required: true },
-                shareDate: { type: Date, default: Date.now },
-            },
-        ],
+        sharedPosts: [sharedPosts],
         commentaires: { type: Array, default: [] },
     },
     { timestamps: true }
