@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import localeDateFromDate from "../../../utils/localeDateFromDate";
 import "./SinglePost.scss";
 
 const SinglePost = ({ post }) => {
@@ -12,21 +13,8 @@ const SinglePost = ({ post }) => {
         post.texte && (post.texte = post.texte.join("</p><p>"));
     });
     useEffect(() => {
-        post.createdAt &&
-            setCreatedAt(
-                "le " +
-                    new Date(post.createdAt).toLocaleDateString() +
-                    " à " +
-                    new Date(post.createdAt).toLocaleTimeString()
-            );
-
-        post.updatedAt &&
-            setUpdatedAt(
-                "le " +
-                    new Date(post.updatedAt).toLocaleDateString() +
-                    " à " +
-                    new Date(post.updatedAt).toLocaleTimeString()
-            );
+        post.createdAt && setCreatedAt(localeDateFromDate(post.createdAt));
+        post.updatedAt && setUpdatedAt(localeDateFromDate(post.createdAt));
     }, [post.updatedAt, post.createdAt]);
 
     return (
