@@ -1,0 +1,39 @@
+@import "../../../styles/settings.scss";
+
+.singlePost {
+    background-color: rgba(255, 255, 255, .7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    margin: 20px;
+    padding: 15px;
+
+    .creatorInfo {
+        display: flex;
+        align-items: center;
+
+        p {
+            font-style: italic;
+            font-weight: 300;
+        }
+    }
+
+    .imgUser {
+        width: 70px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .imgPost {
+        max-height: 200px;
+        width: auto;
+        border-radius: 8px;
+    }
+
+    @extend .card_shadow;
+    transition: all .3s;
+
+    &:hover {
+        @extend .card_shadow_hover;
+        transform: scale(1.005);
+    }
+}

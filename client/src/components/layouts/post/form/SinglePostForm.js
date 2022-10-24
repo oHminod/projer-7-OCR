@@ -24,6 +24,8 @@ const SinglePostForm = () => {
 
         let obj = {};
         obj.userId = user._id;
+        obj.userAvatar = user.avatar;
+        obj.userPseudo = user.pseudo;
         selectedImage && (obj.image = URL.createObjectURL(selectedImage));
         text && (obj.texte = text);
         console.log(obj);
@@ -47,6 +49,17 @@ const SinglePostForm = () => {
 
     return (
         <form onSubmit={submitNewPost} method="post" id="postForm">
+            <TextArea
+                name="textePost"
+                setText={setText}
+                resetTextInput={resetTextInput}
+                setResetTextInput={setResetTextInput}
+                submitNewPost={submitNewPost}
+                placeholder="Publier un statut"
+            />
+            <button type="submit" className="success">
+                Envoyer
+            </button>
             {selectedImage && (
                 <img
                     alt="post"
@@ -57,14 +70,6 @@ const SinglePostForm = () => {
             )}
             <InputFile name="imagePost" setImage={setImage} />
             {dbError && <p className="error">{dbError}</p>}
-            <TextArea
-                name="textePost"
-                setText={setText}
-                resetTextInput={resetTextInput}
-                setResetTextInput={setResetTextInput}
-                submitNewPost={submitNewPost}
-            />
-            <input type="submit" className="success" value="Envoyer" />
         </form>
     );
 };

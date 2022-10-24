@@ -19,12 +19,20 @@
             height: calc(100vh - 9vh);
         }
 
-        @media (max-height: 611px) {
+        @media screen and (min-height: 780px) {
             .content {
-                margin-top: 56px;
-                height: calc(100vh - 56px);
+                margin-top: 70px;
+                height: calc(100vh - 70px);
             }
         }
+
+        @media screen and (max-height: 442px) {
+            .content {
+                margin-top: 40px;
+                height: calc(100vh - 40px);
+            }
+        }
+
     }
 
 }

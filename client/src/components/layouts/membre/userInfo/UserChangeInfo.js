@@ -30,6 +30,9 @@ const UserChangeInfo = () => {
         pseudo && (obj.pseudo = pseudo);
         email && (obj.email = email);
 
+        /**
+         * ! !!! Changer également les infos dans les posts de l'utilisateur !!!
+         */
         if (selectedImage) {
             const data = new FormData();
             data.append("image", selectedImage);

@@ -9,7 +9,7 @@ export function axiosLogin(
     setDbError
 ) {
     axios
-        .post("http://localhost:36600/login", {
+        .post("http://localhost:36600/user/login", {
             email: email,
             password: password,
         })
@@ -41,14 +41,14 @@ export function axiosSignup(
     setDbError
 ) {
     axios
-        .post("http://localhost:36600/signup", {
+        .post("http://localhost:36600/user/signup", {
             email: email,
             pseudo: pseudo,
             password: password,
         })
         .then(() => {
             axios
-                .post("http://localhost:36600/login", {
+                .post("http://localhost:36600/user/login", {
                     email: email,
                     pseudo: pseudo,
                     password: password,
@@ -110,7 +110,7 @@ export function axiosUserContext(token, userId, setUser) {
         },
     };
     axios
-        .get(`http://localhost:36600/membre/${userId}`, config)
+        .get(`http://localhost:36600/user/membre/${userId}`, config)
         .then((res) => {
             setUser(res.data);
         })
@@ -134,7 +134,7 @@ export function axiosUserChangeInfoWithImage(
         "Content-Type": `multipart/form-data`,
     };
     axios
-        .post(`http://localhost:36600/setuser/${user._id}`, data, {
+        .post(`http://localhost:36600/user/setuser/${user._id}`, data, {
             headers,
         })
         .then(() => {
@@ -167,7 +167,7 @@ export function axiosUserChangeInfoWithoutImage(
         Authorization: `Bearer ${token}`,
     };
     axios
-        .post(`http://localhost:36600/setuser/${user._id}`, obj, {
+        .post(`http://localhost:36600/user/setuser/${user._id}`, obj, {
             headers,
         })
         .then(() => {
@@ -193,7 +193,7 @@ export function axiosPostPostWithImage(token, data, setDbError) {
         Authorization: `Bearer ${token}`,
     };
     axios
-        .post(`http://localhost:36600/post`, data, {
+        .post(`http://localhost:36600/post/post`, data, {
             headers,
         })
         .then(() => {})
@@ -208,12 +208,28 @@ export function axiosPostPostWithoutImage(token, obj, setDbError) {
         Authorization: `Bearer ${token}`,
     };
     axios
-        .post(`http://localhost:36600/post`, obj, {
+        .post(`http://localhost:36600/post/post`, obj, {
             headers,
         })
         .then(() => {})
         .catch((err) => {
             console.log(err.response.data);
             setDbError(err.response.data);
+        });
+}
+
+export function axiosGetAllPosts(token, setPosts) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    axios
+        .get(`http://localhost:36600/post/`, config)
+        .then((data) => {
+            setPosts(data.data);
+        })
+        .catch((err) => {
+            console.log(err.response.data);
         });
 }

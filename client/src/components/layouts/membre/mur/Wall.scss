@@ -1,7 +1,6 @@
 .wall {
     width: 100%;
     overflow-y: scroll;
-    background-color: antiquewhite;
 
     @media (min-width: 571px) {
         height: calc(100vh - 9vh);
@@ -9,6 +8,19 @@
         @media (max-height: 611px) {
             height: calc(100vh - 56px);
         }
+    }
+
+    @media (min-width: 571px) {
+        height: calc(100vh - 9vh);
+
+        @media screen and (min-height: 780px) {
+            height: calc(100vh - 70px);
+        }
+
+        @media screen and (max-height: 442px) {
+            height: calc(100vh - 40px);
+        }
+
     }
 
     .fake {

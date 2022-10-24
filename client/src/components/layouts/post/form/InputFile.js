@@ -4,7 +4,7 @@ const InputFile = ({ name, setImage }) => {
     return (
         <>
             <label htmlFor={name} className="label-file">
-                <i class="fa-regular fa-image"></i>{" "}
+                <i className="fa-regular fa-image"></i>{" "}
             </label>
             <input
                 id={name}

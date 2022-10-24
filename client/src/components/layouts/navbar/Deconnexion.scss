@@ -8,5 +8,13 @@
 
     i {
         font-size: 5vh;
+
+        @media screen and (max-height: 442px) {
+            font-size: 22px;
+        }
+
+        @media screen and (min-height: 780px) {
+            font-size: 39px;
+        }
     }
 }

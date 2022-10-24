@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 
 const TextArea = ({
     name,
+    placeholder,
     setText,
     resetTextInput,
     setResetTextInput,
@@ -33,8 +34,7 @@ const TextArea = ({
             ref={inputText}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-            cols="30"
-            rows="10"
+            placeholder={placeholder}
         ></textarea>
     );
 };
