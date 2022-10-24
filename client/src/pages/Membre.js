@@ -23,7 +23,7 @@ const Membre = () => {
         (auth !== "fin" ? (
             <EditProvider>
                 <FragmentHeightProvider>
-                    <motion.div
+                    <motion.main
                         className="membre"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -34,7 +34,7 @@ const Membre = () => {
                             opacity: 0,
                         }}
                     >
-                        <main className="content">
+                        <div className="content">
                             {width > 880 ? (
                                 <>
                                     <Wall />
@@ -43,8 +43,8 @@ const Membre = () => {
                             ) : (
                                 <Wall />
                             )}
-                        </main>
-                    </motion.div>
+                        </div>
+                    </motion.main>
                 </FragmentHeightProvider>
             </EditProvider>
         ) : (

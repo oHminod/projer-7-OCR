@@ -5,10 +5,10 @@ import "./Wall.scss";
 
 const Wall = () => {
     return (
-        <div className="wall">
+        <section className="wall">
             <SinglePostForm />
             <Posts />
-        </div>
+        </section>
     );
 };
 
