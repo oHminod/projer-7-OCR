@@ -1,13 +1,28 @@
 import React, { useEffect, useState } from "react";
-import localeDateFromDate from "../../../utils/localeDateFromDate";
+import { getAvatarAndPseudo } from "../../../../utils/axiosCalls";
+import localeDateFromDate from "../../../../utils/localeDateFromDate";
+import { useAuth } from "../../../context/AuthContext";
+import CommentBlock from "./CommentBlock";
+import LikeContainer from "./LikeContainer";
 import "./SinglePost.scss";
 
-const SinglePost = ({ post }) => {
+const SinglePost = ({ post, avatarsAndPseudos }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
+    const [avatarAndPseudo, setAvatarAndPseudo] = useState();
+    const token = useAuth();
     const formatedText = (txt) => {
         return { __html: txt };
     };
+    useEffect(() => {
+        getAvatarAndPseudo(token, post.userId, setAvatarAndPseudo);
+    }, [token, post.userId]);
+    // useEffect(() => {
+    //     avatarsAndPseudos &&
+    //         setAvatarAndPseudo(
+    //             avatarsAndPseudos[avatarsAndPseudos.indexOf(post.userId)]
+    //         );
+    // }, [post.userId, avatarsAndPseudos]);
     useEffect(() => {
         post.texte &&
             (post.texte = post.texte.trim().split("\u000A").join("</p><p>"));
@@ -20,16 +35,22 @@ const SinglePost = ({ post }) => {
     return (
         <article className="singlePost" id={post._id}>
             <div className="creatorInfo">
-                {post.userAvatar && (
+                {avatarAndPseudo ? (
                     <img
                         className="imgUser"
-                        src={post.userAvatar}
+                        src={avatarAndPseudo.avatar}
                         alt="avatar de l'auteur"
                     />
+                ) : (
+                    <img
+                        className="imgUser"
+                        src="http://localhost:36600/images/avatars/default-avatar.jpg"
+                        alt="avatar par défaut"
+                    />
                 )}
-                {post.userPseudo && (
+                {avatarAndPseudo && (
                     <p>
-                        Par <strong>{post.userPseudo}</strong>&nbsp;
+                        Par <strong>{avatarAndPseudo.pseudo}</strong>&nbsp;
                     </p>
                 )}
                 <p> {createdAt}</p>
@@ -47,6 +68,8 @@ const SinglePost = ({ post }) => {
                     />
                 )}
             </div>
+            <LikeContainer />
+            <CommentBlock />
         </article>
     );
 };

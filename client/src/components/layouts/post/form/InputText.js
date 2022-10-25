@@ -5,7 +5,6 @@ const InputText = ({ placeholder, setText }) => {
     const handleChange = () => {
         const text = inputText.current.value;
         setText(text);
-        console.log(text);
     };
     return (
         <input

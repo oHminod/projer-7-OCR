@@ -233,3 +233,44 @@ export function axiosGetAllPosts(token, setPosts) {
             console.log(err.response.data);
         });
 }
+
+export function getAvatarAndPseudo(token, userId, setAvatarAndPseudo) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    axios
+        .get(`http://localhost:36600/user/posterinfo/${userId}`, config)
+        .then((data) => {
+            setAvatarAndPseudo(data.data);
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+}
+
+// export function getAvatarAndPseudo(
+//     token,
+//     userId,
+//     avatarsAndPseudos,
+//     setAvatarsAndPseudos
+// ) {
+//     const config = {
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//         },
+//     };
+//     axios
+//         .get(`http://localhost:36600/user/posterinfo/${userId}`, config)
+//         .then((data) => {
+//             console.log("data = " + data.data);
+
+//             let tempArray = [...avatarsAndPseudos];
+//             tempArray.push(data.data);
+//             setAvatarsAndPseudos(data.data);
+//         })
+//         .catch((err) => {
+//             console.log(err.response.data);
+//         });
+// }

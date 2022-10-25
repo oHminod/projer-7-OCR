@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { axiosGetAllPosts } from "../../../utils/axiosCalls";
 import { useAuth } from "../../context/AuthContext";
-import SinglePost from "./SinglePost";
+import SinglePost from "./singlePost/SinglePost";
 
 const Posts = () => {
     const [posts, setPosts] = useState([]);

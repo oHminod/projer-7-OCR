@@ -3,9 +3,6 @@ const mongoose = require("mongoose");
 const postModel = mongoose.Schema(
     {
         userId: { type: String, required: true },
-        userAvatar: { type: String, required: true },
-        userPseudo: { type: String, required: true },
-        // titre: { type: String, required: true },
         texte: { type: String },
         image: { type: String },
         likes: { type: Number, default: 0 },
