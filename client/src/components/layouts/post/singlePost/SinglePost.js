@@ -6,27 +6,30 @@ import CommentBlock from "./CommentBlock";
 import LikeContainer from "./LikeContainer";
 import "./SinglePost.scss";
 
-const SinglePost = ({ post, avatarsAndPseudos }) => {
+const SinglePost = ({ post }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
-    const [avatarAndPseudo, setAvatarAndPseudo] = useState();
+    const [thisUser, setThisUser] = useState();
     const token = useAuth();
     const formatedText = (txt) => {
         return { __html: txt };
     };
-    useEffect(() => {
-        getAvatarAndPseudo(token, post.userId, setAvatarAndPseudo);
-    }, [token, post.userId]);
+
     // useEffect(() => {
-    //     avatarsAndPseudos &&
-    //         setAvatarAndPseudo(
-    //             avatarsAndPseudos[avatarsAndPseudos.indexOf(post.userId)]
-    //         );
-    // }, [post.userId, avatarsAndPseudos]);
+    //     const result = usersInfo.find(({ userId }) => userId === post.userId);
+    //     setThisUser(result);
+    // }, [post.userId, usersInfo]);
+
+    useEffect(() => {
+        getAvatarAndPseudo(token, post.userId).then((user) =>
+            setThisUser(user)
+        );
+    }, [token, post.userId]);
+
     useEffect(() => {
         post.texte &&
             (post.texte = post.texte.trim().split("\u000A").join("</p><p>"));
-    });
+    }, [post]);
     useEffect(() => {
         post.createdAt && setCreatedAt(localeDateFromDate(post.createdAt));
         post.updatedAt && setUpdatedAt(localeDateFromDate(post.createdAt));
@@ -35,10 +38,10 @@ const SinglePost = ({ post, avatarsAndPseudos }) => {
     return (
         <article className="singlePost" id={post._id}>
             <div className="creatorInfo">
-                {avatarAndPseudo ? (
+                {thisUser ? (
                     <img
                         className="imgUser"
-                        src={avatarAndPseudo.avatar}
+                        src={thisUser.avatar}
                         alt="avatar de l'auteur"
                     />
                 ) : (
@@ -48,9 +51,9 @@ const SinglePost = ({ post, avatarsAndPseudos }) => {
                         alt="avatar par défaut"
                     />
                 )}
-                {avatarAndPseudo && (
+                {thisUser && (
                     <p>
-                        Par <strong>{avatarAndPseudo.pseudo}</strong>&nbsp;
+                        Par <strong>{thisUser.pseudo}</strong>&nbsp;
                     </p>
                 )}
                 <p> {createdAt}</p>

@@ -218,33 +218,29 @@ export function axiosPostPostWithoutImage(token, obj, setDbError) {
         });
 }
 
-export function axiosGetAllPosts(token, setPosts) {
+export function axiosGetAllPosts(token) {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     };
-    axios
+    return axios
         .get(`http://localhost:36600/post/`, config)
-        .then((data) => {
-            setPosts(data.data);
-        })
+        .then((data) => data.data)
         .catch((err) => {
             console.log(err.response.data);
         });
 }
 
-export function getAvatarAndPseudo(token, userId, setAvatarAndPseudo) {
+export function getAvatarAndPseudo(token, userId) {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     };
-    axios
+    return axios
         .get(`http://localhost:36600/user/posterinfo/${userId}`, config)
-        .then((data) => {
-            setAvatarAndPseudo(data.data);
-        })
+        .then((data) => data.data)
         .catch((err) => {
             console.log(err.response.data);
         });
