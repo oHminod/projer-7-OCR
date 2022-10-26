@@ -28,7 +28,6 @@ const AnimatedRoutes = () => {
                     ) : (
                         <Route path="/membre" element={<Login />}></Route>
                     )}
-                    <Route path="/" element={<Login />}></Route>
                 </Routes>
             </AnimatePresence>
         </>

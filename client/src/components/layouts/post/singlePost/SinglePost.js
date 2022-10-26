@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAvatarAndPseudo } from "../../../../utils/axiosCalls";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
 import { useAuth } from "../../../context/AuthContext";
+import { useUserInfo, useUserInfoUpdate } from "../UserInfoContext";
 import CommentBlock from "./CommentBlock";
 import LikeContainer from "./LikeContainer";
 import "./SinglePost.scss";
@@ -10,21 +11,44 @@ const SinglePost = ({ post }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [thisUser, setThisUser] = useState();
+    const userInfo = useUserInfo();
+    const setUserInfo = useUserInfoUpdate();
     const token = useAuth();
     const formatedText = (txt) => {
         return { __html: txt };
     };
 
     // useEffect(() => {
-    //     const result = usersInfo.find(({ userId }) => userId === post.userId);
-    //     setThisUser(result);
-    // }, [post.userId, usersInfo]);
+    //     token &&
+    //         getAvatarAndPseudo(token, post.userId).then((user) =>
+    //             setThisUser(user)
+    //         );
+    // }, [post.userId, token]);
 
     useEffect(() => {
-        getAvatarAndPseudo(token, post.userId).then((user) =>
-            setThisUser(user)
-        );
-    }, [token, post.userId]);
+        if (userInfo.length <= 0) {
+            getAvatarAndPseudo(token, post.userId).then((user) => {
+                setThisUser(user);
+                setUserInfo([...userInfo, user]);
+                // console.log("coucou1");
+            });
+        } else {
+            for (const user of userInfo) {
+                if (user.userId === post.userId) {
+                    setThisUser(user);
+                    // console.log("coucou3");
+                }
+            }
+            if (!thisUser) {
+                // console.log(Array.isArray(userInfo));
+                getAvatarAndPseudo(token, post.userId).then((user) => {
+                    setThisUser(user);
+                    setUserInfo([...userInfo, user]);
+                    // console.log("coucou2");
+                });
+            }
+        }
+    }, []);
 
     useEffect(() => {
         post.texte &&

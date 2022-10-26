@@ -16,6 +16,7 @@ const postModel = mongoose.Schema(
     { timestamps: true }
 );
 
+const Posts = mongoose.model("Posts", postModel);
 /**
  * * postModel :
  * Modèle de données d'un post.

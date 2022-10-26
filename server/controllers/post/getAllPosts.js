@@ -3,6 +3,7 @@ const PostModel = require("../../models/post");
 
 const getAllPosts = (req, res, next) => {
     PostModel.find()
+        .populate("userId")
         .then((posts) => {
             res.status(200).json(posts);
         })

@@ -63,7 +63,8 @@
         &:focus {
             background-color: rgba(255, 255, 255, 1);
             @extend .card_shadow_hover;
-            transform: scale(1.02);
+            transform: scale(1.01);
+            border-color: $secondaire;
         }
     }
 
@@ -87,7 +88,6 @@
 
     &:hover {
         @extend .card_shadow_hover;
-        transform: scale(1.005);
     }
 
 }
