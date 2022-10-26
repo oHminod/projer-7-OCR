@@ -1,13 +1,13 @@
 import React from "react";
 import SinglePostForm from "../../post/form/SinglePostForm";
-import Posts from "../../post/Posts";
+import MyPosts from "../../post/myPosts/MyPosts";
 import "./Wall.scss";
 
 const Wall = () => {
     return (
         <section className="wall">
             <SinglePostForm />
-            <Posts />
+            <MyPosts />
         </section>
     );
 };

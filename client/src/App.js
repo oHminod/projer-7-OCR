@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./components/context/AuthContext";
+import MyPostsProvider from "./components/context/MyPostsContext";
 import PostsProvider from "./components/context/PostsContext";
 import UserProvider from "./components/context/UserContext";
 import { UsersInfoProvider } from "./components/context/UsersInfoContext";
@@ -12,9 +13,11 @@ const App = () => {
             <UserProvider>
                 <PostsProvider>
                     <UsersInfoProvider>
-                        <BrowserRouter>
-                            <AnimatedRoutes />
-                        </BrowserRouter>
+                        <MyPostsProvider>
+                            <BrowserRouter>
+                                <AnimatedRoutes />
+                            </BrowserRouter>
+                        </MyPostsProvider>
                     </UsersInfoProvider>
                 </PostsProvider>
             </UserProvider>

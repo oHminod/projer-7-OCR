@@ -193,6 +193,20 @@ export function axiosGetAllPosts(token) {
         });
 }
 
+export function axiosGetAllMyPosts(token, id) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    return axios
+        .get(`http://localhost:36600/post/${id}`, config)
+        .then((data) => data.data)
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+}
+
 export function getAvatarAndPseudo(token, userId) {
     const config = {
         headers: {
