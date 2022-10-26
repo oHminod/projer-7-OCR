@@ -16,14 +16,19 @@ const LoginForm = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axiosLogin(
-            email,
-            password,
-            setUser,
-            setAuthToken,
-            navigate,
-            setDbError
-        );
+        axiosLogin(email, password, setDbError).then((data) => {
+            window.localStorage.setItem(
+                "token_groupomania",
+                JSON.stringify(data.token)
+            );
+            window.localStorage.setItem(
+                "userId_groupomania",
+                JSON.stringify(data.userId)
+            );
+            setUser(data.user);
+            setAuthToken(data.token);
+            navigate("/home");
+        });
     };
 
     const handleEmailChange = (e) => {

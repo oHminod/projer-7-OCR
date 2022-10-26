@@ -1,71 +1,32 @@
 import axios from "axios";
 
-export function axiosLogin(
-    email,
-    password,
-    setUser,
-    setAuthToken,
-    navigate,
-    setDbError
-) {
-    axios
+export function axiosLogin(email, password, setDbError) {
+    return axios
         .post("http://localhost:36600/user/login", {
             email: email,
             password: password,
         })
-        .then((res) => {
-            window.localStorage.setItem(
-                "token_groupomania",
-                JSON.stringify(res.data.token)
-            );
-            window.localStorage.setItem(
-                "userId_groupomania",
-                JSON.stringify(res.data.userId)
-            );
-            setUser(res.data.user);
-            setAuthToken(res.data.token);
-            navigate("/home");
-        })
+        .then((res) => res.data)
         .catch((err) => {
             setDbError(err.response.data);
         });
 }
 
-export function axiosSignup(
-    email,
-    pseudo,
-    password,
-    setUser,
-    setAuthToken,
-    navigate,
-    setDbError
-) {
-    axios
+export function axiosSignup(email, pseudo, password, setDbError) {
+    return axios
         .post("http://localhost:36600/user/signup", {
             email: email,
             pseudo: pseudo,
             password: password,
         })
         .then(() => {
-            axios
+            return axios
                 .post("http://localhost:36600/user/login", {
                     email: email,
                     pseudo: pseudo,
                     password: password,
                 })
-                .then((res) => {
-                    window.localStorage.setItem(
-                        "token_groupomania",
-                        JSON.stringify(res.data.token)
-                    );
-                    window.localStorage.setItem(
-                        "userId_groupomania",
-                        JSON.stringify(res.data.userId)
-                    );
-                    setUser(res.data.user);
-                    setAuthToken(res.data.token);
-                    navigate("/home");
-                })
+                .then((res) => res.data)
                 .catch((err) => {
                     setDbError(err.response.data);
                 });

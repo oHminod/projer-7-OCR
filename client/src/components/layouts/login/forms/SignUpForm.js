@@ -19,15 +19,19 @@ const SignUpForm = () => {
     const handleSignup = (e) => {
         e.preventDefault();
         if (!verifEmail(email)) return;
-        axiosSignup(
-            email,
-            pseudo,
-            password,
-            setUser,
-            setAuthToken,
-            navigate,
-            setDbError
-        );
+        axiosSignup(email, pseudo, password, setDbError).then((data) => {
+            window.localStorage.setItem(
+                "token_groupomania",
+                JSON.stringify(data.token)
+            );
+            window.localStorage.setItem(
+                "userId_groupomania",
+                JSON.stringify(data.userId)
+            );
+            setUser(data.user);
+            setAuthToken(data.token);
+            navigate("/home");
+        });
     };
 
     const handleEmailChange = (e) => {
