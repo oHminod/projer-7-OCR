@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getAvatarAndPseudo } from "../../../../utils/axiosCalls";
+// import { getAvatarAndPseudo } from "../../../../utils/axiosCalls";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
-import { useAuth } from "../../../context/AuthContext";
-import { useUserInfo, useUserInfoUpdate } from "../UserInfoContext";
+// import { useAuth } from "../../../context/AuthContext";
+import {
+    useUserInfo,
+    // useUserInfoUpdate,
+} from "../../../context/UserInfoContext";
 import CommentBlock from "./CommentBlock";
 import LikeContainer from "./LikeContainer";
 import "./SinglePost.scss";
@@ -12,43 +15,18 @@ const SinglePost = ({ post }) => {
     const [createdAt, setCreatedAt] = useState();
     const [thisUser, setThisUser] = useState();
     const userInfo = useUserInfo();
-    const setUserInfo = useUserInfoUpdate();
-    const token = useAuth();
     const formatedText = (txt) => {
         return { __html: txt };
     };
 
-    // useEffect(() => {
-    //     token &&
-    //         getAvatarAndPseudo(token, post.userId).then((user) =>
-    //             setThisUser(user)
-    //         );
-    // }, [post.userId, token]);
-
     useEffect(() => {
-        if (userInfo.length <= 0) {
-            getAvatarAndPseudo(token, post.userId).then((user) => {
-                setThisUser(user);
-                setUserInfo([...userInfo, user]);
-                // console.log("coucou1");
-            });
-        } else {
-            for (const user of userInfo) {
-                if (user.userId === post.userId) {
-                    setThisUser(user);
-                    // console.log("coucou3");
-                }
-            }
-            if (!thisUser) {
-                // console.log(Array.isArray(userInfo));
-                getAvatarAndPseudo(token, post.userId).then((user) => {
-                    setThisUser(user);
-                    setUserInfo([...userInfo, user]);
-                    // console.log("coucou2");
-                });
-            }
+        const checkedUser = userInfo.find(
+            (findUser) => findUser.userId === post.userId
+        );
+        if (checkedUser) {
+            setThisUser(checkedUser);
         }
-    }, []);
+    }, [userInfo, post.userId]);
 
     useEffect(() => {
         post.texte &&
