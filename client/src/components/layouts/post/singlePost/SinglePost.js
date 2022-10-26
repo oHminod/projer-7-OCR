@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import { getAvatarAndPseudo } from "../../../../utils/axiosCalls";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
-// import { useAuth } from "../../../context/AuthContext";
-import {
-    useUserInfo,
-    // useUserInfoUpdate,
-} from "../../../context/UserInfoContext";
+import { useUsersInfo } from "../../../context/UsersInfoContext";
 import CommentBlock from "./CommentBlock";
 import LikeContainer from "./LikeContainer";
 import "./SinglePost.scss";
@@ -14,24 +9,25 @@ const SinglePost = ({ post }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [thisUser, setThisUser] = useState();
-    const userInfo = useUserInfo();
+    const usersInfo = useUsersInfo();
     const formatedText = (txt) => {
         return { __html: txt };
     };
 
     useEffect(() => {
-        const checkedUser = userInfo.find(
+        const checkedUser = usersInfo.find(
             (findUser) => findUser.userId === post.userId
         );
         if (checkedUser) {
             setThisUser(checkedUser);
         }
-    }, [userInfo, post.userId]);
+    }, [usersInfo, post.userId]);
 
     useEffect(() => {
         post.texte &&
             (post.texte = post.texte.trim().split("\u000A").join("</p><p>"));
     }, [post]);
+
     useEffect(() => {
         post.createdAt && setCreatedAt(localeDateFromDate(post.createdAt));
         post.updatedAt && setUpdatedAt(localeDateFromDate(post.createdAt));

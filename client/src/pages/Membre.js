@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import Wall from "../components/layouts/membre/mur/Wall";
 import EditProvider from "../components/layouts/membre/userInfo/EditContext";
 import { useCurrentWidth } from "../components/utils/windowWidth";
-import FragmentHeightProvider from "../components/layouts/membre/userInfo/HeightContext";
 
 const Membre = () => {
     const auth = useAuth();
@@ -22,30 +21,28 @@ const Membre = () => {
         loading ||
         (auth !== "fin" ? (
             <EditProvider>
-                <FragmentHeightProvider>
-                    <motion.main
-                        className="membre"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{
-                            opacity: { duration: 0.3, ease: "easeInOut" },
-                        }}
-                        exit={{
-                            opacity: 0,
-                        }}
-                    >
-                        <div className="content">
-                            {width > 880 ? (
-                                <>
-                                    <Wall />
-                                    <UserInfo />
-                                </>
-                            ) : (
+                <motion.main
+                    className="membre"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                        opacity: { duration: 0.3, ease: "easeInOut" },
+                    }}
+                    exit={{
+                        opacity: 0,
+                    }}
+                >
+                    <div className="content">
+                        {width > 880 ? (
+                            <>
                                 <Wall />
-                            )}
-                        </div>
-                    </motion.main>
-                </FragmentHeightProvider>
+                                <UserInfo />
+                            </>
+                        ) : (
+                            <Wall />
+                        )}
+                    </div>
+                </motion.main>
             </EditProvider>
         ) : (
             <Navigate to={"/"} />

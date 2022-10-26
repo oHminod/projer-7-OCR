@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../components/context/AuthContext";
 import { motion } from "framer-motion";
 import { Navigate } from "react-router-dom";
+import Timeline from "../components/layouts/home/Timeline";
 
 const Home = () => {
     const authToken = useAuth();
@@ -26,7 +27,7 @@ const Home = () => {
                 }}
             >
                 <div className="content">
-                    <h2>Fil d'actu</h2>
+                    <Timeline />
                 </div>
             </motion.div>
         ) : (

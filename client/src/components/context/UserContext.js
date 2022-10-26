@@ -33,11 +33,7 @@ export function UserProvider({ children }) {
     return (
         <UserContext.Provider value={user}>
             <UserUpdateContext.Provider value={setUser}>
-                {/* <UserLoadingContext.Provider value={loading}>
-                    <UserLoadingUpdateContext.Provider value={setLoading}> */}
                 {children}
-                {/* </UserLoadingUpdateContext.Provider>
-                </UserLoadingContext.Provider> */}
             </UserUpdateContext.Provider>
         </UserContext.Provider>
     );

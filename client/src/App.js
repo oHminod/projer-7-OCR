@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./components/context/AuthContext";
 import PostsProvider from "./components/context/PostsContext";
 import UserProvider from "./components/context/UserContext";
-import { UserInfoProvider } from "./components/context/UserInfoContext";
+import { UsersInfoProvider } from "./components/context/UsersInfoContext";
 import AnimatedRoutes from "./components/utils/AnimatedRoutes";
 
 const App = () => {
@@ -11,11 +11,11 @@ const App = () => {
         <AuthProvider>
             <UserProvider>
                 <PostsProvider>
-                    <UserInfoProvider>
+                    <UsersInfoProvider>
                         <BrowserRouter>
                             <AnimatedRoutes />
                         </BrowserRouter>
-                    </UserInfoProvider>
+                    </UsersInfoProvider>
                 </PostsProvider>
             </UserProvider>
         </AuthProvider>
