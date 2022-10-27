@@ -37,7 +37,10 @@ export function UsersInfoProvider({ children }) {
     }, [token, usersWithPosts]);
 
     useEffect(() => {
-        getInfos && getInfos.then((data) => setUsersInfo(data));
+        getInfos &&
+            getInfos
+                .then((data) => setUsersInfo(data))
+                .catch((err) => console.log(err));
     }, [getInfos]);
 
     return (
