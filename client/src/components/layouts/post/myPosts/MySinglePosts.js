@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
 import { useUser } from "../../../context/UserContext";
+import { usePost, usePostUpdate } from "../PostContext";
 import CommentBlock from "../singlePost/CommentBlock";
 import LikeContainer from "../singlePost/LikeContainer";
 import "../singlePost/SinglePost.scss";
@@ -12,6 +13,13 @@ const MySinglePosts = ({ post }) => {
     const formatedText = (txt) => {
         return { __html: txt };
     };
+    const thisPost = usePost();
+    const setThisPost = usePostUpdate();
+
+    useEffect(() => {
+        thisPost || setThisPost(post);
+    }, [thisPost, setThisPost, post]);
+
     useEffect(() => {
         post.texte &&
             (post.texte = post.texte.trim().split("\u000A").join("</p><p>"));

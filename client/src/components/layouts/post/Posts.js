@@ -1,5 +1,6 @@
 import React from "react";
 import { usePosts } from "../../context/PostsContext";
+import PostProvider from "./PostContext";
 import SinglePost from "./singlePost/SinglePost";
 
 const Posts = () => {
@@ -14,7 +15,9 @@ const Posts = () => {
                             Date.parse(b.createdAt) - Date.parse(a.createdAt)
                     )
                     .map((post, index) => (
-                        <SinglePost key={"post-" + index} post={post} />
+                        <PostProvider key={"postContext-" + index}>
+                            <SinglePost key={"post-" + index} post={post} />
+                        </PostProvider>
                     ))}
         </>
     );

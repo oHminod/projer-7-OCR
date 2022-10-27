@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
 import { useUsersInfo } from "../../../context/UsersInfoContext";
+import { usePost, usePostUpdate } from "../PostContext";
 import CommentBlock from "./CommentBlock";
 import LikeContainer from "./LikeContainer";
 import "./SinglePost.scss";
@@ -9,10 +10,16 @@ const SinglePost = ({ post }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [thisUser, setThisUser] = useState();
+    const thisPost = usePost();
+    const setThisPost = usePostUpdate();
     const usersInfo = useUsersInfo();
     const formatedText = (txt) => {
         return { __html: txt };
     };
+
+    useEffect(() => {
+        thisPost || setThisPost(post);
+    }, [thisPost, setThisPost, post]);
 
     useEffect(() => {
         const checkedUser = usersInfo.find(

@@ -221,6 +221,34 @@ export function getAvatarAndPseudo(token, userId) {
         });
 }
 
+export function likerPost(token, id, obj) {
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    axios
+        .post(`http://localhost:36600/post/${id}/like`, obj, {
+            headers,
+        })
+        .then(() => {})
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+}
+
+export function loverPost(token, id, obj) {
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    axios
+        .post(`http://localhost:36600/post/${id}/love`, obj, {
+            headers,
+        })
+        .then(() => {})
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+}
+
 // export function getAvatarAndPseudo(
 //     token,
 //     userId,
