@@ -28,20 +28,18 @@ export function useUsersWithPosts() {
 export function PostsProvider({ children }) {
     const [posts, setPosts] = useState();
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
-    // const [tempTab, setTempTab] = useState([]);
+
     const token = useAuth();
 
     const getIDs = useMemo(() => {
         if (posts) {
             let tempTab = [];
-            const promesseTab = posts.map(
+            posts.map(
                 (post) =>
                     tempTab.indexOf(post.userId) === -1 &&
                     (tempTab = [...tempTab, post.userId])
             );
-            Promise.all(promesseTab);
-            // promesseTab && console.log(tempTab);
-            // setUsersWhoHavePost(tempTab);
+
             return tempTab;
         }
     }, [posts]);

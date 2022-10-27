@@ -1,4 +1,10 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
+import React, {
+    useState,
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+} from "react";
 import { getAvatarAndPseudo } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { useUsersWithPosts } from "./PostsContext";
@@ -14,17 +20,25 @@ export function UsersInfoProvider({ children }) {
     const usersWithPosts = useUsersWithPosts();
     const token = useAuth();
 
-    // console.log(usersWithPosts);
-    useEffect(() => {
-        usersWithPosts &&
-            usersWithPosts.map(
+    const getInfos = useMemo(() => {
+        if (token && usersWithPosts) return awaitInfos(usersWithPosts);
+        async function awaitInfos(usersWithPosts) {
+            let tempTab = [];
+            const promesseTab = await usersWithPosts.map(
                 (ID) =>
-                    !usersInfo.find((findUser) => findUser.userId === ID) &&
+                    !tempTab.find((findUser) => findUser.userId === ID) &&
                     getAvatarAndPseudo(token, ID).then((user) => {
-                        setUsersInfo([...usersInfo, user]);
+                        tempTab = [...tempTab, user];
                     })
             );
-    }, [token, usersInfo, usersWithPosts]);
+            await Promise.all(promesseTab);
+            return tempTab;
+        }
+    }, [token, usersWithPosts]);
+
+    useEffect(() => {
+        getInfos && getInfos.then((data) => setUsersInfo(data));
+    }, [getInfos]);
 
     return (
         <UsersInfoContext.Provider value={usersInfo}>
