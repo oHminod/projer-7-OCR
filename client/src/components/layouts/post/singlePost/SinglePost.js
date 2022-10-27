@@ -57,13 +57,15 @@ const SinglePost = ({ post }) => {
                         alt="avatar par défaut"
                     />
                 )}
-                {thisUser && (
-                    <p>
-                        Par <strong>{thisUser.pseudo}</strong>&nbsp;
-                    </p>
-                )}
-                <p> {createdAt}</p>
-                {updatedAt !== createdAt && <p>(Modifié {updatedAt})</p>}
+                <div className="legende">
+                    {thisUser && (
+                        <p>
+                            Par <strong>{thisUser.pseudo}</strong>&nbsp;
+                        </p>
+                    )}
+                    <p> {createdAt}</p>
+                    {updatedAt !== createdAt && <p>(Modifié {updatedAt})</p>}
+                </div>
             </div>
             <div className="postContainer">
                 {post.texte && (
