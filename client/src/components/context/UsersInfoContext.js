@@ -20,10 +20,11 @@ export function UsersInfoProvider({ children }) {
                 (ID) =>
                     !usersInfo.find((findUser) => findUser.userId === ID) &&
                     getAvatarAndPseudo(token, ID).then((user) => {
+                        console.log("usersWithPosts = " + usersWithPosts);
                         setUsersInfo([...usersInfo, user]);
                     })
             );
-    }, [usersWithPosts, usersInfo, token]);
+    }, [usersWithPosts, token, usersInfo]);
 
     return (
         <UsersInfoContext.Provider value={usersInfo}>
@@ -31,3 +32,5 @@ export function UsersInfoProvider({ children }) {
         </UsersInfoContext.Provider>
     );
 }
+
+export default UsersInfoProvider;

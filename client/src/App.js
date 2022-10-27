@@ -12,13 +12,13 @@ const App = () => {
         <AuthProvider>
             <UserProvider>
                 <PostsProvider>
-                    <UsersInfoProvider>
-                        <MyPostsProvider>
+                    <MyPostsProvider>
+                        <UsersInfoProvider>
                             <BrowserRouter>
                                 <AnimatedRoutes />
                             </BrowserRouter>
-                        </MyPostsProvider>
-                    </UsersInfoProvider>
+                        </UsersInfoProvider>
+                    </MyPostsProvider>
                 </PostsProvider>
             </UserProvider>
         </AuthProvider>

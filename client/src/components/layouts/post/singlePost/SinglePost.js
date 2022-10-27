@@ -10,6 +10,7 @@ const SinglePost = ({ post }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [thisUser, setThisUser] = useState();
+    const [checkedUser, setCheckedUser] = useState();
     const thisPost = usePost();
     const setThisPost = usePostUpdate();
     const usersInfo = useUsersInfo();
@@ -23,13 +24,12 @@ const SinglePost = ({ post }) => {
     }, [thisPost, setThisPost, post]);
 
     useEffect(() => {
-        const checkedUser = usersInfo.find(
-            (findUser) => findUser.userId === post.userId
-        );
-        if (checkedUser) {
-            setThisUser(checkedUser);
-        }
-    }, [usersInfo, post.userId]);
+        usersInfo &&
+            setCheckedUser(
+                usersInfo.find((findUser) => findUser.userId === post.userId)
+            );
+        checkedUser && setThisUser(checkedUser);
+    }, [usersInfo, post.userId, checkedUser]);
 
     useEffect(() => {
         post.texte &&

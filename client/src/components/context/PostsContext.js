@@ -22,6 +22,7 @@ export function useUsersWithPosts() {
 export function PostsProvider({ children }) {
     const [posts, setPosts] = useState([]);
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
+    const [tempTab, setTempTab] = useState([]);
     const token = useAuth();
 
     useEffect(() => {
@@ -31,14 +32,17 @@ export function PostsProvider({ children }) {
     useEffect(() => {
         awaitIDs();
         async function awaitIDs() {
-            posts &&
-                posts.map(
+            if (posts) {
+                const promesseTab = posts.map(
                     (post) =>
-                        usersWhoHavePost.indexOf(post.userId) === -1 &&
-                        setUsersWhoHavePost([...usersWhoHavePost, post.userId])
+                        tempTab.indexOf(post.userId) === -1 &&
+                        setTempTab([...tempTab, post.userId])
                 );
+                await Promise.all(promesseTab);
+                setUsersWhoHavePost(tempTab);
+            }
         }
-    }, [usersWhoHavePost, posts]);
+    }, [usersWhoHavePost, posts, tempTab]);
 
     return (
         <PostsContext.Provider value={posts}>
