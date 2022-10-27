@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
 import { useUser } from "../../../context/UserContext";
-import { usePost, usePostUpdate } from "../PostContext";
+import { useComment, usePost, usePostUpdate } from "../PostContext";
 import CommentBlock from "../singlePost/CommentBlock";
 import LikeContainer from "../singlePost/LikeContainer";
 import "../singlePost/SinglePost.scss";
@@ -15,6 +15,7 @@ const MySinglePosts = ({ post }) => {
     };
     const thisPost = usePost();
     const setThisPost = usePostUpdate();
+    const comment = useComment();
 
     useEffect(() => {
         thisPost || setThisPost(post);
@@ -66,7 +67,7 @@ const MySinglePosts = ({ post }) => {
                 )}
             </div>
             <LikeContainer />
-            <CommentBlock />
+            {comment && <CommentBlock />}
         </article>
     );
 };
