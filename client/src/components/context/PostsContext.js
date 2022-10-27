@@ -20,7 +20,7 @@ export function useUsersWithPosts() {
 }
 
 export function PostsProvider({ children }) {
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState();
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
     const [tempTab, setTempTab] = useState([]);
     const token = useAuth();
@@ -40,9 +40,10 @@ export function PostsProvider({ children }) {
                 );
                 await Promise.all(promesseTab);
                 setUsersWhoHavePost(tempTab);
+                console.log("usersWithPosts = " + usersWhoHavePost);
             }
         }
-    }, [usersWhoHavePost, posts, tempTab]);
+    }, [posts, tempTab, usersWhoHavePost]);
 
     return (
         <PostsContext.Provider value={posts}>

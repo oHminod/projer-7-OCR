@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const apiURL = "http://localhost:36600/";
+
 export function axiosLogin(email, password, setDbError) {
     return axios
-        .post("http://localhost:36600/user/login", {
+        .post(`${apiURL}user/login`, {
             email: email,
             password: password,
         })
@@ -14,14 +16,14 @@ export function axiosLogin(email, password, setDbError) {
 
 export function axiosSignup(email, pseudo, password, setDbError) {
     return axios
-        .post("http://localhost:36600/user/signup", {
+        .post(`${apiURL}user/signup`, {
             email: email,
             pseudo: pseudo,
             password: password,
         })
         .then(() => {
             return axios
-                .post("http://localhost:36600/user/login", {
+                .post(`${apiURL}user/login`, {
                     email: email,
                     pseudo: pseudo,
                     password: password,
@@ -51,7 +53,7 @@ export function axiosAuthContext(token, setAuthToken) {
     };
 
     axios
-        .get(`http://localhost:36600/verify`, config)
+        .get(`${apiURL}verify`, config)
         .then((data) => {
             setAuthToken(data.data.token);
             window.localStorage.setItem(
@@ -71,7 +73,7 @@ export function axiosUserContext(token, userId, setUser) {
         },
     };
     axios
-        .get(`http://localhost:36600/user/membre/${userId}`, config)
+        .get(`${apiURL}user/membre/${userId}`, config)
         .then((res) => {
             setUser(res.data);
         })
@@ -95,7 +97,7 @@ export function axiosUserChangeInfoWithImage(
         "Content-Type": `multipart/form-data`,
     };
     axios
-        .post(`http://localhost:36600/user/setuser/${user._id}`, data, {
+        .post(`${apiURL}user/setuser/${user._id}`, data, {
             headers,
         })
         .then(() => {
@@ -128,7 +130,7 @@ export function axiosUserChangeInfoWithoutImage(
         Authorization: `Bearer ${token}`,
     };
     axios
-        .post(`http://localhost:36600/user/setuser/${user._id}`, obj, {
+        .post(`${apiURL}user/setuser/${user._id}`, obj, {
             headers,
         })
         .then(() => {
@@ -154,7 +156,7 @@ export function axiosPostPostWithImage(token, data, setDbError) {
         Authorization: `Bearer ${token}`,
     };
     axios
-        .post(`http://localhost:36600/post/post`, data, {
+        .post(`${apiURL}post/post`, data, {
             headers,
         })
         .then(() => {})
@@ -169,7 +171,7 @@ export function axiosPostPostWithoutImage(token, obj, setDbError) {
         Authorization: `Bearer ${token}`,
     };
     axios
-        .post(`http://localhost:36600/post/post`, obj, {
+        .post(`${apiURL}post/post`, obj, {
             headers,
         })
         .then(() => {})
@@ -186,7 +188,7 @@ export function axiosGetAllPosts(token) {
         },
     };
     return axios
-        .get(`http://localhost:36600/post/`, config)
+        .get(`${apiURL}post/`, config)
         .then((data) => data.data)
         .catch((err) => {
             console.log(err.response.data);
@@ -200,7 +202,7 @@ export function axiosGetAllMyPosts(token, id) {
         },
     };
     return axios
-        .get(`http://localhost:36600/post/${id}`, config)
+        .get(`${apiURL}post/${id}`, config)
         .then((data) => data.data)
         .catch((err) => {
             console.log(err.response.data);
@@ -214,7 +216,7 @@ export function getAvatarAndPseudo(token, userId) {
         },
     };
     return axios
-        .get(`http://localhost:36600/user/posterinfo/${userId}`, config)
+        .get(`${apiURL}user/posterinfo/${userId}`, config)
         .then((data) => data.data)
         .catch((err) => {
             console.log(err.response.data);
@@ -226,7 +228,7 @@ export function likerPost(token, id, obj) {
         Authorization: `Bearer ${token}`,
     };
     axios
-        .post(`http://localhost:36600/post/${id}/like`, obj, {
+        .post(`${apiURL}post/${id}/like`, obj, {
             headers,
         })
         .then(() => {})
@@ -240,7 +242,7 @@ export function loverPost(token, id, obj) {
         Authorization: `Bearer ${token}`,
     };
     axios
-        .post(`http://localhost:36600/post/${id}/love`, obj, {
+        .post(`${apiURL}post/${id}/love`, obj, {
             headers,
         })
         .then(() => {})
