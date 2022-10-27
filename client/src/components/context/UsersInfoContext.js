@@ -14,6 +14,7 @@ export function UsersInfoProvider({ children }) {
     const usersWithPosts = useUsersWithPosts();
     const token = useAuth();
 
+    // console.log(usersWithPosts);
     useEffect(() => {
         usersWithPosts &&
             usersWithPosts.map(

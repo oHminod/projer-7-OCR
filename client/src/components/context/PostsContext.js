@@ -1,4 +1,10 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
+import React, {
+    useState,
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+} from "react";
 import { axiosGetAllPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 
@@ -22,28 +28,31 @@ export function useUsersWithPosts() {
 export function PostsProvider({ children }) {
     const [posts, setPosts] = useState();
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
-    const [tempTab, setTempTab] = useState([]);
+    // const [tempTab, setTempTab] = useState([]);
     const token = useAuth();
+
+    const getIDs = useMemo(() => {
+        if (posts) {
+            let tempTab = [];
+            const promesseTab = posts.map(
+                (post) =>
+                    tempTab.indexOf(post.userId) === -1 &&
+                    (tempTab = [...tempTab, post.userId])
+            );
+            Promise.all(promesseTab);
+            // promesseTab && console.log(tempTab);
+            // setUsersWhoHavePost(tempTab);
+            return tempTab;
+        }
+    }, [posts]);
 
     useEffect(() => {
         token && axiosGetAllPosts(token).then((allPosts) => setPosts(allPosts));
     }, [token]);
 
     useEffect(() => {
-        awaitIDs();
-        async function awaitIDs() {
-            if (posts) {
-                const promesseTab = posts.map(
-                    (post) =>
-                        tempTab.indexOf(post.userId) === -1 &&
-                        setTempTab([...tempTab, post.userId])
-                );
-                await Promise.all(promesseTab);
-                setUsersWhoHavePost(tempTab);
-                console.log("usersWithPosts = " + usersWhoHavePost);
-            }
-        }
-    }, [posts, tempTab, usersWhoHavePost]);
+        getIDs && setUsersWhoHavePost(getIDs);
+    }, [getIDs]);
 
     return (
         <PostsContext.Provider value={posts}>
