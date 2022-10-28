@@ -15,8 +15,11 @@ const Posts = () => {
                             Date.parse(b.createdAt) - Date.parse(a.createdAt)
                     )
                     .map((post, index) => (
-                        <PostProvider key={"postContext-" + index}>
-                            <SinglePost key={"post-" + index} post={post} />
+                        <PostProvider
+                            key={"postContext-" + index}
+                            thisPost={post}
+                        >
+                            <SinglePost key={"post-" + index} />
                         </PostProvider>
                     ))}
         </>

@@ -21,9 +21,9 @@ const Socket = {
 };
 
 io.on("connection", (socket) => {
-    console.log("A user connected");
+    // console.log("A user connected");
     socket.on("disconnect", () => {
-        console.log("user disconnected");
+        // console.log("user disconnected");
     });
 });
 

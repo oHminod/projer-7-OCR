@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 
 export const PostContext = createContext();
 export const PostUpdateContext = createContext();
@@ -22,9 +22,13 @@ export function useCommentUpdate() {
     return useContext(CommentUpdateContext);
 }
 
-export function PostProvider({ children }) {
+export function PostProvider({ children, thisPost }) {
     const [post, setPost] = useState();
     const [comment, setComment] = useState(false);
+
+    useEffect(() => {
+        setPost(thisPost);
+    }, [thisPost]);
 
     return (
         <PostContext.Provider value={post}>
