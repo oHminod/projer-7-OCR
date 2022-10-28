@@ -15,7 +15,6 @@ const Loves = () => {
     const token = useAuth();
     const thisPost = usePost();
     const setThisPost = usePostUpdate();
-    const [countLoves, setCountLoves] = useState();
     const allPosts = usePosts();
     const setAllPosts = usePostsUpdate();
     const allMyPosts = useMyPosts();
@@ -29,7 +28,6 @@ const Loves = () => {
     }, [thisPost, user]);
 
     useEffect(() => {
-        thisPost && setCountLoves(+thisPost.loves);
         thisPost && +thisPost.loves === 0 && setActif(false);
     }, [thisPost]);
 
@@ -45,13 +43,11 @@ const Loves = () => {
             .indexOf(thisPost._id);
         let userIndex = postObj.usersLoved.indexOf(user._id);
 
-        if (actif) {
-            setCountLoves(countLoves - 1);
-            postObj = { ...postObj, loves: countLoves - 1 };
+        if (thisPost && actif) {
+            postObj = { ...postObj, loves: thisPost.loves - 1 };
             postObj.usersLoved.splice(userIndex, 1);
         } else {
-            setCountLoves(countLoves + 1);
-            postObj = { ...postObj, loves: countLoves + 1 };
+            postObj = { ...postObj, loves: thisPost.loves + 1 };
             postObj.usersLoved.push(user._id);
         }
         if (thisPost.userId === user._id) {
@@ -82,7 +78,7 @@ const Loves = () => {
             {/* {console.log("button = " + actif)} */}
             {thisPost && (
                 <i className="fa-regular fa-heart">
-                    &nbsp;&nbsp;{countLoves !== 0 && countLoves}
+                    &nbsp;&nbsp;{thisPost.loves !== 0 && thisPost.loves}
                 </i>
             )}
         </button>

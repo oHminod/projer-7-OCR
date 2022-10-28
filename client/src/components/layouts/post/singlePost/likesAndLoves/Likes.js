@@ -15,7 +15,6 @@ const Likes = () => {
     const token = useAuth();
     const thisPost = usePost();
     const setThisPost = usePostUpdate();
-    const [countLikes, setCountLikes] = useState();
     const allPosts = usePosts();
     const setAllPosts = usePostsUpdate();
     const allMyPosts = useMyPosts();
@@ -29,13 +28,11 @@ const Likes = () => {
     }, [thisPost, user]);
 
     useEffect(() => {
-        thisPost && setCountLikes(+thisPost.likes);
         thisPost && +thisPost.likes === 0 && setActif(false);
     }, [thisPost]);
 
     const handelClick = () => {
         setActif(!actif);
-
         let postObj = { ...thisPost };
 
         let allPostsCopy = [...allPosts];
@@ -46,13 +43,11 @@ const Likes = () => {
             .indexOf(thisPost._id);
         let userIndex = postObj.usersLiked.indexOf(user._id);
 
-        if (actif) {
-            setCountLikes(countLikes - 1);
-            postObj = { ...postObj, likes: countLikes - 1 };
+        if (thisPost && actif) {
+            postObj = { ...postObj, likes: thisPost.likes - 1 };
             postObj.usersLiked.splice(userIndex, 1);
         } else {
-            setCountLikes(countLikes + 1);
-            postObj = { ...postObj, likes: countLikes + 1 };
+            postObj = { ...postObj, likes: thisPost.likes + 1 };
             postObj.usersLiked.push(user._id);
         }
         if (thisPost.userId === user._id) {
@@ -83,7 +78,7 @@ const Likes = () => {
         >
             {thisPost && (
                 <i className="fa-regular fa-thumbs-up">
-                    &nbsp;&nbsp;{countLikes !== 0 && countLikes}
+                    &nbsp;&nbsp;{thisPost.likes !== 0 && thisPost.likes}
                 </i>
             )}
         </button>
