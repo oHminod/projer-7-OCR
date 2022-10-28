@@ -2,6 +2,8 @@ import React, { useState, createContext, useContext, useEffect } from "react";
 import { axiosGetAllMyPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { useUser } from "./UserContext";
+import { io } from "socket.io-client";
+let socket = io("http://127.0.0.1:36600");
 
 export const MyPostsContext = createContext();
 export const MyPostsUpdateContext = createContext();
@@ -26,6 +28,15 @@ export const MyPostsProvider = ({ children }) => {
                 setMyPosts(allMyPosts)
             );
     }, [token, my]);
+
+    useEffect(() => {
+        socket.on("newPost", (data) => {
+            my &&
+                data &&
+                data.newPost.userId === my._id &&
+                setMyPosts([...myPosts, data.newPost]);
+        });
+    }, [my, myPosts]);
 
     return (
         <MyPostsContext.Provider value={myPosts}>
