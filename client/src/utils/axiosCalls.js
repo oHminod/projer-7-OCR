@@ -61,8 +61,12 @@ export function axiosAuthContext(token, setAuthToken) {
                 JSON.stringify(data.data.token)
             );
         })
-        .catch(() => {
-            setAuthToken("fin");
+        .catch((err) => {
+            window.localStorage.removeItem("token_groupomania");
+            window.localStorage.removeItem("userId_groupomania");
+            setAuthToken();
+            console.log("authContext : " + err.message);
+            console.log(err);
         });
 }
 
@@ -78,7 +82,7 @@ export function axiosUserContext(token, userId, setUser) {
             setUser(res.data);
         })
         .catch((err) => {
-            console.log(err.response.data);
+            console.log("userContext : " + err.response.data);
         });
 }
 

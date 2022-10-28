@@ -16,6 +16,18 @@ const postPost = async (req, res, next) => {
         };
         const post = new PostModel({ ...postReq });
         post.save()
+            .then(() =>
+                setTimeout(() => {
+                    PostModel.findOne({ userId: req.session.userId })
+                        .sort({ createdAt: -1 })
+                        .then((data) =>
+                            Socket.emit("newPost", {
+                                newPost: data,
+                            })
+                        )
+                        .catch((err) => console.log(err));
+                }, 500)
+            )
             .then(() => {
                 res.status(201).json({ message: "Post enregistré !" });
             })
@@ -25,21 +37,23 @@ const postPost = async (req, res, next) => {
     } else {
         const post = new PostModel({ ...req.body });
         post.save()
+            .then(() =>
+                setTimeout(() => {
+                    PostModel.findOne({ userId: req.session.userId })
+                        .sort({ createdAt: -1 })
+                        .then((data) =>
+                            Socket.emit("newPost", {
+                                newPost: data,
+                            })
+                        )
+                        .catch((err) => console.log(err));
+                }, 500)
+            )
             .then(() => res.status(201).json({ message: "Post enregistré !" }))
             .catch((err) => {
                 return next(ApiError.internal(err.message));
             });
     }
-    setTimeout(() => {
-        PostModel.findOne({ userId: req.session.userId })
-            .sort({ createdAt: -1 })
-            .then((data) =>
-                Socket.emit("newPost", {
-                    newPost: data,
-                })
-            )
-            .catch((err) => console.log(err));
-    }, 100);
 };
 
 module.exports = postPost;

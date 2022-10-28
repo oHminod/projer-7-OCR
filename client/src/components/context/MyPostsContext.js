@@ -3,7 +3,7 @@ import { axiosGetAllMyPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { useUser } from "./UserContext";
 import { io } from "socket.io-client";
-let socket = io("http://127.0.0.1:36600");
+let socket = io("http://localhost:36600");
 
 export const MyPostsContext = createContext();
 export const MyPostsUpdateContext = createContext();

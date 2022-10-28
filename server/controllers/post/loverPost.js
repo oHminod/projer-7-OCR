@@ -18,6 +18,8 @@ const loverPost = (req, res, next) => {
     PostModel.findOne({ _id: req.params.id })
         .then((post) => {
             let userLove = post.usersLoved.indexOf(req.session.userId);
+            console.log(req.body);
+            console.log("idPost = " + req.params.id);
 
             if (req.body.love == "1" && userLove == -1) {
                 post.usersLoved.push(req.session.userId);

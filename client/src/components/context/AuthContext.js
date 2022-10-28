@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
                 window.localStorage.getItem("token_groupomania")
             );
 
-            axiosAuthContext(token, setAuthToken);
+            token && axiosAuthContext(token, setAuthToken);
         }
     }, []);
 

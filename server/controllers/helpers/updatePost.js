@@ -15,8 +15,12 @@ const PostModel = require("../../models/post");
  */
 module.exports = (req, res, post, message) => {
     PostModel.updateOne({ _id: req.params.id }, post)
-        .then(() => res.status(200).json({ message: message }))
+        .then(() => {
+            console.log("status 200");
+            res.status(200).json({ message: message });
+        })
         .catch((error) => {
             return next(ApiError.badRequest(error.message));
         });
+    console.log("post lové ou pas");
 };

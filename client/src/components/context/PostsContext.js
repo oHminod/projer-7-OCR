@@ -45,7 +45,10 @@ export function PostsProvider({ children }) {
     }, [posts]);
 
     useEffect(() => {
-        token && axiosGetAllPosts(token).then((allPosts) => setPosts(allPosts));
+        token &&
+            axiosGetAllPosts(token)
+                .then((allPosts) => setPosts(allPosts))
+                .catch((err) => console.log(err));
     }, [token]);
 
     useEffect(() => {
