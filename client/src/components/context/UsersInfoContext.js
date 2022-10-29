@@ -8,6 +8,8 @@ import React, {
 import { getAvatarAndPseudo } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { useUsersWithPosts } from "./PostsContext";
+import { io } from "socket.io-client";
+let socket = io("http://localhost:36600");
 
 export const UsersInfoContext = createContext();
 
@@ -19,9 +21,13 @@ export function UsersInfoProvider({ children }) {
     const [usersInfo, setUsersInfo] = useState([]);
     const usersWithPosts = useUsersWithPosts();
     const token = useAuth();
-
+    const [ioBlock, setIoBlock] = useState(true);
+    socket.on("likeAndLovesResponse", () => {
+        setIoBlock(false);
+    });
     const getInfos = useMemo(() => {
-        if (token && usersWithPosts) return awaitInfos(usersWithPosts);
+        if (token && usersWithPosts && ioBlock)
+            return awaitInfos(usersWithPosts);
         async function awaitInfos(usersWithPosts) {
             let tempTab = [];
             const promesseTab = await usersWithPosts.map(
@@ -34,7 +40,7 @@ export function UsersInfoProvider({ children }) {
             await Promise.all(promesseTab);
             return tempTab;
         }
-    }, [token, usersWithPosts]);
+    }, [ioBlock, token, usersWithPosts]);
 
     useEffect(() => {
         getInfos &&

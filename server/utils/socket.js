@@ -25,6 +25,9 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         // console.log("user disconnected");
     });
+    socket.on("likeAndLoves", (postObj) => {
+        socket.broadcast.emit("likeAndLovesResponse", postObj);
+    });
 });
 
 exports.Socket = Socket;

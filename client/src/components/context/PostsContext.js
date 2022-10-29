@@ -7,6 +7,8 @@ import React, {
 } from "react";
 import { axiosGetAllPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
+import { io } from "socket.io-client";
+let socket = io("http://localhost:36600");
 
 export const PostsContext = createContext();
 export const PostsUpdateContext = createContext();
@@ -54,6 +56,23 @@ export function PostsProvider({ children }) {
     useEffect(() => {
         getIDs && setUsersWhoHavePost(getIDs);
     }, [getIDs]);
+
+    useEffect(() => {
+        try {
+            socket.on("likeAndLovesResponse", (postObj) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(postObj._id);
+                    allPostsCopy[thisPostIndex] = postObj;
+                    setPosts(allPostsCopy);
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }, [posts]);
 
     return (
         <PostsContext.Provider value={posts}>

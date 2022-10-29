@@ -38,6 +38,17 @@ export const MyPostsProvider = ({ children }) => {
         });
     }, [my, myPosts]);
 
+    useEffect(() => {
+        socket.on("likeAndLovesResponse", (postObj) => {
+            let allMyPostsCopy = [...myPosts];
+            const thisPostIndex = allMyPostsCopy
+                .map((post) => post._id)
+                .indexOf(postObj._id);
+            allMyPostsCopy[thisPostIndex] = postObj;
+            setMyPosts(allMyPostsCopy);
+        });
+    }, [myPosts]);
+
     return (
         <MyPostsContext.Provider value={myPosts}>
             <MyPostsUpdateContext.Provider value={setMyPosts}>
