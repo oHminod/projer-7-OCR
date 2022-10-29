@@ -1,5 +1,6 @@
 const ApiError = require("../../error/ApiError");
 const PostModel = require("../../models/post");
+const { Socket } = require("../../utils/socket");
 
 /**
  * * updatePost :
@@ -15,6 +16,13 @@ const PostModel = require("../../models/post");
  */
 module.exports = (req, res, post, message) => {
     PostModel.updateOne({ _id: req.params.id }, post)
+        .then(() =>
+            setTimeout(() => {
+                PostModel.findOne({ _id: req.params.id })
+                    .then((data) => Socket.emit("likeAndLovesResponse", data))
+                    .catch((err) => console.log(err));
+            }, 500)
+        )
         .then(() => {
             res.status(200).json({ message: message });
         })

@@ -8,7 +8,6 @@ import React, {
 import { axiosGetAllPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { io } from "socket.io-client";
-let socket = io("http://localhost:36600");
 
 export const PostsContext = createContext();
 export const PostsUpdateContext = createContext();
@@ -33,6 +32,18 @@ export function PostsProvider({ children }) {
 
     const token = useAuth();
 
+    let socket;
+    if (token) {
+        socket = io("http://localhost:36600", {
+            transportOptions: {
+                polling: {
+                    extraHeaders: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            },
+        });
+    }
     const getIDs = useMemo(() => {
         if (posts) {
             let tempTab = [];
@@ -59,20 +70,21 @@ export function PostsProvider({ children }) {
 
     useEffect(() => {
         try {
-            socket.on("likeAndLovesResponse", (postObj) => {
-                if (posts) {
-                    let allPostsCopy = [...posts];
-                    const thisPostIndex = allPostsCopy
-                        .map((post) => post._id)
-                        .indexOf(postObj._id);
-                    allPostsCopy[thisPostIndex] = postObj;
-                    setPosts(allPostsCopy);
-                }
-            });
+            token &&
+                socket.on("likeAndLovesResponse", (postObj) => {
+                    if (posts) {
+                        let allPostsCopy = [...posts];
+                        const thisPostIndex = allPostsCopy
+                            .map((post) => post._id)
+                            .indexOf(postObj._id);
+                        allPostsCopy[thisPostIndex] = postObj;
+                        setPosts(allPostsCopy);
+                    }
+                });
         } catch (err) {
             console.log(err);
         }
-    }, [posts]);
+    }, [posts, socket, token]);
 
     return (
         <PostsContext.Provider value={posts}>

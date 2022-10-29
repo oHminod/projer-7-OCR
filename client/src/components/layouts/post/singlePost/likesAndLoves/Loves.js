@@ -8,8 +8,6 @@ import {
 import { usePosts, usePostsUpdate } from "../../../../context/PostsContext";
 import { useUser } from "../../../../context/UserContext";
 import { usePost, usePostUpdate } from "../../PostContext";
-import { io } from "socket.io-client";
-let socket = io("http://localhost:36600");
 
 const Loves = () => {
     const [actif, setActif] = useState(false);
@@ -64,7 +62,7 @@ const Loves = () => {
         allPostsCopy[thisPostIndex] = postObj;
         setAllPosts(allPostsCopy);
         setThisPost(postObj);
-        socket.emit("likeAndLoves", postObj);
+
         let obj = {};
         actif ? (obj.love = "0") : (obj.love = "1");
 
@@ -78,7 +76,6 @@ const Loves = () => {
             onClick={handelClick}
             className={actif ? "loves actif" : "loves"}
         >
-            {/* {console.log("button = " + actif)} */}
             {thisPost && (
                 <i className="fa-regular fa-heart">
                     &nbsp;&nbsp;{thisPost.loves !== 0 && thisPost.loves}
