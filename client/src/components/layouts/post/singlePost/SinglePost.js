@@ -44,7 +44,7 @@ const SinglePost = () => {
             setCreatedAt(localeDateFromDate(thisPost.createdAt));
         thisPost &&
             thisPost.updatedAt &&
-            setUpdatedAt(localeDateFromDate(thisPost.createdAt));
+            setUpdatedAt(localeDateFromDate(thisPost.updatedAt));
     }, [thisPost]);
 
     return (

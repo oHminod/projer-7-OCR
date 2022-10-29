@@ -18,6 +18,7 @@ const MySinglePosts = () => {
 
     useEffect(() => {
         thisPost &&
+            thisPost.texte &&
             (thisPost.texte = thisPost.texte
                 .trim()
                 .split("\u000A")
@@ -26,7 +27,7 @@ const MySinglePosts = () => {
 
     useEffect(() => {
         thisPost && setCreatedAt(localeDateFromDate(thisPost.createdAt));
-        thisPost && setUpdatedAt(localeDateFromDate(thisPost.createdAt));
+        thisPost && setUpdatedAt(localeDateFromDate(thisPost.updatedAt));
     }, [thisPost]);
     return (
         <article className="singlePost" id={thisPost && thisPost._id}>
