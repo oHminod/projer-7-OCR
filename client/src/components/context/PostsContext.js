@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { axiosGetAllPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
-import { io } from "socket.io-client";
+import { SocketContext } from "./SocketContext";
 
 export const PostsContext = createContext();
 export const PostsUpdateContext = createContext();
@@ -31,19 +31,8 @@ export function PostsProvider({ children }) {
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
 
     const token = useAuth();
+    const socket = useContext(SocketContext);
 
-    let socket;
-    if (token) {
-        socket = io("http://localhost:36600", {
-            transportOptions: {
-                polling: {
-                    extraHeaders: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            },
-        });
-    }
     const getIDs = useMemo(() => {
         if (posts) {
             let tempTab = [];
@@ -71,6 +60,7 @@ export function PostsProvider({ children }) {
     useEffect(() => {
         try {
             token &&
+                socket &&
                 socket.on("likeAndLovesResponse", (postObj) => {
                     if (posts) {
                         let allPostsCopy = [...posts];

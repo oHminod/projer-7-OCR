@@ -1,9 +1,8 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import { usePosts, usePostsUpdate } from "./PostsContext";
+import { SocketContext } from "./SocketContext";
 import { useUser } from "./UserContext";
-import { io } from "socket.io-client";
-// const socket = io.connect("http://localhost:36600");
 
 export const NewPostsContext = createContext();
 export const NewPostsUpdateContext = createContext();
@@ -21,19 +20,9 @@ export const NewPostsProvider = ({ children }) => {
     const user = useUser();
     const setAllPosts = usePostsUpdate();
     const allPosts = usePosts();
+    const socket = useContext(SocketContext);
+
     const token = useAuth();
-    let socket;
-    if (token) {
-        socket = io("http://localhost:36600", {
-            transportOptions: {
-                polling: {
-                    extraHeaders: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            },
-        });
-    }
 
     useEffect(() => {
         if (user) {
@@ -51,6 +40,7 @@ export const NewPostsProvider = ({ children }) => {
 
     useEffect(() => {
         token &&
+            socket &&
             socket.on("newPost", (data) => {
                 data && setNewPosts([...newPosts, data.newPost]);
             });

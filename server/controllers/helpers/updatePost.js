@@ -21,7 +21,7 @@ module.exports = (req, res, post, message) => {
                 PostModel.findOne({ _id: req.params.id })
                     .then((data) => Socket.emit("likeAndLovesResponse", data))
                     .catch((err) => console.log(err));
-            }, 500)
+            }, 100)
         )
         .then(() => {
             res.status(200).json({ message: message });

@@ -8,7 +8,7 @@ import React, {
 import { getAvatarAndPseudo } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { useUsersWithPosts } from "./PostsContext";
-import { io } from "socket.io-client";
+import { SocketContext } from "./SocketContext";
 
 export const UsersInfoContext = createContext();
 
@@ -20,26 +20,21 @@ export function UsersInfoProvider({ children }) {
     const [usersInfo, setUsersInfo] = useState([]);
     const usersWithPosts = useUsersWithPosts();
     const token = useAuth();
+    const socket = useContext(SocketContext);
+
     const [ioBlock, setIoBlock] = useState(true);
-    let socket;
-    if (token) {
-        socket = io("http://localhost:36600", {
-            transportOptions: {
-                polling: {
-                    extraHeaders: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            },
-        });
-    }
-    token &&
-        socket.on("likeAndLovesResponse", () => {
-            setIoBlock(false);
-        });
+
+    useEffect(() => {
+        socket &&
+            socket.on("likeAndLovesResponse", () => {
+                setIoBlock(false);
+            });
+    }, [socket]);
+
     const getInfos = useMemo(() => {
-        if (token && usersWithPosts && ioBlock)
+        if (token && usersWithPosts && ioBlock) {
             return awaitInfos(usersWithPosts);
+        }
         async function awaitInfos(usersWithPosts) {
             let tempTab = [];
             const promesseTab = await usersWithPosts.map(

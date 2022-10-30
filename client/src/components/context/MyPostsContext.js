@@ -1,8 +1,8 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { axiosGetAllMyPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
+import { SocketContext } from "./SocketContext";
 import { useUser } from "./UserContext";
-import { io } from "socket.io-client";
 
 export const MyPostsContext = createContext();
 export const MyPostsUpdateContext = createContext();
@@ -19,18 +19,7 @@ export const MyPostsProvider = ({ children }) => {
     const [myPosts, setMyPosts] = useState([]);
     const token = useAuth();
     const my = useUser();
-    let socket;
-    if (token) {
-        socket = io("http://localhost:36600", {
-            transportOptions: {
-                polling: {
-                    extraHeaders: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
-            },
-        });
-    }
+    const socket = useContext(SocketContext);
 
     useEffect(() => {
         token &&
@@ -42,6 +31,7 @@ export const MyPostsProvider = ({ children }) => {
 
     useEffect(() => {
         token &&
+            socket &&
             socket.on("newPost", (data) => {
                 my &&
                     data &&
@@ -52,6 +42,7 @@ export const MyPostsProvider = ({ children }) => {
 
     useEffect(() => {
         token &&
+            socket &&
             socket.on("likeAndLovesResponse", (postObj) => {
                 let allMyPostsCopy = [...myPosts];
                 const thisPostIndex = allMyPostsCopy
