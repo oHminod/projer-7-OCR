@@ -27,7 +27,7 @@ const MySinglePosts = () => {
 
     useEffect(() => {
         thisPost && setCreatedAt(localeDateFromDate(thisPost.createdAt));
-        thisPost && setUpdatedAt(localeDateFromDate(thisPost.updatedAt));
+        thisPost && setUpdatedAt(localeDateFromDate(thisPost.createdAt));
     }, [thisPost]);
     return (
         <article className="singlePost" id={thisPost && thisPost._id}>
