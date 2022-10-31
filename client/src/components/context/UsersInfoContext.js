@@ -16,6 +16,12 @@ export function useUsersInfo() {
     return useContext(UsersInfoContext);
 }
 
+export const UsersInfoUpdateContext = createContext();
+
+export function useUsersInfoUpdate() {
+    return useContext(UsersInfoUpdateContext);
+}
+
 export function UsersInfoProvider({ children }) {
     const [usersInfo, setUsersInfo] = useState([]);
     const usersWithPosts = useUsersWithPosts();
@@ -58,7 +64,9 @@ export function UsersInfoProvider({ children }) {
 
     return (
         <UsersInfoContext.Provider value={usersInfo}>
-            {children}
+            <UsersInfoUpdateContext.Provider value={setUsersInfo}>
+                {children}
+            </UsersInfoUpdateContext.Provider>
         </UsersInfoContext.Provider>
     );
 }
