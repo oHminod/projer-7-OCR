@@ -9,8 +9,6 @@ import "./UserInfo.scss";
 const UserInfo = () => {
     const user = useUser();
     const [loading, setLoading] = useState(true);
-    // const [changeInfoHeight, setChangeInfoHeight] = useState();
-    // const [fragmentHeight, setFragmentHeight] = useState();
     const modifier = useEdit();
     const setModifier = useEditUpdate();
 

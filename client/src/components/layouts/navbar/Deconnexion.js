@@ -1,17 +1,19 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthUpdate } from "../../context/AuthContext";
+import { useSocket } from "../../context/SocketContext";
 import "./Deconnexion.scss";
 
 const Deconnexion = () => {
     const setToken = useAuthUpdate();
     const navigate = useNavigate();
+    const socket = useSocket();
 
     const deconnexion = () => {
         window.localStorage.removeItem("token_groupomania");
         window.localStorage.removeItem("userId_groupomania");
         setToken();
-        // window.location.href = `${window.location.protocol}//${window.location.host}/`;
+        socket.disconnect();
         navigate("/login");
     };
 

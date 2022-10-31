@@ -1,7 +1,6 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { useAuth } from "./AuthContext";
 import { usePosts, usePostsUpdate } from "./PostsContext";
-import { SocketContext } from "./SocketContext";
+import { useSocket } from "./SocketContext";
 import { useUser } from "./UserContext";
 
 export const NewPostsContext = createContext();
@@ -20,9 +19,7 @@ export const NewPostsProvider = ({ children }) => {
     const user = useUser();
     const setAllPosts = usePostsUpdate();
     const allPosts = usePosts();
-    const socket = useContext(SocketContext);
-
-    const token = useAuth();
+    const socket = useSocket();
 
     useEffect(() => {
         if (user) {
@@ -39,12 +36,11 @@ export const NewPostsProvider = ({ children }) => {
     }, [allPosts, newPosts, setAllPosts, user]);
 
     useEffect(() => {
-        token &&
-            socket &&
+        socket &&
             socket.on("newPost", (data) => {
                 data && setNewPosts([...newPosts, data.newPost]);
             });
-    }, [newPosts, socket, token]);
+    }, [newPosts, socket]);
 
     return (
         <NewPostsContext.Provider value={newPosts}>

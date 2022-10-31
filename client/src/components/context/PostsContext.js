@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { axiosGetAllPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
-import { SocketContext } from "./SocketContext";
+import { useSocket } from "./SocketContext";
 
 export const PostsContext = createContext();
 export const PostsUpdateContext = createContext();
@@ -31,7 +31,7 @@ export function PostsProvider({ children }) {
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
 
     const token = useAuth();
-    const socket = useContext(SocketContext);
+    const socket = useSocket();
 
     const getIDs = useMemo(() => {
         if (posts) {
@@ -58,23 +58,27 @@ export function PostsProvider({ children }) {
     }, [getIDs]);
 
     useEffect(() => {
-        try {
-            token &&
-                socket &&
-                socket.on("likeAndLovesResponse", (postObj) => {
-                    if (posts) {
-                        let allPostsCopy = [...posts];
-                        const thisPostIndex = allPostsCopy
-                            .map((post) => post._id)
-                            .indexOf(postObj._id);
-                        allPostsCopy[thisPostIndex] = postObj;
-                        setPosts(allPostsCopy);
-                    }
-                });
-        } catch (err) {
-            console.log(err);
-        }
-    }, [posts, socket, token]);
+        socket &&
+            socket.on("likeAndLovesResponse", (postObj) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(postObj._id);
+                    thisPostIndex !== -1 &&
+                        (allPostsCopy[thisPostIndex] = postObj);
+                    thisPostIndex !== -1 && setPosts(allPostsCopy);
+                }
+            });
+        // socket &&
+        //     socket.on("connect", () => {
+        //         console.log(`connecté avec l'id ${socket.id}`);
+        //     });
+        // socket &&
+        //     socket.on("disconnect", () => {
+        //         console.log(`déconnecté`);
+        //     });
+    }, [posts, socket]);
 
     return (
         <PostsContext.Provider value={posts}>

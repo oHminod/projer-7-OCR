@@ -4,7 +4,7 @@ import { AuthProvider } from "./components/context/AuthContext";
 import MyPostsProvider from "./components/context/MyPostsContext";
 import NewPostsProvider from "./components/context/NewPostsContext";
 import PostsProvider from "./components/context/PostsContext";
-import { socket, SocketContext } from "./components/context/SocketContext";
+import SocketProvider from "./components/context/SocketContext";
 import UserProvider from "./components/context/UserContext";
 import { UsersInfoProvider } from "./components/context/UsersInfoContext";
 import AnimatedRoutes from "./components/utils/AnimatedRoutes";
@@ -12,7 +12,7 @@ import AnimatedRoutes from "./components/utils/AnimatedRoutes";
 const App = () => {
     return (
         <AuthProvider>
-            <SocketContext.Provider value={socket}>
+            <SocketProvider>
                 <UserProvider>
                     <PostsProvider>
                         <NewPostsProvider>
@@ -26,7 +26,7 @@ const App = () => {
                         </NewPostsProvider>
                     </PostsProvider>
                 </UserProvider>
-            </SocketContext.Provider>
+            </SocketProvider>
         </AuthProvider>
     );
 };

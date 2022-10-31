@@ -8,7 +8,7 @@ import React, {
 import { getAvatarAndPseudo } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { useUsersWithPosts } from "./PostsContext";
-import { SocketContext } from "./SocketContext";
+import { useSocket } from "./SocketContext";
 
 export const UsersInfoContext = createContext();
 
@@ -26,7 +26,7 @@ export function UsersInfoProvider({ children }) {
     const [usersInfo, setUsersInfo] = useState([]);
     const usersWithPosts = useUsersWithPosts();
     const token = useAuth();
-    const socket = useContext(SocketContext);
+    const socket = useSocket();
 
     const [ioBlock, setIoBlock] = useState(true);
 

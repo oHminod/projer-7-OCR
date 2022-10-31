@@ -4,24 +4,6 @@ import { motion } from "framer-motion";
 
 const UserFragment = () => {
     const user = useUser();
-    // const [updatedAt, setUpdatedAt] = useState();
-    // const [createdAt, setCreatedAt] = useState();
-
-    // useEffect(() => {
-    //     user.createdAt &&
-    //         setCreatedAt(
-    //             new Date(user.createdAt).toLocaleDateString() +
-    //                 " à " +
-    //                 new Date(user.createdAt).toLocaleTimeString()
-    //         );
-
-    //     user.updatedAt &&
-    //         setUpdatedAt(
-    //             new Date(user.updatedAt).toLocaleDateString() +
-    //                 " à " +
-    //                 new Date(user.updatedAt).toLocaleTimeString()
-    //         );
-    // }, [user.updatedAt, user.createdAt]);
 
     return (
         <motion.div

@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { axiosGetAllMyPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
-import { SocketContext } from "./SocketContext";
+import { useSocket } from "./SocketContext";
 import { useUser } from "./UserContext";
 
 export const MyPostsContext = createContext();
@@ -19,7 +19,7 @@ export const MyPostsProvider = ({ children }) => {
     const [myPosts, setMyPosts] = useState([]);
     const token = useAuth();
     const my = useUser();
-    const socket = useContext(SocketContext);
+    const socket = useSocket();
 
     useEffect(() => {
         token &&
@@ -30,8 +30,7 @@ export const MyPostsProvider = ({ children }) => {
     }, [token, my]);
 
     useEffect(() => {
-        token &&
-            socket &&
+        socket &&
             socket.on("newPost", (data) => {
                 my &&
                     data &&
@@ -41,17 +40,17 @@ export const MyPostsProvider = ({ children }) => {
     }, [my, myPosts, socket, token]);
 
     useEffect(() => {
-        token &&
-            socket &&
+        socket &&
             socket.on("likeAndLovesResponse", (postObj) => {
                 let allMyPostsCopy = [...myPosts];
                 const thisPostIndex = allMyPostsCopy
                     .map((post) => post._id)
                     .indexOf(postObj._id);
-                allMyPostsCopy[thisPostIndex] = postObj;
-                setMyPosts(allMyPostsCopy);
+                thisPostIndex !== -1 &&
+                    (allMyPostsCopy[thisPostIndex] = postObj);
+                thisPostIndex !== -1 && setMyPosts(allMyPostsCopy);
             });
-    }, [myPosts, socket, token]);
+    }, [myPosts, socket]);
 
     return (
         <MyPostsContext.Provider value={myPosts}>

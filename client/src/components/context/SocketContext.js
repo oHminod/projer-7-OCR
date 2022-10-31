@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
+import { useAuth } from "./AuthContext";
 import socketio from "socket.io-client";
 
-const token = JSON.parse(window.localStorage.getItem("token_groupomania"));
+export const SocketContext = createContext();
 
-export let socket;
-token &&
-    (socket = socketio.connect("http://localhost:36600", {
-        transportOptions: {
-            polling: {
-                extraHeaders: {
-                    Authorization: `Bearer ${token}`,
-                },
-            },
-        },
-    }));
+export function useSocket() {
+    return useContext(SocketContext);
+}
 
-export const SocketContext = React.createContext();
+export function SocketProvider({ children }) {
+    const [socket, setSocket] = useState();
+    const token = useAuth();
+
+    useEffect(() => {
+        token &&
+            setSocket(
+                socketio.connect("http://localhost:36600", {
+                    transportOptions: {
+                        polling: {
+                            extraHeaders: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        },
+                    },
+                })
+            );
+    }, [token]);
+
+    return (
+        <SocketContext.Provider value={socket}>
+            {children}
+        </SocketContext.Provider>
+    );
+}
+
+export default SocketProvider;

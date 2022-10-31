@@ -33,13 +33,16 @@ io.use((socket, next) => {
     return next(new Error("authentication error"));
 });
 io.on("connection", (socket) => {
-    // console.log("utilisateur connecté");
+    // console.log("utilisateur connecté : " + socket.id);
     socket.on("likeAndLoves", (postObj) => {
         socket.broadcast.emit("likeAndLovesResponse", postObj);
     });
     // socket.on("room", (room) => {
     //     console.log(room);
     //     socket.join(room);
+    // });
+    // socket.on("disconnect", (socket) => {
+    //     console.log(socket.id + " déconnecté!");
     // });
 });
 
