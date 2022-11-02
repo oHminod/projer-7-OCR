@@ -8,10 +8,16 @@ import { useAuth } from "../../../context/AuthContext";
 import { useEditUpdate } from "./EditContext";
 import { useUser, useUserUpdate } from "../../../context/UserContext";
 import { motion } from "framer-motion";
+import {
+    useUsersInfo,
+    useUsersInfoUpdate,
+} from "../../../context/UsersInfoContext";
 
 const UserChangeInfo = () => {
     const user = useUser();
     const setUser = useUserUpdate();
+    const usersInfo = useUsersInfo();
+    const setUsersInfo = useUsersInfoUpdate();
     const inputPseudo = useRef();
     const inputEmail = useRef();
     const setModifier = useEditUpdate();
@@ -30,9 +36,6 @@ const UserChangeInfo = () => {
         pseudo && (obj.pseudo = pseudo);
         email && (obj.email = email);
 
-        /**
-         * ! !!! Changer également les infos dans les posts de l'utilisateur !!!
-         */
         if (selectedImage) {
             const data = new FormData();
             data.append("image", selectedImage);
@@ -57,6 +60,17 @@ const UserChangeInfo = () => {
                 setDbError
             );
         }
+
+        let userInfo = {};
+        userInfo.userId = user._id;
+        userInfo.avatar = obj.avatar || user.avatar;
+        userInfo.pseudo = pseudo || user.pseudo;
+        let usersInfoCopy = [...usersInfo];
+        const thisUserIndex = usersInfoCopy
+            .map((user) => user.userId)
+            .indexOf(user._id);
+        usersInfoCopy[thisUserIndex] = userInfo;
+        thisUserIndex !== -1 && setUsersInfo(usersInfoCopy);
 
         inputPseudo.current.value = "";
         inputEmail.current.value = "";

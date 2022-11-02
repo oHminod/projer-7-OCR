@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
 import { useUsersInfo } from "../../../context/UsersInfoContext";
-import { useComment, usePost, usePostUpdate } from "../PostContext";
-import CommentBlock from "./CommentBlock";
+import { useComment, usePost } from "../PostContext";
+import CommentBlock from "./commentaires/CommentBlock";
 import LikeContainer from "./LikeContainer";
 import "./SinglePost.scss";
 
-const SinglePost = ({ post }) => {
+const SinglePost = () => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [thisUser, setThisUser] = useState();
     const [checkedUser, setCheckedUser] = useState();
     const thisPost = usePost();
-    const setThisPost = usePostUpdate();
     const usersInfo = useUsersInfo();
     const comment = useComment();
     const formatedText = (txt) => {
@@ -20,29 +19,36 @@ const SinglePost = ({ post }) => {
     };
 
     useEffect(() => {
-        thisPost || setThisPost(post);
-    }, [thisPost, setThisPost, post]);
-
-    useEffect(() => {
         usersInfo &&
+            thisPost &&
             setCheckedUser(
-                usersInfo.find((findUser) => findUser.userId === post.userId)
+                usersInfo.find(
+                    (findUser) => findUser.userId === thisPost.userId
+                )
             );
         checkedUser && setThisUser(checkedUser);
-    }, [usersInfo, post.userId, checkedUser]);
+    }, [usersInfo, checkedUser, thisPost]);
 
     useEffect(() => {
-        post.texte &&
-            (post.texte = post.texte.trim().split("\u000A").join("</p><p>"));
-    }, [post]);
+        thisPost &&
+            thisPost.texte &&
+            (thisPost.texte = thisPost.texte
+                .trim()
+                .split("\u000A")
+                .join("</p><p>"));
+    }, [thisPost]);
 
     useEffect(() => {
-        post.createdAt && setCreatedAt(localeDateFromDate(post.createdAt));
-        post.updatedAt && setUpdatedAt(localeDateFromDate(post.createdAt));
-    }, [post.updatedAt, post.createdAt]);
+        thisPost &&
+            thisPost.createdAt &&
+            setCreatedAt(localeDateFromDate(thisPost.createdAt));
+        thisPost &&
+            thisPost.updatedAt &&
+            setUpdatedAt(localeDateFromDate(thisPost.createdAt));
+    }, [thisPost]);
 
     return (
-        <article className="singlePost" id={post._id}>
+        <article className="singlePost" id={thisPost && thisPost._id}>
             <div className="creatorInfo">
                 {thisUser ? (
                     <img
@@ -68,13 +74,15 @@ const SinglePost = ({ post }) => {
                 </div>
             </div>
             <div className="postContainer">
-                {post.texte && (
-                    <p dangerouslySetInnerHTML={formatedText(post.texte)}></p>
+                {thisPost && thisPost.texte && (
+                    <p
+                        dangerouslySetInnerHTML={formatedText(thisPost.texte)}
+                    ></p>
                 )}
-                {post.image && (
+                {thisPost && thisPost.image && (
                     <img
                         className="imgPost"
-                        src={post.image}
+                        src={thisPost.image}
                         alt="illustration"
                     />
                 )}

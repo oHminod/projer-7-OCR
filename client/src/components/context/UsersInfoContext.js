@@ -8,6 +8,7 @@ import React, {
 import { getAvatarAndPseudo } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { useUsersWithPosts } from "./PostsContext";
+import { useSocket } from "./SocketContext";
 
 export const UsersInfoContext = createContext();
 
@@ -15,13 +16,31 @@ export function useUsersInfo() {
     return useContext(UsersInfoContext);
 }
 
+export const UsersInfoUpdateContext = createContext();
+
+export function useUsersInfoUpdate() {
+    return useContext(UsersInfoUpdateContext);
+}
+
 export function UsersInfoProvider({ children }) {
     const [usersInfo, setUsersInfo] = useState([]);
     const usersWithPosts = useUsersWithPosts();
     const token = useAuth();
+    const socket = useSocket();
+
+    const [ioBlock, setIoBlock] = useState(true);
+
+    useEffect(() => {
+        socket &&
+            socket.on("likeAndLovesResponse", () => {
+                setIoBlock(false);
+            });
+    }, [socket]);
 
     const getInfos = useMemo(() => {
-        if (token && usersWithPosts) return awaitInfos(usersWithPosts);
+        if (token && usersWithPosts && ioBlock) {
+            return awaitInfos(usersWithPosts);
+        }
         async function awaitInfos(usersWithPosts) {
             let tempTab = [];
             const promesseTab = await usersWithPosts.map(
@@ -34,15 +53,20 @@ export function UsersInfoProvider({ children }) {
             await Promise.all(promesseTab);
             return tempTab;
         }
-    }, [token, usersWithPosts]);
+    }, [ioBlock, token, usersWithPosts]);
 
     useEffect(() => {
-        getInfos && getInfos.then((data) => setUsersInfo(data));
+        getInfos &&
+            getInfos
+                .then((data) => setUsersInfo(data))
+                .catch((err) => console.log(err));
     }, [getInfos]);
 
     return (
         <UsersInfoContext.Provider value={usersInfo}>
-            {children}
+            <UsersInfoUpdateContext.Provider value={setUsersInfo}>
+                {children}
+            </UsersInfoUpdateContext.Provider>
         </UsersInfoContext.Provider>
     );
 }

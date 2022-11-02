@@ -22,11 +22,11 @@ const loverPost = (req, res, next) => {
             if (req.body.love == "1" && userLove == -1) {
                 post.usersLoved.push(req.session.userId);
                 post.loves = post.usersLoved.length;
-                updatePost(req, res, post, "Post likée !");
+                updatePost(req, res, next, post, "Post likée !");
             } else if (req.body.love == "0" && userLove != -1) {
                 post.usersLoved.splice(userLove, 1);
                 post.loves = post.usersLoved.length;
-                updatePost(req, res, post, "Pas d'avis sur le post !");
+                updatePost(req, res, next, post, "Pas d'avis sur le post !");
             } else {
                 return next(ApiError.badRequest("Bad request"));
             }

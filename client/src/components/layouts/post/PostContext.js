@@ -1,4 +1,5 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
+import { useSocket } from "../../context/SocketContext";
 
 export const PostContext = createContext();
 export const PostUpdateContext = createContext();
@@ -22,18 +23,48 @@ export function useCommentUpdate() {
     return useContext(CommentUpdateContext);
 }
 
-export function PostProvider({ children }) {
+export const CommentairesContext = createContext();
+export const CommentairesUpdateContext = createContext();
+
+export function useCommentaires() {
+    return useContext(CommentairesContext);
+}
+
+export function useCommentairesUpdate() {
+    return useContext(CommentairesUpdateContext);
+}
+
+export function PostProvider({ children, thisPost }) {
     const [post, setPost] = useState();
+    const [commentaires, setCommentaires] = useState([]);
     const [comment, setComment] = useState(false);
+    const socket = useSocket();
+
+    useEffect(() => {
+        setPost(thisPost);
+    }, [thisPost]);
+
+    useEffect(() => {
+        socket &&
+            socket.on("newComment", (data) => {
+                data &&
+                    data.newComment.postId === thisPost._id &&
+                    setCommentaires([...commentaires, data.newComment]);
+            });
+    }, [commentaires, socket, thisPost._id]);
 
     return (
         <PostContext.Provider value={post}>
             <PostUpdateContext.Provider value={setPost}>
-                <CommentContext.Provider value={comment}>
-                    <CommentUpdateContext.Provider value={setComment}>
-                        {children}
-                    </CommentUpdateContext.Provider>
-                </CommentContext.Provider>
+                <CommentairesContext.Provider value={commentaires}>
+                    <CommentairesUpdateContext.Provider value={setCommentaires}>
+                        <CommentContext.Provider value={comment}>
+                            <CommentUpdateContext.Provider value={setComment}>
+                                {children}
+                            </CommentUpdateContext.Provider>
+                        </CommentContext.Provider>
+                    </CommentairesUpdateContext.Provider>
+                </CommentairesContext.Provider>
             </PostUpdateContext.Provider>
         </PostContext.Provider>
     );

@@ -22,11 +22,11 @@ const likerSauce = (req, res, next) => {
             if (req.body.like == "1" && userLike == -1) {
                 post.usersLiked.push(req.session.userId);
                 post.likes = post.usersLiked.length;
-                updatePost(req, res, post, "Post likée !");
+                updatePost(req, res, next, post, "Post likée !");
             } else if (req.body.like == "0" && userLike != -1) {
                 post.usersLiked.splice(userLike, 1);
                 post.likes = post.usersLiked.length;
-                updatePost(req, res, post, "Pas d'avis sur le post !");
+                updatePost(req, res, next, post, "Pas d'avis sur le post !");
             } else {
                 return next(ApiError.badRequest("Bad request"));
             }

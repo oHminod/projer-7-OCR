@@ -3,7 +3,6 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../components/context/AuthContext";
 import UserInfo from "../components/layouts/membre/userInfo/UserInfo";
 import { motion } from "framer-motion";
-// import EditProvider from "../components/layouts/membre/userInfo/EditContext";
 import Wall from "../components/layouts/membre/mur/Wall";
 import EditProvider from "../components/layouts/membre/userInfo/EditContext";
 import { useCurrentWidth } from "../components/utils/windowWidth";

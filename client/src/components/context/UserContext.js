@@ -15,9 +15,6 @@ export function useUserUpdate() {
 export function UserProvider({ children }) {
     const [user, setUser] = useState();
 
-    /**
-     * ! update le user avec axios en cas de modif ? À tester.
-     */
     useEffect(() => {
         if (window.localStorage.getItem("token_groupomania")) {
             const token = JSON.parse(

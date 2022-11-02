@@ -1,0 +1,22 @@
+@import "../../../styles/settings.scss";
+
+.newPosts {
+    background-color: white;
+    margin: 20px;
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 300;
+    color: $tertiaire;
+    cursor: pointer;
+    transition: all .3s;
+    @extend .card_shadow;
+
+    &:hover {
+        @extend .card_shadow_hover;
+        background-color: $success;
+        color: white;
+        transform: scale(1.01);
+    }
+}

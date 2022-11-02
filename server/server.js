@@ -17,7 +17,7 @@ const normalizePort = (val) => {
 const port = normalizePort(process.env.PORT || "3000");
 groupomania.set("port", port);
 
-const errorHandler = (error) => {
+const errorServerHandler = (error) => {
     if (error.syscall !== "listen") {
         throw error;
     }
@@ -38,7 +38,15 @@ const errorHandler = (error) => {
 
 const server = http.createServer(groupomania);
 
-server.on("error", errorHandler);
+const { io } = require("./utils/socket");
+io.attach(server, {
+    cors: {
+        origin: "*",
+        // methods: ["GET", "POST"],
+    },
+});
+
+server.on("error", errorServerHandler);
 server.on("listening", () => {
     const address = server.address();
     const bind =

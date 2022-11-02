@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
 import { useUser } from "../../../context/UserContext";
-import { useComment, usePost, usePostUpdate } from "../PostContext";
-import CommentBlock from "../singlePost/CommentBlock";
+import { useComment, usePost } from "../PostContext";
+import CommentBlock from "../singlePost/commentaires/CommentBlock";
 import LikeContainer from "../singlePost/LikeContainer";
 import "../singlePost/SinglePost.scss";
 
-const MySinglePosts = ({ post }) => {
+const MySinglePosts = () => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const user = useUser();
@@ -14,24 +14,23 @@ const MySinglePosts = ({ post }) => {
         return { __html: txt };
     };
     const thisPost = usePost();
-    const setThisPost = usePostUpdate();
     const comment = useComment();
 
     useEffect(() => {
-        thisPost || setThisPost(post);
-    }, [thisPost, setThisPost, post]);
+        thisPost &&
+            thisPost.texte &&
+            (thisPost.texte = thisPost.texte
+                .trim()
+                .split("\u000A")
+                .join("</p><p>"));
+    }, [thisPost]);
 
     useEffect(() => {
-        post.texte &&
-            (post.texte = post.texte.trim().split("\u000A").join("</p><p>"));
-    }, [post]);
-
-    useEffect(() => {
-        post.createdAt && setCreatedAt(localeDateFromDate(post.createdAt));
-        post.updatedAt && setUpdatedAt(localeDateFromDate(post.createdAt));
-    }, [post.updatedAt, post.createdAt]);
+        thisPost && setCreatedAt(localeDateFromDate(thisPost.createdAt));
+        thisPost && setUpdatedAt(localeDateFromDate(thisPost.createdAt));
+    }, [thisPost]);
     return (
-        <article className="singlePost" id={post._id}>
+        <article className="singlePost" id={thisPost && thisPost._id}>
             <div className="creatorInfo">
                 {user ? (
                     <img
@@ -57,13 +56,15 @@ const MySinglePosts = ({ post }) => {
                 </div>
             </div>
             <div className="postContainer">
-                {post.texte && (
-                    <p dangerouslySetInnerHTML={formatedText(post.texte)}></p>
+                {thisPost && thisPost.texte && (
+                    <p
+                        dangerouslySetInnerHTML={formatedText(thisPost.texte)}
+                    ></p>
                 )}
-                {post.image && (
+                {thisPost && thisPost.image && (
                     <img
                         className="imgPost"
-                        src={post.image}
+                        src={thisPost.image}
                         alt="illustration"
                     />
                 )}

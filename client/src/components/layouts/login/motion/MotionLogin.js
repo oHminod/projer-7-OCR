@@ -11,7 +11,6 @@ const MotionLogin = () => {
             layout
             initial={{ y: -700 }}
             animate={{ y: 0 }}
-            // exit={{ y: 800 }}
             transition={{ duration: 0.3 }}
             className="motionDiv"
         >

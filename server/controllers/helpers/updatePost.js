@@ -1,5 +1,6 @@
 const ApiError = require("../../error/ApiError");
 const PostModel = require("../../models/post");
+const { Socket } = require("../../utils/socket");
 
 /**
  * * updatePost :
@@ -9,13 +10,25 @@ const PostModel = require("../../models/post");
  * body, HTTP headers, and so on.
  * @param {json} res The res object represents the HTTP response
  * that an Express app sends when it gets an HTTP request.
+ * @param {function} next The next function is a function in the
+ * Express router which, when invoked, executes the middleware
+ * succeeding the current middleware.
  * @param {json} post Les données fournies par cet objet
  * écraseront celles de la BDD.
  * @param {string} message Message de réussite.
  */
-module.exports = (req, res, post, message) => {
+module.exports = (req, res, next, post, message) => {
     PostModel.updateOne({ _id: req.params.id }, post)
-        .then(() => res.status(200).json({ message: message }))
+        .then(() =>
+            setTimeout(() => {
+                PostModel.findOne({ _id: req.params.id })
+                    .then((data) => Socket.emit("likeAndLovesResponse", data))
+                    .catch((err) => console.log(err));
+            }, 100)
+        )
+        .then(() => {
+            res.status(200).json({ message: message });
+        })
         .catch((error) => {
             return next(ApiError.badRequest(error.message));
         });

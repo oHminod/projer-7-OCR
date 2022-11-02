@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { axiosGetAllPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
+import { useSocket } from "./SocketContext";
 
 export const PostsContext = createContext();
 export const PostsUpdateContext = createContext();
@@ -30,6 +31,7 @@ export function PostsProvider({ children }) {
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
 
     const token = useAuth();
+    const socket = useSocket();
 
     const getIDs = useMemo(() => {
         if (posts) {
@@ -45,12 +47,53 @@ export function PostsProvider({ children }) {
     }, [posts]);
 
     useEffect(() => {
-        token && axiosGetAllPosts(token).then((allPosts) => setPosts(allPosts));
+        token &&
+            axiosGetAllPosts(token)
+                .then((allPosts) => setPosts(allPosts))
+                .catch((err) => console.log(err));
     }, [token]);
 
     useEffect(() => {
         getIDs && setUsersWhoHavePost(getIDs);
     }, [getIDs]);
+
+    useEffect(() => {
+        socket &&
+            socket.on("likeAndLovesResponse", (postObj) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(postObj._id);
+                    thisPostIndex !== -1 &&
+                        (allPostsCopy[thisPostIndex] = postObj);
+                    thisPostIndex !== -1 && setPosts(allPostsCopy);
+                }
+            });
+        // socket &&
+        //     socket.on("connect", () => {
+        //         console.log(`connecté avec l'id ${socket.id}`);
+        //     });
+        // socket &&
+        //     socket.on("disconnect", () => {
+        //         console.log(`déconnecté`);
+        //     });
+    }, [posts, socket]);
+
+    useEffect(() => {
+        socket &&
+            socket.on("postUpdate", (postObj) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(postObj._id);
+                    thisPostIndex !== -1 &&
+                        (allPostsCopy[thisPostIndex] = postObj);
+                    thisPostIndex !== -1 && setPosts(allPostsCopy);
+                }
+            });
+    }, [posts, socket]);
 
     return (
         <PostsContext.Provider value={posts}>

@@ -4,7 +4,6 @@ import {
     axiosPostPostWithoutImage,
 } from "../../../../utils/axiosCalls";
 import { useAuth } from "../../../context/AuthContext";
-// import { usePosts, usePostsUpdate } from "../../../context/PostsContext";
 import { useUser } from "../../../context/UserContext";
 import InputFile from "./InputFile";
 import "./SinglePostForm.scss";
@@ -17,12 +16,9 @@ const SinglePostForm = () => {
     const [dbError, setDbError] = useState();
     const token = useAuth();
     const [text, setText] = useState();
-    // const posts = usePosts();
-    // const setPosts = usePostsUpdate();
 
     const submitNewPost = (e) => {
         e.preventDefault();
-        // const pseudo = inputPseudo.current.value;
         if (!text && !selectedImage) return;
 
         let obj = {};
@@ -31,8 +27,6 @@ const SinglePostForm = () => {
         obj.userPseudo = user.pseudo;
         selectedImage && (obj.image = URL.createObjectURL(selectedImage));
         text && (obj.texte = text);
-        // setPosts([...posts, obj]);
-        // console.log(obj);
 
         if (selectedImage) {
             const data = new FormData();
