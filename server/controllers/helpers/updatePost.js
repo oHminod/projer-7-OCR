@@ -10,6 +10,9 @@ const { Socket } = require("../../utils/socket");
  * body, HTTP headers, and so on.
  * @param {json} res The res object represents the HTTP response
  * that an Express app sends when it gets an HTTP request.
+ * @param {function} next The next function is a function in the
+ * Express router which, when invoked, executes the middleware
+ * succeeding the current middleware.
  * @param {json} post Les données fournies par cet objet
  * écraseront celles de la BDD.
  * @param {string} message Message de réussite.

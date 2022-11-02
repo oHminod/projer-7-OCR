@@ -1,9 +1,7 @@
 const CommentModel = require("../../models/comment");
 const ApiError = require("../../error/ApiError");
-const { Socket } = require("../../utils/socket");
 require("dotenv").config();
-const PostModel = require("../../models/post");
-const updatePostCommentaires = require("../helpers/updatePostCommentaires");
+const updatePostAndEmit = require("../helpers/updatePostAndEmit.js");
 
 const postComment = async (req, res, next) => {
     const image = req.file;
@@ -21,33 +19,7 @@ const postComment = async (req, res, next) => {
             .save()
             .then(() =>
                 setTimeout(() => {
-                    CommentModel.findOne({ userId: req.session.userId })
-                        .sort({ createdAt: -1 })
-                        .then((newComment) => {
-                            Socket.emit("newComment", {
-                                newComment: newComment,
-                            });
-                            return newComment;
-                        })
-                        .then((newComment) =>
-                            PostModel.findOne({ _id: newComment.postId })
-                                .then((data) => Socket.emit("postUpdate", data))
-                                .then((post) => {
-                                    post.commentaires = [
-                                        ...post.commentaires,
-                                        newComment._id,
-                                    ];
-                                    updatePostCommentaires(
-                                        req,
-                                        res,
-                                        next,
-                                        newComment.postId,
-                                        post,
-                                        "Commentaire enregistré"
-                                    );
-                                })
-                        )
-                        .catch((err) => console.log(err));
+                    updatePostAndEmit(req, res, next);
                 }, 500)
             )
             .then(() => {
@@ -62,36 +34,7 @@ const postComment = async (req, res, next) => {
             .save()
             .then(() =>
                 setTimeout(() => {
-                    CommentModel.findOne({ userId: req.session.userId })
-                        .sort({ createdAt: -1 })
-                        .then((newComment) => {
-                            Socket.emit("newComment", {
-                                newComment: newComment,
-                            });
-                            return newComment;
-                        })
-                        .then((newComment) =>
-                            PostModel.findOne({ _id: newComment.postId })
-                                .then((data) => {
-                                    Socket.emit("postUpdate", data);
-                                    return data;
-                                })
-                                .then((post) => {
-                                    post.commentaires = [
-                                        ...post.commentaires,
-                                        newComment._id,
-                                    ];
-                                    updatePostCommentaires(
-                                        req,
-                                        res,
-                                        next,
-                                        newComment.postId,
-                                        post,
-                                        "Commentaire enregistré"
-                                    );
-                                })
-                        )
-                        .catch((err) => console.log(err));
+                    updatePostAndEmit(req, res, next);
                 }, 500)
             )
             .then(() =>

@@ -27,12 +27,15 @@ const DisplayComments = () => {
     return (
         comments && (
             <div className="commentaires">
-                {comments.map((comment, index) => (
-                    <Commentaire
-                        comment={comment}
-                        key={"commentaire-" + index}
-                    />
-                ))}
+                {comments.map(
+                    (comment, index) =>
+                        comment.commentId === comment.threadId && (
+                            <Commentaire
+                                comment={comment}
+                                key={"commentaire-" + index}
+                            />
+                        )
+                )}
             </div>
         )
     );
