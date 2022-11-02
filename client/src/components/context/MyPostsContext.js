@@ -52,6 +52,19 @@ export const MyPostsProvider = ({ children }) => {
             });
     }, [myPosts, socket]);
 
+    useEffect(() => {
+        socket &&
+            socket.on("postUpdate", (postObj) => {
+                let allMyPostsCopy = [...myPosts];
+                const thisPostIndex = allMyPostsCopy
+                    .map((post) => post._id)
+                    .indexOf(postObj._id);
+                thisPostIndex !== -1 &&
+                    (allMyPostsCopy[thisPostIndex] = postObj);
+                thisPostIndex !== -1 && setMyPosts(allMyPostsCopy);
+            });
+    }, [myPosts, socket]);
+
     return (
         <MyPostsContext.Provider value={myPosts}>
             <MyPostsUpdateContext.Provider value={setMyPosts}>

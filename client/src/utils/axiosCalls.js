@@ -66,7 +66,6 @@ export function axiosAuthContext(token, setAuthToken) {
             window.localStorage.removeItem("userId_groupomania");
             setAuthToken();
             console.log("authContext : " + err.message);
-            console.log(err);
         });
 }
 
@@ -184,7 +183,6 @@ export function axiosPostPostWithoutImage(token, obj, setDbError) {
             setDbError(err.response.data);
         });
 }
-
 export function axiosGetAllPosts(token) {
     const config = {
         headers: {
@@ -250,6 +248,32 @@ export function loverPost(token, id, obj) {
             headers,
         })
         .then(() => {})
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+}
+export function postCommentWithoutImage(token, obj) {
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    axios
+        .post(`${apiURL}comment/`, obj, {
+            headers,
+        })
+        .then(() => {})
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+}
+export function getThisPostComments(token, id) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    return axios
+        .get(`${apiURL}comment/${id}`, config)
+        .then((data) => data.data)
         .catch((err) => {
             console.log(err.response.data);
         });

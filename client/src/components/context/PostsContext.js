@@ -80,6 +80,21 @@ export function PostsProvider({ children }) {
         //     });
     }, [posts, socket]);
 
+    useEffect(() => {
+        socket &&
+            socket.on("postUpdate", (postObj) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(postObj._id);
+                    thisPostIndex !== -1 &&
+                        (allPostsCopy[thisPostIndex] = postObj);
+                    thisPostIndex !== -1 && setPosts(allPostsCopy);
+                }
+            });
+    }, [posts, socket]);
+
     return (
         <PostsContext.Provider value={posts}>
             <PostsUpdateContext.Provider value={setPosts}>

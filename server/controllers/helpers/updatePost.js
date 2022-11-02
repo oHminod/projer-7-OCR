@@ -14,7 +14,7 @@ const { Socket } = require("../../utils/socket");
  * écraseront celles de la BDD.
  * @param {string} message Message de réussite.
  */
-module.exports = (req, res, post, message) => {
+module.exports = (req, res, next, post, message) => {
     PostModel.updateOne({ _id: req.params.id }, post)
         .then(() =>
             setTimeout(() => {

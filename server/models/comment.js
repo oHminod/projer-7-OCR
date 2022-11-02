@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
 
-const commentaireModel = mongoose.Schema(
+const commentModel = mongoose.Schema(
     {
         userId: { type: String, required: true },
         postId: { type: String, required: true },
+        commentId: { type: String, required: true },
         threadId: { type: String, required: true },
+        text: { type: String, required: true },
         image: {
             type: String,
         },
@@ -14,13 +16,13 @@ const commentaireModel = mongoose.Schema(
         usersLiked: { type: Array, default: [] },
         usersLoved: { type: Array, default: [] },
         usersShared: { type: Array, default: [] },
-        commentaires: { type: Array, default: [] },
+        comments: { type: Array, default: [] },
     },
     { timestamps: true }
 );
 
 /**
- * * commentaireModel :
+ * * commentModel :
  * Modèle de données d'un commentaire.
  */
-module.exports = mongoose.model("CommentaireModel", commentaireModel);
+module.exports = mongoose.model("CommentModel", commentModel);

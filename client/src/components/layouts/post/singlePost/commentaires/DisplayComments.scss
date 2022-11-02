@@ -1,0 +1,13 @@
+.commentaires {
+    padding: 0 30px;
+    padding-bottom: .1px;
+    border-top: 1px solid rgba(50, 50, 50, .1);
+}
+
+.commentaire {
+    margin: 30px 0;
+
+    &:first-child {
+        margin-top: 0;
+    }
+}

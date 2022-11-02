@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
 import { useUsersInfo } from "../../../context/UsersInfoContext";
 import { useComment, usePost } from "../PostContext";
-import CommentBlock from "./CommentBlock";
+import CommentBlock from "./commentaires/CommentBlock";
 import LikeContainer from "./LikeContainer";
 import "./SinglePost.scss";
 
