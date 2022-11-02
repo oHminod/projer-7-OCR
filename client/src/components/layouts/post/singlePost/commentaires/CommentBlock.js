@@ -5,8 +5,8 @@ import DisplayComments from "./DisplayComments";
 const CommentBlock = () => {
     return (
         <div>
-            <DisplayComments />
             <CommentPrompt />
+            <DisplayComments />
         </div>
     );
 };

@@ -6,7 +6,7 @@ import { useUser } from "../../../../../context/UserContext";
 import { usePost } from "../../../PostContext";
 import "../CommentPrompt.scss";
 
-const ResponsePrompt = ({ thisComment }) => {
+const ResponsePrompt = ({ thisComment, thisCommentUser }) => {
     const user = useUser();
     const thisPost = usePost();
     const token = useAuth();
@@ -39,7 +39,10 @@ const ResponsePrompt = ({ thisComment }) => {
                 <input
                     type="text"
                     ref={inputComment}
-                    placeholder="Votre commentaire..."
+                    placeholder={
+                        thisCommentUser &&
+                        `Répondre à ${thisCommentUser.pseudo}`
+                    }
                     onChange={handleChange}
                 />
             </form>
