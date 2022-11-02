@@ -51,40 +51,45 @@ const Response = ({ reponse, resTargetPseudo }) => {
     return (
         <>
             <div className="reponse" key={reponse.threadId}>
-                <div className="creatorInfo">
-                    {user ? (
-                        <img
-                            className="imgUser"
-                            src={user.avatar}
-                            alt="avatar de l'auteur"
-                        />
-                    ) : (
-                        <img
-                            className="imgUser"
-                            src="http://localhost:36600/images/avatars/default-avatar.jpg"
-                            alt="avatar par défaut"
-                        />
-                    )}
-                    <div className="legende">
-                        {user && (
-                            <p>
-                                Par <strong>{user.pseudo}</strong> en réponse à{" "}
-                                <strong>{resTargetPseudo}</strong>
-                            </p>
+                <div className="card">
+                    <div className="creatorInfo">
+                        {user ? (
+                            <img
+                                className="imgUser"
+                                src={user.avatar}
+                                alt="avatar de l'auteur"
+                            />
+                        ) : (
+                            <img
+                                className="imgUser"
+                                src="http://localhost:36600/images/avatars/default-avatar.jpg"
+                                alt="avatar par défaut"
+                            />
                         )}
-                        <p> {createdAt}</p>
-                        {updatedAt !== createdAt && (
-                            <p>(Modifié {updatedAt})</p>
-                        )}
+                        <div className="legende">
+                            {user && (
+                                <p>
+                                    Par <strong>{user.pseudo}</strong> en
+                                    réponse à <strong>{resTargetPseudo}</strong>
+                                </p>
+                            )}
+                            <p> {createdAt}</p>
+                            {updatedAt !== createdAt && (
+                                <p>(Modifié {updatedAt})</p>
+                            )}
+                        </div>
                     </div>
+                    {reponse && <p>{reponse.text}</p>}
+                    <ResponsePrompt
+                        thisComment={reponse}
+                        thisCommentUser={user}
+                    />
                 </div>
-                {reponse && <p>{reponse.text}</p>}
-                <ResponsePrompt thisComment={reponse} thisCommentUser={user} />
+                <DisplayResponses
+                    comment={reponse}
+                    resTargetPseudo={user && user.pseudo}
+                />
             </div>
-            <DisplayResponses
-                comment={reponse}
-                resTargetPseudo={user && user.pseudo}
-            />
         </>
     );
 };

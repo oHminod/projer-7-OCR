@@ -50,39 +50,45 @@ const Commentaire = ({ comment }) => {
     return (
         <>
             <div className="commentaire">
-                <div className="creatorInfo">
-                    {user ? (
-                        <img
-                            className="imgUser"
-                            src={user.avatar}
-                            alt="avatar de l'auteur"
-                        />
-                    ) : (
-                        <img
-                            className="imgUser"
-                            src="http://localhost:36600/images/avatars/default-avatar.jpg"
-                            alt="avatar par défaut"
-                        />
-                    )}
-                    <div className="legende">
-                        {user && (
-                            <p>
-                                Par <strong>{user.pseudo}</strong>&nbsp;
-                            </p>
+                <div className="card">
+                    <div className="creatorInfo">
+                        {user ? (
+                            <img
+                                className="imgUser"
+                                src={user.avatar}
+                                alt="avatar de l'auteur"
+                            />
+                        ) : (
+                            <img
+                                className="imgUser"
+                                src="http://localhost:36600/images/avatars/default-avatar.jpg"
+                                alt="avatar par défaut"
+                            />
                         )}
-                        <p> {createdAt}</p>
-                        {updatedAt !== createdAt && (
-                            <p>(Modifié {updatedAt})</p>
-                        )}
+                        <div className="legende">
+                            {user && (
+                                <p>
+                                    Par <strong>{user.pseudo}</strong> en
+                                    réponse à la publication
+                                </p>
+                            )}
+                            <p> {createdAt}</p>
+                            {updatedAt !== createdAt && (
+                                <p>(Modifié {updatedAt})</p>
+                            )}
+                        </div>
                     </div>
+                    {comment && <p>{comment.text}</p>}
+                    <ResponsePrompt
+                        thisComment={comment}
+                        thisCommentUser={user}
+                    />
                 </div>
-                {comment && <p>{comment.text}</p>}
-                <ResponsePrompt thisComment={comment} thisCommentUser={user} />
+                <DisplayResponses
+                    comment={comment}
+                    resTargetPseudo={user && user.pseudo}
+                />
             </div>
-            <DisplayResponses
-                comment={comment}
-                resTargetPseudo={user && user.pseudo}
-            />
         </>
     );
 };
