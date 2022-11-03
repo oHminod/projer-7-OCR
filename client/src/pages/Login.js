@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "../components/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import LoginProvider from "../components/layouts/login/LoginContext";
+import BackgroundLogoSvg from "../components/layouts/svg/BackgroundLogoSvg";
 
 const Login = () => {
     const token = useAuth();
@@ -25,6 +26,7 @@ const Login = () => {
                 }}
             >
                 <div className="loginModal">
+                    <BackgroundLogoSvg />
                     <LoginSignupModal />
                 </div>
             </motion.main>
