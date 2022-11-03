@@ -19,6 +19,7 @@ const DisplayComments = () => {
 
     useEffect(() => {
         commentActif &&
+            token &&
             getThisPostComments(token, thisPost._id)
                 .then((commentaires) => setCommentaires(commentaires))
                 .catch((err) => console.log(err));

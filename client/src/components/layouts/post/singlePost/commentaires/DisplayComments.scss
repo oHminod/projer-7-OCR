@@ -1,32 +1,71 @@
 .commentaires {
     padding: 0 30px;
-    padding-bottom: .1px;
     border-top: 1px solid rgba(50, 50, 50, .1);
 }
 
 .commentaire {
-    margin: 15px 0;
+    margin-top: 10px;
+    margin-bottom: 5px;
     border-left: 1px solid rgba(15, 15, 15, .08);
     border-radius: 15px;
 
+    .commentWrap {
+        display: flex;
+    }
+
+    .comment {
+        font-weight: 300;
+        margin: 0;
+    }
+
     .card {
+        background-color: #f7efef;
         border-top: 1px solid rgba(15, 15, 15, .08);
         border-right: 1px solid rgba(15, 15, 15, .08);
         border-bottom: 1px solid rgba(15, 15, 15, .08);
-        border-radius: 15px;
-
-        &:hover {
-            box-shadow: 0px 0px 3px 1px rgba(15, 15, 15, .08);
-        }
+        border-radius: 28.5px;
 
         p {
             margin: 10px;
         }
     }
 
-    img {
+    .blockActions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &>div {
+            display: flex;
+        }
+
+        .commenter {
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform .1s;
+
+            &:hover {
+                transform: scale(1.03);
+            }
+        }
+
+        p {
+            margin: 7px;
+            margin-top: 0;
+            font-weight: 300;
+            font-size: 14px;
+        }
+    }
+
+    .commentPrompt {
+        border: none;
+    }
+
+    img.imgUser {
         width: 45px;
         height: 45px;
+        margin: 5px;
+        margin-left: -2.1%;
         border-radius: 50%;
     }
 }

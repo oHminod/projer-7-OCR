@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAvatarAndPseudo } from "../../../../../utils/axiosCalls";
-import localeDateFromDate from "../../../../../utils/localeDateFromDate";
+import { shortDateFromDate } from "../../../../../utils/localeDateFromDate";
 import { useAuth } from "../../../../context/AuthContext";
 import {
     useUsersInfo,
@@ -15,6 +15,7 @@ const Commentaire = ({ comment }) => {
     const [user, setUser] = useState();
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
+    const [repondre, setRepondre] = useState(false);
     const token = useAuth();
 
     useEffect(() => {
@@ -43,9 +44,13 @@ const Commentaire = ({ comment }) => {
     }, [comment]);
 
     useEffect(() => {
-        comment && setCreatedAt(localeDateFromDate(comment.createdAt));
-        comment && setUpdatedAt(localeDateFromDate(comment.createdAt));
+        comment && setCreatedAt(shortDateFromDate(comment.createdAt));
+        comment && setUpdatedAt(shortDateFromDate(comment.createdAt));
     }, [comment]);
+
+    const handleCommenter = () => {
+        setRepondre(!repondre);
+    };
 
     return (
         <>
@@ -65,25 +70,33 @@ const Commentaire = ({ comment }) => {
                                 alt="avatar par défaut"
                             />
                         )}
-                        <div className="legende">
-                            {user && (
-                                <p>
-                                    Par <strong>{user.pseudo}</strong> en
-                                    réponse à la publication
-                                </p>
-                            )}
-                            <p> {createdAt}</p>
-                            {updatedAt !== createdAt && (
-                                <p>(Modifié {updatedAt})</p>
-                            )}
+                        <div className="comment">
+                            {comment && <p>{comment.text}</p>}
                         </div>
                     </div>
-                    {comment && <p>{comment.text}</p>}
+                </div>
+                <div className="blockActions">
+                    <div>
+                        {user && (
+                            <p>
+                                <strong>{user.pseudo}</strong>
+                            </p>
+                        )}
+                        <p>{createdAt}</p>
+                        {updatedAt !== createdAt && (
+                            <p> (Modifié {updatedAt})</p>
+                        )}
+                    </div>
+                    <p onClick={handleCommenter} className="commenter">
+                        répondre
+                    </p>
+                </div>
+                {repondre && (
                     <ResponsePrompt
                         thisComment={comment}
                         thisCommentUser={user}
                     />
-                </div>
+                )}
                 <DisplayResponses
                     comment={comment}
                     resTargetPseudo={user && user.pseudo}
