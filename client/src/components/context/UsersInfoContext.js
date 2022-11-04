@@ -4,6 +4,7 @@ import React, {
     useContext,
     useEffect,
     useMemo,
+    // useReducer,
 } from "react";
 import { getAvatarAndPseudo } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
@@ -21,6 +22,42 @@ export const UsersInfoUpdateContext = createContext();
 export function useUsersInfoUpdate() {
     return useContext(UsersInfoUpdateContext);
 }
+
+// const ACTIONS = {
+//     ADD_USER: "add-user",
+// };
+
+// function reducer(usersInfo, action) {
+//     switch (action.type) {
+//         case ACTIONS.ADD_USER:
+//             return [...usersInfo, newUserInfo(usersInfo, action.payload)];
+//         default:
+//             return usersInfo;
+//     }
+// }
+
+// function newUserInfo(usersInfo, { id, token }) {
+//     if (usersInfo.length > 0) {
+//         const thisUserIndex = usersInfo
+//             .map((user) => console.log(user))
+//             .indexOf(id);
+//         if (thisUserIndex !== -1) {
+//             getAvatarAndPseudo(token, id)
+//                 .then((user) => console.log(user))
+//                 .catch((err) => console.log(err));
+
+//             return;
+//         } else {
+//             return;
+//         }
+//     } else {
+//         return getAvatarAndPseudo(token, id)
+//             .then((user) => {
+//                 return user;
+//             })
+//             .catch((err) => console.log(err));
+//     }
+// }
 
 export function UsersInfoProvider({ children }) {
     const [usersInfo, setUsersInfo] = useState([]);
@@ -61,6 +98,16 @@ export function UsersInfoProvider({ children }) {
                 .then((data) => setUsersInfo(data))
                 .catch((err) => console.log(err));
     }, [getInfos]);
+
+    // useEffect(() => {
+    //     usersWithPosts &&
+    //         usersWithPosts.map((userId) =>
+    //             dispatch({
+    //                 type: ACTIONS.ADD_USER,
+    //                 payload: { id: userId, token: token },
+    //             })
+    //         );
+    // }, [token, usersWithPosts]);
 
     return (
         <UsersInfoContext.Provider value={usersInfo}>
