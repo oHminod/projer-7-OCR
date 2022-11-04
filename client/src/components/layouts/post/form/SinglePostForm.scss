@@ -9,6 +9,11 @@
     background-color: rgba(240, 240, 240, .8);
     backdrop-filter: blur(10px);
 
+    @media (max-width: 500px) {
+        margin: auto;
+        margin-top: 5px;
+        width: 95%
+    }
 
     .success {
         position: absolute;

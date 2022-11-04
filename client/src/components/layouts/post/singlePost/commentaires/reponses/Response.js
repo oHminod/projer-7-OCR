@@ -71,19 +71,21 @@ const Response = ({ reponse, resTargetPseudo }) => {
                                 alt="avatar par défaut"
                             />
                         )}
-                        <div className="comment">
-                            {reponse && <p>{reponse.text}</p>}
+                        <div className="legendeCom">
+                            {user && (
+                                <p>
+                                    <strong>{user.pseudo}</strong> pour{" "}
+                                    <strong>{resTargetPseudo}</strong>
+                                </p>
+                            )}
+                            <div className="comment">
+                                {reponse && <p>{reponse.text}</p>}
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="blockActions">
                     <div>
-                        {user && (
-                            <p>
-                                <strong>{user.pseudo}</strong> pour{" "}
-                                <strong>{resTargetPseudo}</strong>
-                            </p>
-                        )}
                         <p> {createdAt}</p>
                         {updatedAt !== createdAt && (
                             <p>(Modifié {updatedAt})</p>

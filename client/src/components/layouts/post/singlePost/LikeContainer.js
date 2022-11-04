@@ -7,8 +7,10 @@ import Loves from "./likesAndLoves/Loves";
 const LikeContainer = () => {
     return (
         <div className="likeContainer">
-            <Likes />
-            <Loves />
+            <div className="likeLove">
+                <Likes />
+                <Loves />
+            </div>
             <Commenter />
         </div>
     );

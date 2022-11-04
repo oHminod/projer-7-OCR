@@ -70,18 +70,20 @@ const Commentaire = ({ comment }) => {
                                 alt="avatar par défaut"
                             />
                         )}
-                        <div className="comment">
-                            {comment && <p>{comment.text}</p>}
+                        <div className="legendeCom">
+                            {user && (
+                                <p>
+                                    <strong>{user.pseudo}</strong>
+                                </p>
+                            )}
+                            <div className="comment">
+                                {comment && <p>{comment.text}</p>}
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="blockActions">
                     <div>
-                        {user && (
-                            <p>
-                                <strong>{user.pseudo}</strong>
-                            </p>
-                        )}
                         <p>{createdAt}</p>
                         {updatedAt !== createdAt && (
                             <p> (Modifié {updatedAt})</p>
