@@ -83,7 +83,7 @@ const Commentaire = ({ comment }) => {
                     </div>
                 </div>
                 <div className="blockActions">
-                    <div>
+                    <div className="heure">
                         <p>{createdAt}</p>
                         {updatedAt !== createdAt && (
                             <p> (Modifié {updatedAt})</p>
@@ -99,10 +99,12 @@ const Commentaire = ({ comment }) => {
                         thisCommentUser={user}
                     />
                 )}
-                <DisplayResponses
-                    comment={comment}
-                    resTargetPseudo={user && user.pseudo}
-                />
+                <div className="reponses">
+                    <DisplayResponses
+                        comment={comment}
+                        resTargetPseudo={user && user.pseudo}
+                    />
+                </div>
             </div>
         </>
     );

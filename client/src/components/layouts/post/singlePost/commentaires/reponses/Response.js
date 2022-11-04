@@ -85,7 +85,7 @@ const Response = ({ reponse, resTargetPseudo }) => {
                     </div>
                 </div>
                 <div className="blockActions">
-                    <div>
+                    <div className="heure">
                         <p> {createdAt}</p>
                         {updatedAt !== createdAt && (
                             <p>(Modifié {updatedAt})</p>
