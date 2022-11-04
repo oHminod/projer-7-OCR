@@ -3,38 +3,38 @@
     overflow-y: scroll;
 
     @media (min-width: 571px) {
-        height: 91vh;
+        min-height: 91vh;
 
         @media (max-height: 611px) {
-            height: calc(100vh - 56px);
+            min-height: calc(100vh - 56px);
         }
     }
 
-    @media (min-width: 571px) {
-        height: 91vh;
+    // @media (min-width: 571px) {
+    //     min-height: 91vh;
 
-        @media screen and (min-height: 780px) {
-            height: calc(100vh - 70px);
-        }
+    //     @media screen and (min-height: 780px) {
+    //         min-height: calc(100vh - 70px);
+    //     }
 
-        @media screen and (max-height: 442px) {
-            height: calc(100vh - 40px);
-        }
+    //     @media screen and (max-height: 442px) {
+    //         min-height: calc(100vh - 40px);
+    //     }
 
-    }
+    // }
 
     @media (max-width: 571px) {
         margin-bottom: 9vh;
-        height: 91vh;
+        min-height: 91vh;
 
         @media screen and (min-height: 780px) {
             margin-bottom: 70px;
-            height: calc(100vh - 70px);
+            min-height: calc(100vh - 70px);
         }
 
         @media screen and (max-height: 442px) {
             margin-bottom: 40px;
-            height: calc(100vh - 40px);
+            min-height: calc(100vh - 40px);
         }
     }
 

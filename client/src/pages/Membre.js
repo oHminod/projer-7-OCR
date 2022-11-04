@@ -34,8 +34,12 @@ const Membre = () => {
                     <div className="content">
                         {width > 880 ? (
                             <>
-                                <Wall />
-                                <UserInfo />
+                                <div className="wallContainer">
+                                    <Wall />
+                                </div>
+                                <div className="userInfoContainer">
+                                    <UserInfo />
+                                </div>
                             </>
                         ) : (
                             <Wall />

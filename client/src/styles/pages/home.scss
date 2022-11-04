@@ -13,16 +13,16 @@
     .content {
         @media (min-width: 571px) {
             margin-top: 9vh;
-            height: calc(100vh - 9vh);
+            min-height: 91vh;
 
             @media screen and (min-height: 780px) {
                 margin-top: 70px;
-                height: calc(100vh - 70px);
+                min-height: calc(100vh - 70px);
             }
 
             @media screen and (max-height: 442px) {
                 margin-top: 40px;
-                height: calc(100vh - 40px);
+                min-height: calc(100vh - 40px);
             }
         }
     }

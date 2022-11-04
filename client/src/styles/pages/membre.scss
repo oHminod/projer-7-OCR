@@ -4,6 +4,10 @@
     max-width: 1160px;
     margin: 0 auto;
 
+    .wallContainer {
+        width: calc(100% - 280px);
+    }
+
     .content {
         display: flex;
         flex-direction: row;
@@ -16,32 +20,26 @@
     .content {
         @media (max-width: 571px) {
             margin-bottom: 9vh;
-            height: calc(100vh - 9vh);
 
             @media screen and (min-height: 780px) {
                 margin-bottom: 70px;
-                height: calc(100vh - 70px);
             }
 
             @media screen and (max-height: 442px) {
                 margin-bottom: 40px;
-                height: calc(100vh - 40px);
             }
         }
 
 
         @media (min-width: 571px) {
             margin-top: 9vh;
-            height: calc(100vh - 9vh);
 
             @media screen and (min-height: 780px) {
                 margin-top: 70px;
-                height: calc(100vh - 70px);
             }
 
             @media screen and (max-height: 442px) {
                 margin-top: 40px;
-                height: calc(100vh - 40px);
             }
         }
     }
