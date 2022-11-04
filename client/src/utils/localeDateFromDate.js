@@ -19,7 +19,7 @@ const localeDateFromDate = (dateString) => {
 export const shortDateFromDate = (dateString) => {
     const timestamp = Date.now();
     const dateStringTimeStamp = new Date(dateString).getTime();
-    const dateOffsetInSeconds = Math.round(
+    const dateOffsetInSeconds = Math.floor(
         (timestamp - dateStringTimeStamp) / 1000
     );
 
