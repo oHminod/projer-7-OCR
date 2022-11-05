@@ -225,6 +225,25 @@ export function getAvatarAndPseudo(token, userId) {
         });
 }
 
+export async function getAsyncAvatarAndPseudo(token, userId) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    try {
+        const reponse = await axios.get(
+            `${apiURL}user/posterinfo/${userId}`,
+            config
+        );
+        const result = await reponse.data;
+        // console.log(result);
+        return result;
+    } catch (err) {
+        console.log(err.response.data);
+    }
+}
+
 export function likerPost(token, id, obj) {
     const headers = {
         Authorization: `Bearer ${token}`,

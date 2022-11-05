@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAvatarAndPseudo } from "../../../../../utils/axiosCalls";
+// import { getAvatarAndPseudo } from "../../../../../utils/axiosCalls";
 import { shortDateFromDate } from "../../../../../utils/localeDateFromDate";
 import { useAuth } from "../../../../context/AuthContext";
 import {
@@ -23,15 +23,15 @@ const Commentaire = ({ comment }) => {
             const thisUserIndex = usersInfo
                 .map((userInf) => userInf.userId)
                 .indexOf(comment.userId);
-            thisUserIndex !== -1
-                ? usersInfo.map(
-                      (userInf) =>
-                          userInf.userId === comment.userId && setUser(userInf)
-                  )
-                : getAvatarAndPseudo(token, comment.userId).then((user) => {
-                      setUsersInfo([...usersInfo, user]);
-                      setUser(user);
-                  });
+            thisUserIndex !== -1 &&
+                usersInfo.map(
+                    (userInf) =>
+                        userInf.userId === comment.userId && setUser(userInf)
+                );
+            // : getAvatarAndPseudo(token, comment.userId).then((user) => {
+            //       setUsersInfo([...usersInfo, user]);
+            //       setUser(user);
+            //   });
         }
     }, [comment.userId, setUsersInfo, token, usersInfo]);
     useEffect(() => {
