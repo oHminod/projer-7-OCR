@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
-import { useUsersInfo } from "../../../context/UsersInfoContext";
+import { useNewUsersInfo } from "../../../context/NewUsersInfoContext";
+// import { useUsersInfo } from "../../../context/UsersInfoContext";
 import { useComment, usePost } from "../PostContext";
 import CommentBlock from "./commentaires/CommentBlock";
 import LikeContainer from "./LikeContainer";
@@ -12,7 +13,7 @@ const SinglePost = () => {
     const [thisUser, setThisUser] = useState();
     const [checkedUser, setCheckedUser] = useState();
     const thisPost = usePost();
-    const usersInfo = useUsersInfo();
+    const usersInfo = useNewUsersInfo();
     const comment = useComment();
     const formatedText = (txt) => {
         return { __html: txt };

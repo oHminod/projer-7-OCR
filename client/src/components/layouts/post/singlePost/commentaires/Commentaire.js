@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { shortDateFromDate } from "../../../../../utils/localeDateFromDate";
-import { useUsersInfo } from "../../../../context/UsersInfoContext";
+import { useNewUsersInfo } from "../../../../context/NewUsersInfoContext";
 import DisplayResponses from "./reponses/DisplayResponses";
 import ResponsePrompt from "./reponses/ResponsePrompt";
 
 const Commentaire = ({ comment }) => {
-    const usersInfo = useUsersInfo();
+    const usersInfo = useNewUsersInfo();
     const [user, setUser] = useState();
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();

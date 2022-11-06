@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { axiosGetAllMyPosts } from "../../utils/axiosCalls";
+import { useGetAllMyPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { useSocket } from "./SocketContext";
 import { useUser } from "./UserContext";
@@ -20,14 +20,11 @@ export const MyPostsProvider = ({ children }) => {
     const token = useAuth();
     const my = useUser();
     const socket = useSocket();
+    const allMyPosts = useGetAllMyPosts(my && my._id);
 
     useEffect(() => {
-        token &&
-            my &&
-            axiosGetAllMyPosts(token, my._id).then((allMyPosts) =>
-                setMyPosts(allMyPosts)
-            );
-    }, [token, my]);
+        allMyPosts && setMyPosts(allMyPosts);
+    }, [allMyPosts]);
 
     useEffect(() => {
         socket &&

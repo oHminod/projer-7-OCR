@@ -5,6 +5,7 @@ import React, {
     useEffect,
     useMemo,
 } from "react";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { getAvatarAndPseudo } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
 import { useUsersWithPosts } from "./PostsContext";
@@ -23,7 +24,10 @@ export function useUsersInfoUpdate() {
 }
 
 export function UsersInfoProvider({ children }) {
-    const [usersInfo, setUsersInfo] = useState([]);
+    const [usersInfo, setUsersInfo] = useLocalStorage(
+        "groupomania-usersInfo",
+        []
+    );
     const usersWithPosts = useUsersWithPosts();
     const token = useAuth();
     const socket = useSocket();
@@ -60,7 +64,7 @@ export function UsersInfoProvider({ children }) {
             getInfos
                 .then((data) => setUsersInfo(data))
                 .catch((err) => console.log(err));
-    }, [getInfos]);
+    }, [getInfos, setUsersInfo]);
 
     return (
         <UsersInfoContext.Provider value={usersInfo}>

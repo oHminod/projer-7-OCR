@@ -5,9 +5,9 @@ import {
 } from "../../../../../utils/axiosCalls";
 import { useAuth } from "../../../../context/AuthContext";
 import {
-    useUsersInfo,
-    useUsersInfoUpdate,
-} from "../../../../context/UsersInfoContext";
+    useNewUsersInfo,
+    useNewUsersInfoUpdate,
+} from "../../../../context/NewUsersInfoContext";
 import {
     useComment,
     useCommentaires,
@@ -23,8 +23,8 @@ const DisplayComments = () => {
     const comments = useCommentaires();
     const commentActif = useComment();
     const thisPost = usePost();
-    const usersInfo = useUsersInfo();
-    const setUsersInfo = useUsersInfoUpdate();
+    const usersInfo = useNewUsersInfo();
+    const setUsersInfo = useNewUsersInfoUpdate();
     const [usersWhoNeedsInfo, setUsersWhoNeedsInfo] = useState([]);
 
     useMemo(() => {

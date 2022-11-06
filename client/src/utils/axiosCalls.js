@@ -1,13 +1,22 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useAuth } from "../components/context/AuthContext";
+import {
+    useUsersInfo,
+    useUsersInfoUpdate,
+} from "../components/context/UsersInfoContext";
 
-const apiURL = "http://localhost:36600/";
+const API_URL = process.env.REACT_APP_API_URL;
+// const API_IP = process.env.REACT_APP_API_IP;
+const API = axios.create({
+    baseURL: API_URL,
+});
 
 export function axiosLogin(email, password, setDbError) {
-    return axios
-        .post(`${apiURL}user/login`, {
-            email: email,
-            password: password,
-        })
+    return API.post(`user/login`, {
+        email: email,
+        password: password,
+    })
         .then((res) => res.data)
         .catch((err) => {
             setDbError(err.response.data);
@@ -15,19 +24,17 @@ export function axiosLogin(email, password, setDbError) {
 }
 
 export function axiosSignup(email, pseudo, password, setDbError) {
-    return axios
-        .post(`${apiURL}user/signup`, {
-            email: email,
-            pseudo: pseudo,
-            password: password,
-        })
+    return API.post(`user/signup`, {
+        email: email,
+        pseudo: pseudo,
+        password: password,
+    })
         .then(() => {
-            return axios
-                .post(`${apiURL}user/login`, {
-                    email: email,
-                    pseudo: pseudo,
-                    password: password,
-                })
+            return API.post(`user/login`, {
+                email: email,
+                pseudo: pseudo,
+                password: password,
+            })
                 .then((res) => res.data)
                 .catch((err) => {
                     setDbError(err.response.data);
@@ -52,8 +59,7 @@ export function axiosAuthContext(token, setAuthToken) {
         },
     };
 
-    axios
-        .get(`${apiURL}verify`, config)
+    API.get(`verify`, config)
         .then((data) => {
             setAuthToken(data.data.token);
             window.localStorage.setItem(
@@ -75,14 +81,46 @@ export function axiosUserContext(token, userId, setUser) {
             Authorization: `Bearer ${token}`,
         },
     };
-    axios
-        .get(`${apiURL}user/membre/${userId}`, config)
+    API.get(`user/membre/${userId}`, config)
         .then((res) => {
             setUser(res.data);
         })
         .catch((err) => {
             console.log("userContext : " + err.response.data);
         });
+}
+
+export function useGetUser() {
+    const token = useAuth();
+    const [data, setData] = useState();
+    const [userId, setuserId] = useState();
+    useEffect(() => {
+        setuserId(
+            JSON.parse(window.localStorage.getItem("userId_groupomania"))
+        );
+    }, []);
+    useEffect(() => {
+        const config = token && {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        userId &&
+            config &&
+            API.get(`user/membre/${userId}`, config)
+                .then((res) => {
+                    // res.data = {
+                    //     ...res.data,
+                    //     avatar: res.data.avatar.split("localhost").join(API_IP),
+                    // };
+                    setData(res.data);
+                })
+                .catch((err) => {
+                    console.log("userContext : " + err.response.data);
+                });
+    }, [token, userId]);
+
+    return data;
 }
 
 export function axiosUserChangeInfoWithImage(
@@ -99,10 +137,9 @@ export function axiosUserChangeInfoWithImage(
         // accept: "application/json",
         "Content-Type": `multipart/form-data`,
     };
-    axios
-        .post(`${apiURL}user/setuser/${user._id}`, data, {
-            headers,
-        })
+    API.post(`user/setuser/${user._id}`, data, {
+        headers,
+    })
         .then(() => {
             setUser({ ...user, ...obj });
             setModifier(false);
@@ -132,10 +169,9 @@ export function axiosUserChangeInfoWithoutImage(
     const headers = {
         Authorization: `Bearer ${token}`,
     };
-    axios
-        .post(`${apiURL}user/setuser/${user._id}`, obj, {
-            headers,
-        })
+    API.post(`user/setuser/${user._id}`, obj, {
+        headers,
+    })
         .then(() => {
             setUser({ ...user, ...obj });
             setModifier(false);
@@ -158,10 +194,9 @@ export function axiosPostPostWithImage(token, data, setDbError) {
     const headers = {
         Authorization: `Bearer ${token}`,
     };
-    axios
-        .post(`${apiURL}post/post`, data, {
-            headers,
-        })
+    API.post(`post/post`, data, {
+        headers,
+    })
         .then(() => {})
         .catch((err) => {
             console.log(err.response.data);
@@ -173,10 +208,9 @@ export function axiosPostPostWithoutImage(token, obj, setDbError) {
     const headers = {
         Authorization: `Bearer ${token}`,
     };
-    axios
-        .post(`${apiURL}post/post`, obj, {
-            headers,
-        })
+    API.post(`post/post`, obj, {
+        headers,
+    })
         .then(() => {})
         .catch((err) => {
             console.log(err.response.data);
@@ -189,12 +223,30 @@ export function axiosGetAllPosts(token) {
             Authorization: `Bearer ${token}`,
         },
     };
-    return axios
-        .get(`${apiURL}post/`, config)
+    return API.get(`post/`, config)
         .then((data) => data.data)
         .catch((err) => {
             console.log(err.response.data);
         });
+}
+export function useGetAllPosts() {
+    const token = useAuth();
+    const [data, setData] = useState();
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        token &&
+            API.get(`post/`, config)
+                .then((data) => setData(data.data))
+                .catch((err) => {
+                    console.log(err.response.data);
+                });
+    }, [token]);
+
+    return data;
 }
 
 export function axiosGetAllMyPosts(token, id) {
@@ -203,12 +255,31 @@ export function axiosGetAllMyPosts(token, id) {
             Authorization: `Bearer ${token}`,
         },
     };
-    return axios
-        .get(`${apiURL}post/${id}`, config)
+    return API.get(`post/${id}`, config)
         .then((data) => data.data)
         .catch((err) => {
             console.log(err.response.data);
         });
+}
+
+export function useGetAllMyPosts(id) {
+    const token = useAuth();
+    const [data, setData] = useState();
+    useEffect(() => {
+        const config = token && {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        config &&
+            id &&
+            API.get(`post/${id}`, config)
+                .then((data) => setData(data.data))
+                .catch((err) => {
+                    console.log(err.response.data);
+                });
+    }, [id, token]);
+    return data;
 }
 
 export function getAvatarAndPseudo(token, userId) {
@@ -217,12 +288,72 @@ export function getAvatarAndPseudo(token, userId) {
             Authorization: `Bearer ${token}`,
         },
     };
-    return axios
-        .get(`${apiURL}user/posterinfo/${userId}`, config)
-        .then((data) => data.data)
+    return API.get(`user/posterinfo/${userId}`, config)
+        .then((data) => {
+            // data.data = {
+            //     ...data.data,
+            //     avatar: data.data.avatar.split("localhost").join(API_IP),
+            // };
+            return data.data;
+        })
         .catch((err) => {
             console.log(err.response.data);
         });
+}
+
+export function getAvatar(token, userId, usersInfo, setUsersInfo) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    // let userInfo;
+    usersInfo &&
+        userId &&
+        !usersInfo.find((findUser) => findUser.userId === userId) &&
+        API.get(`user/posterinfo/${userId}`, config)
+            .then((data) => {
+                // data.data = {
+                //     ...data.data,
+                //     avatar: data.data.avatar.split("localhost").join(API_IP),
+                // };
+                setUsersInfo([...usersInfo, data.data]);
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            });
+}
+
+export function useGetAvatarAndPseudo(userId) {
+    const token = useAuth();
+    const usersInfo = useUsersInfo();
+    const setUsersInfo = useUsersInfoUpdate();
+    // const [data, setData] = useState();
+
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        config &&
+            userId &&
+            !usersInfo.find((findUser) => findUser.userId === userId) &&
+            API.get(`user/posterinfo/${userId}`, config)
+                .then((data) => {
+                    // data.data = {
+                    //     ...data.data,
+                    //     avatar: data.data.avatar.split("localhost").join(API_IP),
+                    // };
+                    // setData(data.data);
+                    setUsersInfo([...usersInfo, data.data]);
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+                });
+    }, [setUsersInfo, token, userId, usersInfo]);
+
+    // return data;
 }
 
 export async function getAsyncAvatarAndPseudo(token, userId) {
@@ -232,10 +363,7 @@ export async function getAsyncAvatarAndPseudo(token, userId) {
         },
     };
     try {
-        const reponse = await axios.get(
-            `${apiURL}user/posterinfo/${userId}`,
-            config
-        );
+        const reponse = await API.get(`user/posterinfo/${userId}`, config);
         const result = await reponse.data;
         // console.log(result);
         return result;
@@ -248,10 +376,9 @@ export function likerPost(token, id, obj) {
     const headers = {
         Authorization: `Bearer ${token}`,
     };
-    axios
-        .post(`${apiURL}post/${id}/like`, obj, {
-            headers,
-        })
+    API.post(`post/${id}/like`, obj, {
+        headers,
+    })
         .then(() => {})
         .catch((err) => {
             console.log(err.response.data);
@@ -262,10 +389,9 @@ export function loverPost(token, id, obj) {
     const headers = {
         Authorization: `Bearer ${token}`,
     };
-    axios
-        .post(`${apiURL}post/${id}/love`, obj, {
-            headers,
-        })
+    API.post(`post/${id}/love`, obj, {
+        headers,
+    })
         .then(() => {})
         .catch((err) => {
             console.log(err.response.data);
@@ -275,10 +401,9 @@ export function postCommentWithoutImage(token, obj) {
     const headers = {
         Authorization: `Bearer ${token}`,
     };
-    axios
-        .post(`${apiURL}comment/`, obj, {
-            headers,
-        })
+    API.post(`comment/`, obj, {
+        headers,
+    })
         .then(() => {})
         .catch((err) => {
             console.log(err.response.data);
@@ -290,8 +415,7 @@ export function getThisPostComments(token, id) {
             Authorization: `Bearer ${token}`,
         },
     };
-    return axios
-        .get(`${apiURL}comment/${id}`, config)
+    return API.get(`comment/${id}`, config)
         .then((data) => data.data)
         .catch((err) => {
             console.log(err.response.data);

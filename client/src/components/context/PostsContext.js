@@ -5,8 +5,9 @@ import React, {
     useEffect,
     useMemo,
 } from "react";
-import { axiosGetAllPosts } from "../../utils/axiosCalls";
+import { getAvatarAndPseudo, useGetAllPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
+import { useNewUsersInfo, useNewUsersInfoUpdate } from "./NewUsersInfoContext";
 import { useSocket } from "./SocketContext";
 
 export const PostsContext = createContext();
@@ -29,26 +30,37 @@ export function useUsersWithPosts() {
 export function PostsProvider({ children }) {
     const [posts, setPosts] = useState();
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
-
+    const usersInfo = useNewUsersInfo();
+    const setUsersInfo = useNewUsersInfoUpdate();
     const token = useAuth();
+
     const socket = useSocket();
 
+    const axiosPosts = useGetAllPosts();
+
     useMemo(() => {
-        if (posts) {
+        axiosPosts && setPosts(axiosPosts);
+    }, [axiosPosts]);
+
+    useMemo(() => {
+        posts &&
             posts.map(
                 (post) =>
                     usersWhoHavePost.indexOf(post.userId) === -1 &&
                     setUsersWhoHavePost([...usersWhoHavePost, post.userId])
             );
-        }
     }, [posts, usersWhoHavePost]);
 
     useEffect(() => {
-        token &&
-            axiosGetAllPosts(token)
-                .then((allPosts) => setPosts(allPosts))
-                .catch((err) => console.log(err));
-    }, [token]);
+        usersWhoHavePost &&
+            usersWhoHavePost.map(
+                (id) =>
+                    !usersInfo.find((findUser) => findUser.userId === id) &&
+                    getAvatarAndPseudo(token, id).then((userInfo) =>
+                        setUsersInfo([...usersInfo, userInfo])
+                    )
+            );
+    }, [posts, setUsersInfo, token, usersInfo, usersWhoHavePost]);
 
     useEffect(() => {
         socket &&

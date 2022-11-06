@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import ResponsePrompt from "./ResponsePrompt";
 import "./response.scss";
 import DisplayResponses from "./DisplayResponses";
-import { useUsersInfo } from "../../../../../context/UsersInfoContext";
 import { shortDateFromDate } from "../../../../../../utils/localeDateFromDate";
+import { useNewUsersInfo } from "../../../../../context/NewUsersInfoContext";
 
 const Response = ({ reponse, resTargetPseudo }) => {
-    const usersInfo = useUsersInfo();
+    const usersInfo = useNewUsersInfo();
     const [user, setUser] = useState();
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
