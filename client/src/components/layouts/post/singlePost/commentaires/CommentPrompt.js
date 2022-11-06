@@ -5,6 +5,7 @@ import { useAuth } from "../../../../context/AuthContext";
 import { useUser } from "../../../../context/UserContext";
 import { usePost } from "../../PostContext";
 import "./CommentPrompt.scss";
+import ResponseTextArea from "./reponses/ResponseTextArea";
 
 const CommentPrompt = () => {
     const user = useUser();
@@ -12,6 +13,7 @@ const CommentPrompt = () => {
     const token = useAuth();
     const [text, setText] = useState();
     const inputComment = useRef();
+    const [resetTextInput, setResetTextInput] = useState(false);
 
     const submitComment = (e) => {
         e.preventDefault();
@@ -25,22 +27,32 @@ const CommentPrompt = () => {
         };
         postCommentWithoutImage(token, comment);
         inputComment.current.value = "";
+        setResetTextInput(true);
 
         // console.log(comment);
     };
-    const handleChange = () => {
-        setText(inputComment.current.value);
-    };
+    // const handleChange = () => {
+    //     setText(inputComment.current.value);
+    // };
 
     return (
         <div className="commentPrompt">
             {user && <img src={user.avatar} alt={"avatar" + user.pseudo} />}
             <form onSubmit={submitComment} method="post" id="postComment">
-                <input
+                {/* <input
+                    autoFocus
                     type="text"
                     ref={inputComment}
                     placeholder="Votre commentaire..."
                     onChange={handleChange}
+                /> */}
+                <ResponseTextArea
+                    name="texteReponse"
+                    setText={setText}
+                    resetTextInput={resetTextInput}
+                    setResetTextInput={setResetTextInput}
+                    submitNewPost={submitComment}
+                    placeholder="Votre commentaire"
                 />
             </form>
         </div>

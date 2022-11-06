@@ -2,43 +2,29 @@ import React, { useEffect, useState } from "react";
 import ResponsePrompt from "./ResponsePrompt";
 import "./response.scss";
 import DisplayResponses from "./DisplayResponses";
-import {
-    useUsersInfo,
-    useUsersInfoUpdate,
-} from "../../../../../context/UsersInfoContext";
-import { getAvatarAndPseudo } from "../../../../../../utils/axiosCalls";
-import { useAuth } from "../../../../../context/AuthContext";
+import { useUsersInfo } from "../../../../../context/UsersInfoContext";
 import { shortDateFromDate } from "../../../../../../utils/localeDateFromDate";
 
 const Response = ({ reponse, resTargetPseudo }) => {
     const usersInfo = useUsersInfo();
     const [user, setUser] = useState();
-    const setUsersInfo = useUsersInfoUpdate();
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [repondre, setRepondre] = useState(false);
-    const token = useAuth();
+    const formatedText = (txt) => {
+        return { __html: txt };
+    };
 
     useEffect(() => {
-        if (usersInfo) {
-            const thisUserIndex = usersInfo
-                .map((userInf) => userInf.userId)
-                .indexOf(reponse.userId);
-            thisUserIndex !== -1
-                ? usersInfo.map(
-                      (userInf) =>
-                          userInf.userId === reponse.userId && setUser(userInf)
-                  )
-                : getAvatarAndPseudo(token, reponse.userId).then((user) => {
-                      setUsersInfo([...usersInfo, user]);
-                      setUser(user);
-                  });
-        }
-    }, [reponse.userId, setUsersInfo, token, usersInfo]);
+        usersInfo.map(
+            (userInf) => userInf.userId === reponse.userId && setUser(userInf)
+        );
+    }, [reponse.userId, usersInfo]);
+
     useEffect(() => {
         reponse &&
-            reponse.texte &&
-            (reponse.texte = reponse.texte
+            reponse.text &&
+            (reponse.text = reponse.text
                 .trim()
                 .split("\u000A")
                 .join("</p><p>"));
@@ -79,14 +65,20 @@ const Response = ({ reponse, resTargetPseudo }) => {
                                 </p>
                             )}
                             <div className="comment">
-                                {reponse && <p>{reponse.text}</p>}
+                                {reponse && (
+                                    <p
+                                        dangerouslySetInnerHTML={formatedText(
+                                            reponse.text
+                                        )}
+                                    ></p>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="blockActions">
                     <div className="heure">
-                        <p> {createdAt}</p>
+                        <p>{createdAt}</p>
                         {updatedAt !== createdAt && (
                             <p>(Modifié {updatedAt})</p>
                         )}

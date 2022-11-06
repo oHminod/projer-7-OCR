@@ -33,18 +33,15 @@ export function PostsProvider({ children }) {
     const token = useAuth();
     const socket = useSocket();
 
-    const getIDs = useMemo(() => {
+    useMemo(() => {
         if (posts) {
-            let tempTab = [];
             posts.map(
                 (post) =>
-                    tempTab.indexOf(post.userId) === -1 &&
-                    (tempTab = [...tempTab, post.userId])
+                    usersWhoHavePost.indexOf(post.userId) === -1 &&
+                    setUsersWhoHavePost([...usersWhoHavePost, post.userId])
             );
-
-            return tempTab;
         }
-    }, [posts]);
+    }, [posts, usersWhoHavePost]);
 
     useEffect(() => {
         token &&
@@ -52,10 +49,6 @@ export function PostsProvider({ children }) {
                 .then((allPosts) => setPosts(allPosts))
                 .catch((err) => console.log(err));
     }, [token]);
-
-    useEffect(() => {
-        getIDs && setUsersWhoHavePost(getIDs);
-    }, [getIDs]);
 
     useEffect(() => {
         socket &&

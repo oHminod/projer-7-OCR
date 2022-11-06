@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
     getAvatarAndPseudo,
     getThisPostComments,
@@ -25,6 +25,7 @@ const DisplayComments = () => {
     const thisPost = usePost();
     const usersInfo = useUsersInfo();
     const setUsersInfo = useUsersInfoUpdate();
+    const [usersWhoNeedsInfo, setUsersWhoNeedsInfo] = useState([]);
 
     useMemo(() => {
         commentActif &&
@@ -36,32 +37,30 @@ const DisplayComments = () => {
 
     useMemo(() => {
         if (comments && usersInfo) {
-            let tempTab = [];
             comments.map(
                 (comment) =>
                     !usersInfo.find(
                         (findUser) => findUser.userId === comment.userId
                     ) &&
-                    tempTab.indexOf(comment.userId) === -1 &&
-                    (tempTab = [...tempTab, comment.userId])
+                    usersWhoNeedsInfo.indexOf(comment.userId) === -1 &&
+                    setUsersWhoNeedsInfo([...usersWhoNeedsInfo, comment.userId])
             );
-            tempTab &&
-                tempTab.map((ID) =>
-                    getAvatarAndPseudo(token, ID).then((user) => {
-                        setUsersInfo([...usersInfo, user]);
-                    })
-                );
-
-            return tempTab;
+            return usersWhoNeedsInfo;
         }
-    }, [comments, setUsersInfo, token, usersInfo]);
+    }, [comments, usersWhoNeedsInfo, usersInfo]);
 
-    // useEffect(() => {
-    //     getIDs&&
-    //     getIDs.map(ID=>getAvatarAndPseudo(token, ID).then((user) => {
-    //         setUsersInfo([...usersInfo, user]);
-    //     }))
-    // }, [getIDs, setUsersInfo, token, usersInfo]);
+    useMemo(() => {
+        usersWhoNeedsInfo &&
+            usersWhoNeedsInfo.map(
+                (ID) =>
+                    !usersInfo.find((findUser) => findUser.userId === ID) &&
+                    getAvatarAndPseudo(token, ID)
+                        .then((userInfo) => {
+                            setUsersInfo([...usersInfo, userInfo]);
+                        })
+                        .catch((err) => console.log(err))
+            );
+    }, [setUsersInfo, usersWhoNeedsInfo, token, usersInfo]);
 
     return (
         comments && (

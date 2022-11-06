@@ -1,43 +1,31 @@
 import React, { useEffect, useState } from "react";
-// import { getAvatarAndPseudo } from "../../../../../utils/axiosCalls";
 import { shortDateFromDate } from "../../../../../utils/localeDateFromDate";
-import { useAuth } from "../../../../context/AuthContext";
-import {
-    useUsersInfo,
-    useUsersInfoUpdate,
-} from "../../../../context/UsersInfoContext";
+import { useUsersInfo } from "../../../../context/UsersInfoContext";
 import DisplayResponses from "./reponses/DisplayResponses";
 import ResponsePrompt from "./reponses/ResponsePrompt";
 
 const Commentaire = ({ comment }) => {
     const usersInfo = useUsersInfo();
-    const setUsersInfo = useUsersInfoUpdate();
     const [user, setUser] = useState();
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [repondre, setRepondre] = useState(false);
-    const token = useAuth();
+    const formatedText = (txt) => {
+        return { __html: txt };
+    };
 
     useEffect(() => {
-        if (usersInfo) {
-            const thisUserIndex = usersInfo
-                .map((userInf) => userInf.userId)
-                .indexOf(comment.userId);
-            thisUserIndex !== -1 &&
-                usersInfo.map(
-                    (userInf) =>
-                        userInf.userId === comment.userId && setUser(userInf)
-                );
-            // : getAvatarAndPseudo(token, comment.userId).then((user) => {
-            //       setUsersInfo([...usersInfo, user]);
-            //       setUser(user);
-            //   });
-        }
-    }, [comment.userId, setUsersInfo, token, usersInfo]);
+        usersInfo &&
+            usersInfo.map(
+                (userInf) =>
+                    userInf.userId === comment.userId && setUser(userInf)
+            );
+    }, [comment.userId, usersInfo]);
+
     useEffect(() => {
         comment &&
-            comment.texte &&
-            (comment.texte = comment.texte
+            comment.text &&
+            (comment.text = comment.text
                 .trim()
                 .split("\u000A")
                 .join("</p><p>"));
@@ -77,7 +65,13 @@ const Commentaire = ({ comment }) => {
                                 </p>
                             )}
                             <div className="comment">
-                                {comment && <p>{comment.text}</p>}
+                                {comment && (
+                                    <p
+                                        dangerouslySetInnerHTML={formatedText(
+                                            comment.text
+                                        )}
+                                    ></p>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -86,7 +80,7 @@ const Commentaire = ({ comment }) => {
                     <div className="heure">
                         <p>{createdAt}</p>
                         {updatedAt !== createdAt && (
-                            <p> (Modifié {updatedAt})</p>
+                            <p>(Modifié {updatedAt})</p>
                         )}
                     </div>
                     <p onClick={handleCommenter} className="commenter">

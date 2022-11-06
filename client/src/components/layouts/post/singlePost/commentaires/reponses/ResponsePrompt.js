@@ -5,6 +5,7 @@ import { useAuth } from "../../../../../context/AuthContext";
 import { useUser } from "../../../../../context/UserContext";
 import { usePost } from "../../../PostContext";
 import "../CommentPrompt.scss";
+import ResponseTextArea from "./ResponseTextArea";
 
 const ResponsePrompt = ({ thisComment, thisCommentUser }) => {
     const user = useUser();
@@ -12,6 +13,7 @@ const ResponsePrompt = ({ thisComment, thisCommentUser }) => {
     const token = useAuth();
     const [text, setText] = useState();
     const inputComment = useRef();
+    const [resetTextInput, setResetTextInput] = useState(false);
 
     const submitComment = (e) => {
         e.preventDefault();
@@ -24,19 +26,21 @@ const ResponsePrompt = ({ thisComment, thisCommentUser }) => {
             text: text,
         };
         postCommentWithoutImage(token, comment);
+        setResetTextInput(true);
         inputComment.current.value = "";
 
         // console.log(comment);
     };
-    const handleChange = () => {
-        setText(inputComment.current.value);
-    };
+    // const handleChange = () => {
+    //     setText(inputComment.current.value);
+    // };
 
     return (
         <div className="commentPrompt">
             {user && <img src={user.avatar} alt={"avatar" + user.pseudo} />}
             <form onSubmit={submitComment} method="post" id="postComment">
-                <input
+                {/* <textArea
+                    autoFocus
                     type="text"
                     ref={inputComment}
                     placeholder={
@@ -44,6 +48,17 @@ const ResponsePrompt = ({ thisComment, thisCommentUser }) => {
                         `Répondre à ${thisCommentUser.pseudo}`
                     }
                     onChange={handleChange}
+                /> */}
+                <ResponseTextArea
+                    name="texteReponse"
+                    setText={setText}
+                    resetTextInput={resetTextInput}
+                    setResetTextInput={setResetTextInput}
+                    submitNewPost={submitComment}
+                    placeholder={
+                        thisCommentUser &&
+                        `Répondre à ${thisCommentUser.pseudo}`
+                    }
                 />
             </form>
         </div>
