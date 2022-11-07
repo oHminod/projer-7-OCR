@@ -6,11 +6,13 @@ import { motion } from "framer-motion";
 import Wall from "../components/layouts/membre/mur/Wall";
 import EditProvider from "../components/layouts/membre/userInfo/EditContext";
 import { useCurrentWidth } from "../components/utils/windowWidth";
+import { useVerify } from "../utils/axiosCalls";
 
 const Membre = () => {
     const auth = useAuth();
     const [loading, setLoading] = useState(true);
     const width = useCurrentWidth();
+    useVerify();
 
     useEffect(() => {
         auth && setLoading(false);

@@ -3,7 +3,6 @@ import {
     axiosPostPostWithImage,
     axiosPostPostWithoutImage,
 } from "../../../../utils/axiosCalls";
-import { useAuth } from "../../../context/AuthContext";
 import { useUser } from "../../../context/UserContext";
 import InputFile from "./InputFile";
 import "./SinglePostForm.scss";
@@ -14,7 +13,6 @@ const SinglePostForm = () => {
     const [resetTextInput, setResetTextInput] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [dbError, setDbError] = useState();
-    const token = useAuth();
     const [text, setText] = useState();
 
     const submitNewPost = (e) => {
@@ -33,10 +31,11 @@ const SinglePostForm = () => {
             data.append("imagePost", selectedImage);
             data.append("post", JSON.stringify(obj));
 
-            axiosPostPostWithImage(token, data, setDbError);
+            axiosPostPostWithImage(data, setDbError);
         } else {
-            axiosPostPostWithoutImage(token, obj, setDbError);
+            axiosPostPostWithoutImage(obj, setDbError);
         }
+        setText();
         setResetTextInput(true);
         setSelectedImage(null);
     };

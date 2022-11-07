@@ -30,7 +30,7 @@ const DisplayComments = () => {
     useMemo(() => {
         commentActif &&
             token &&
-            getThisPostComments(token, thisPost._id)
+            getThisPostComments(thisPost._id)
                 .then((commentaires) => setCommentaires(commentaires))
                 .catch((err) => console.log(err));
     }, [commentActif, setCommentaires, thisPost._id, token]);
@@ -54,13 +54,13 @@ const DisplayComments = () => {
             usersWhoNeedsInfo.map(
                 (ID) =>
                     !usersInfo.find((findUser) => findUser.userId === ID) &&
-                    getAvatarAndPseudo(token, ID)
+                    getAvatarAndPseudo(ID)
                         .then((userInfo) => {
                             setUsersInfo([...usersInfo, userInfo]);
                         })
                         .catch((err) => console.log(err))
             );
-    }, [setUsersInfo, usersWhoNeedsInfo, token, usersInfo]);
+    }, [setUsersInfo, usersWhoNeedsInfo, usersInfo]);
 
     return (
         comments && (

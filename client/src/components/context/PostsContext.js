@@ -6,7 +6,6 @@ import React, {
     useMemo,
 } from "react";
 import { getAvatarAndPseudo, useGetAllPosts } from "../../utils/axiosCalls";
-import { useAuth } from "./AuthContext";
 import { useNewUsersInfo, useNewUsersInfoUpdate } from "./NewUsersInfoContext";
 import { useSocket } from "./SocketContext";
 
@@ -32,7 +31,6 @@ export function PostsProvider({ children }) {
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
     const usersInfo = useNewUsersInfo();
     const setUsersInfo = useNewUsersInfoUpdate();
-    const token = useAuth();
 
     const socket = useSocket();
 
@@ -56,11 +54,11 @@ export function PostsProvider({ children }) {
             usersWhoHavePost.map(
                 (id) =>
                     !usersInfo.find((findUser) => findUser.userId === id) &&
-                    getAvatarAndPseudo(token, id).then((userInfo) =>
+                    getAvatarAndPseudo(id).then((userInfo) =>
                         setUsersInfo([...usersInfo, userInfo])
                     )
             );
-    }, [posts, setUsersInfo, token, usersInfo, usersWhoHavePost]);
+    }, [setUsersInfo, usersInfo, usersWhoHavePost]);
 
     useEffect(() => {
         socket &&

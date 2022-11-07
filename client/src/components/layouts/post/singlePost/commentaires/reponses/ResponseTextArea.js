@@ -29,7 +29,6 @@ const ResponseTextArea = ({
 
     return (
         <textarea
-            autoFocus
             name={name}
             id={name}
             ref={inputText}

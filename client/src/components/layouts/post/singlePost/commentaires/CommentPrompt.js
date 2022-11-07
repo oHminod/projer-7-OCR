@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { postCommentWithoutImage } from "../../../../../utils/axiosCalls";
-import { useAuth } from "../../../../context/AuthContext";
 import { useUser } from "../../../../context/UserContext";
 import { usePost } from "../../PostContext";
 import "./CommentPrompt.scss";
@@ -10,9 +9,8 @@ import ResponseTextArea from "./reponses/ResponseTextArea";
 const CommentPrompt = () => {
     const user = useUser();
     const thisPost = usePost();
-    const token = useAuth();
     const [text, setText] = useState();
-    const inputComment = useRef();
+    // const inputComment = useRef();
     const [resetTextInput, setResetTextInput] = useState(false);
 
     const submitComment = (e) => {
@@ -25,8 +23,9 @@ const CommentPrompt = () => {
             threadId: commentId,
             text: text,
         };
-        postCommentWithoutImage(token, comment);
-        inputComment.current.value = "";
+        postCommentWithoutImage(comment);
+        // inputComment.current.value = "";
+        setText();
         setResetTextInput(true);
 
         // console.log(comment);

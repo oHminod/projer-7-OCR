@@ -1,10 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useAuth } from "../components/context/AuthContext";
-import {
-    useUsersInfo,
-    useUsersInfoUpdate,
-} from "../components/context/UsersInfoContext";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const API_URL = process.env.REACT_APP_API_URL;
 // const API_IP = process.env.REACT_APP_API_IP;
@@ -52,46 +48,79 @@ export function axiosSignup(email, pseudo, password, setDbError) {
         });
 }
 
-export function axiosAuthContext(token, setAuthToken) {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
+// export function axiosAuthContext(token, setAuthToken) {
+//     const config = {
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//         },
+//     };
 
-    API.get(`verify`, config)
-        .then((data) => {
-            setAuthToken(data.data.token);
-            window.localStorage.setItem(
-                "token_groupomania",
-                JSON.stringify(data.data.token)
-            );
-        })
-        .catch((err) => {
-            window.localStorage.removeItem("token_groupomania");
-            window.localStorage.removeItem("userId_groupomania");
-            setAuthToken();
-            console.log("authContext : " + err.message);
-        });
+//     API.get(`verify`, config)
+//         .then((data) => {
+//             setAuthToken(data.data.token);
+//             window.localStorage.setItem(
+//                 "token_groupomania",
+//                 JSON.stringify(data.data.token)
+//             );
+//         })
+//         .catch((err) => {
+//             window.localStorage.removeItem("token_groupomania");
+//             window.localStorage.removeItem("userId_groupomania");
+//             setAuthToken();
+//             console.log("authContext : " + err.message);
+//         });
+// }
+export function useVerify() {
+    const [queryToken, setQueryToken] = useLocalStorage(
+        "groupomania-queryToken",
+        ""
+    );
+    // const token = useAuth();
+    // const setAuthToken = useAuthUpdate();
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${queryToken}`,
+            },
+        };
+        queryToken &&
+            API.get(`verify`, config)
+                .then((data) => {
+                    setQueryToken(data.data.token);
+                    window.localStorage.setItem(
+                        "token_groupomania",
+                        JSON.stringify(data.data.token)
+                    );
+                })
+                .catch((err) => {
+                    window.localStorage.removeItem("token_groupomania");
+                    window.localStorage.removeItem("userId_groupomania");
+                    setQueryToken();
+                    console.log("authContext : " + err.message);
+                });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 }
 
-export function axiosUserContext(token, userId, setUser) {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-    API.get(`user/membre/${userId}`, config)
-        .then((res) => {
-            setUser(res.data);
-        })
-        .catch((err) => {
-            console.log("userContext : " + err.response.data);
-        });
-}
+// export function axiosUserContext(token, userId, setUser) {
+//     const config = {
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//         },
+//     };
+//     API.get(`user/membre/${userId}`, config)
+//         .then((res) => {
+//             setUser(res.data);
+//         })
+//         .catch((err) => {
+//             console.log("userContext : " + err.response.data);
+//         });
+// }
 
 export function useGetUser() {
-    const token = useAuth();
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
     const [data, setData] = useState();
     const [userId, setuserId] = useState();
     useEffect(() => {
@@ -118,13 +147,13 @@ export function useGetUser() {
                 .catch((err) => {
                     console.log("userContext : " + err.response.data);
                 });
-    }, [token, userId]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userId]);
 
     return data;
 }
 
 export function axiosUserChangeInfoWithImage(
-    token,
     user,
     data,
     setUser,
@@ -132,105 +161,122 @@ export function axiosUserChangeInfoWithImage(
     obj,
     setDbError
 ) {
-    const headers = {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const headers = token && {
         Authorization: `Bearer ${token}`,
         // accept: "application/json",
         "Content-Type": `multipart/form-data`,
     };
-    API.post(`user/setuser/${user._id}`, data, {
-        headers,
-    })
-        .then(() => {
-            setUser({ ...user, ...obj });
-            setModifier(false);
+    token &&
+        API.post(`user/setuser/${user._id}`, data, {
+            headers,
         })
-        .catch((err) => {
-            if (
-                err.response.data.split(" ")[1] &&
-                err.response.data.split(" ")[1] === "duplicate"
-            ) {
-                setDbError(
-                    "Pseudo ou adresse email déjà utilisé par un autre membre."
-                );
-            } else {
-                console.log(err.response.data);
-            }
-        });
+            .then(() => {
+                setUser({ ...user, ...obj });
+                setModifier(false);
+            })
+            .catch((err) => {
+                if (
+                    err.response.data.split(" ")[1] &&
+                    err.response.data.split(" ")[1] === "duplicate"
+                ) {
+                    setDbError(
+                        "Pseudo ou adresse email déjà utilisé par un autre membre."
+                    );
+                } else {
+                    console.log(err.response.data);
+                }
+            });
 }
 
 export function axiosUserChangeInfoWithoutImage(
-    token,
     user,
     obj,
     setUser,
     setModifier,
     setDbError
 ) {
-    const headers = {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const headers = token && {
         Authorization: `Bearer ${token}`,
     };
-    API.post(`user/setuser/${user._id}`, obj, {
-        headers,
-    })
-        .then(() => {
-            setUser({ ...user, ...obj });
-            setModifier(false);
+    token &&
+        API.post(`user/setuser/${user._id}`, obj, {
+            headers,
         })
-        .catch((err) => {
-            if (
-                err.response.data.split(" ")[1] &&
-                err.response.data.split(" ")[1] === "duplicate"
-            ) {
-                setDbError(
-                    "Pseudo ou adresse email déjà utilisé par un autre membre."
-                );
-            } else {
+            .then(() => {
+                setUser({ ...user, ...obj });
+                setModifier(false);
+            })
+            .catch((err) => {
+                if (
+                    err.response.data.split(" ")[1] &&
+                    err.response.data.split(" ")[1] === "duplicate"
+                ) {
+                    setDbError(
+                        "Pseudo ou adresse email déjà utilisé par un autre membre."
+                    );
+                } else {
+                    console.log(err.response.data);
+                }
+            });
+}
+
+export function axiosPostPostWithImage(data, setDbError) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const headers = token && {
+        Authorization: `Bearer ${token}`,
+    };
+    token &&
+        API.post(`post/post`, data, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
                 console.log(err.response.data);
-            }
-        });
+                setDbError(err.response.data);
+            });
 }
 
-export function axiosPostPostWithImage(token, data, setDbError) {
-    const headers = {
+export function axiosPostPostWithoutImage(obj, setDbError) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const headers = token && {
         Authorization: `Bearer ${token}`,
     };
-    API.post(`post/post`, data, {
-        headers,
-    })
-        .then(() => {})
-        .catch((err) => {
-            console.log(err.response.data);
-            setDbError(err.response.data);
-        });
+    token &&
+        API.post(`post/post`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+                setDbError(err.response.data);
+            });
 }
-
-export function axiosPostPostWithoutImage(token, obj, setDbError) {
-    const headers = {
-        Authorization: `Bearer ${token}`,
-    };
-    API.post(`post/post`, obj, {
-        headers,
-    })
-        .then(() => {})
-        .catch((err) => {
-            console.log(err.response.data);
-            setDbError(err.response.data);
-        });
-}
-export function axiosGetAllPosts(token) {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-    return API.get(`post/`, config)
-        .then((data) => data.data)
-        .catch((err) => {
-            console.log(err.response.data);
-        });
-}
+// export function axiosGetAllPosts(token) {
+//     const config = {
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//         },
+//     };
+//     return API.get(`post/`, config)
+//         .then((data) => data.data)
+//         .catch((err) => {
+//             console.log(err.response.data);
+//         });
+// }
 export function useGetAllPosts() {
-    const token = useAuth();
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
     const [data, setData] = useState();
     useEffect(() => {
         const config = {
@@ -244,26 +290,29 @@ export function useGetAllPosts() {
                 .catch((err) => {
                     console.log(err.response.data);
                 });
-    }, [token]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return data;
 }
 
-export function axiosGetAllMyPosts(token, id) {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-    return API.get(`post/${id}`, config)
-        .then((data) => data.data)
-        .catch((err) => {
-            console.log(err.response.data);
-        });
-}
+// export function axiosGetAllMyPosts(token, id) {
+//     const config = {
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//         },
+//     };
+//     return API.get(`post/${id}`, config)
+//         .then((data) => data.data)
+//         .catch((err) => {
+//             console.log(err.response.data);
+//         });
+// }
 
 export function useGetAllMyPosts(id) {
-    const token = useAuth();
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
     const [data, setData] = useState();
     useEffect(() => {
         const config = token && {
@@ -282,7 +331,10 @@ export function useGetAllMyPosts(id) {
     return data;
 }
 
-export function getAvatarAndPseudo(token, userId) {
+export function getAvatarAndPseudo(userId) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -301,116 +353,60 @@ export function getAvatarAndPseudo(token, userId) {
         });
 }
 
-export function getAvatar(token, userId, usersInfo, setUsersInfo) {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+export function likerPost(id, obj) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const headers = token && {
+        Authorization: `Bearer ${token}`,
     };
-    // let userInfo;
-    usersInfo &&
-        userId &&
-        !usersInfo.find((findUser) => findUser.userId === userId) &&
-        API.get(`user/posterinfo/${userId}`, config)
-            .then((data) => {
-                // data.data = {
-                //     ...data.data,
-                //     avatar: data.data.avatar.split("localhost").join(API_IP),
-                // };
-                setUsersInfo([...usersInfo, data.data]);
-            })
+    token &&
+        API.post(`post/${id}/like`, obj, {
+            headers,
+        })
+            .then(() => {})
             .catch((err) => {
                 console.log(err.response.data);
             });
 }
 
-export function useGetAvatarAndPseudo(userId) {
-    const token = useAuth();
-    const usersInfo = useUsersInfo();
-    const setUsersInfo = useUsersInfoUpdate();
-    // const [data, setData] = useState();
-
-    useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        config &&
-            userId &&
-            !usersInfo.find((findUser) => findUser.userId === userId) &&
-            API.get(`user/posterinfo/${userId}`, config)
-                .then((data) => {
-                    // data.data = {
-                    //     ...data.data,
-                    //     avatar: data.data.avatar.split("localhost").join(API_IP),
-                    // };
-                    // setData(data.data);
-                    setUsersInfo([...usersInfo, data.data]);
-                })
-                .catch((err) => {
-                    console.log(err.response.data);
-                });
-    }, [setUsersInfo, token, userId, usersInfo]);
-
-    // return data;
-}
-
-export async function getAsyncAvatarAndPseudo(token, userId) {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-    try {
-        const reponse = await API.get(`user/posterinfo/${userId}`, config);
-        const result = await reponse.data;
-        // console.log(result);
-        return result;
-    } catch (err) {
-        console.log(err.response.data);
-    }
-}
-
-export function likerPost(token, id, obj) {
-    const headers = {
+export function loverPost(id, obj) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const headers = token && {
         Authorization: `Bearer ${token}`,
     };
-    API.post(`post/${id}/like`, obj, {
-        headers,
-    })
-        .then(() => {})
-        .catch((err) => {
-            console.log(err.response.data);
-        });
+    token &&
+        API.post(`post/${id}/love`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+            });
 }
-
-export function loverPost(token, id, obj) {
-    const headers = {
+export function postCommentWithoutImage(obj) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const headers = token && {
         Authorization: `Bearer ${token}`,
     };
-    API.post(`post/${id}/love`, obj, {
-        headers,
-    })
-        .then(() => {})
-        .catch((err) => {
-            console.log(err.response.data);
-        });
+    token &&
+        API.post(`comment/`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+            });
 }
-export function postCommentWithoutImage(token, obj) {
-    const headers = {
-        Authorization: `Bearer ${token}`,
-    };
-    API.post(`comment/`, obj, {
-        headers,
-    })
-        .then(() => {})
-        .catch((err) => {
-            console.log(err.response.data);
-        });
-}
-export function getThisPostComments(token, id) {
-    const config = {
+export function getThisPostComments(id) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const config = token && {
         headers: {
             Authorization: `Bearer ${token}`,
         },

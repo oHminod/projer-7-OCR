@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { getAvatarAndPseudo } from "../../utils/axiosCalls";
-import { useAuth } from "./AuthContext";
 import { useUsersWithPosts } from "./PostsContext";
 import { useSocket } from "./SocketContext";
 
@@ -29,7 +28,6 @@ export function UsersInfoProvider({ children }) {
         []
     );
     const usersWithPosts = useUsersWithPosts();
-    const token = useAuth();
     const socket = useSocket();
 
     const [ioBlock, setIoBlock] = useState(true);
@@ -42,7 +40,7 @@ export function UsersInfoProvider({ children }) {
     }, [socket]);
 
     const getInfos = useMemo(() => {
-        if (token && usersWithPosts && ioBlock) {
+        if (usersWithPosts && ioBlock) {
             return awaitInfos(usersWithPosts);
         }
         async function awaitInfos(usersWithPosts) {
@@ -50,14 +48,14 @@ export function UsersInfoProvider({ children }) {
             const promesseTab = await usersWithPosts.map(
                 (ID) =>
                     !tempTab.find((findUser) => findUser.userId === ID) &&
-                    getAvatarAndPseudo(token, ID).then((user) => {
+                    getAvatarAndPseudo(ID).then((user) => {
                         tempTab = [...tempTab, user];
                     })
             );
             await Promise.all(promesseTab);
             return tempTab;
         }
-    }, [ioBlock, token, usersWithPosts]);
+    }, [ioBlock, usersWithPosts]);
 
     useEffect(() => {
         getInfos &&
