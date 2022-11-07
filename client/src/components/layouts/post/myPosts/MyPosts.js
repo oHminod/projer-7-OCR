@@ -1,7 +1,7 @@
 import React from "react";
 import { useMyPosts } from "../../../context/MyPostsContext";
 import PostProvider from "../PostContext";
-import MySinglePosts from "./MySinglePosts";
+import MySinglePost from "./MySinglePost";
 
 const MyPosts = () => {
     const myPosts = useMyPosts();
@@ -18,7 +18,7 @@ const MyPosts = () => {
                             key={"postContext-" + index}
                             thisPost={post}
                         >
-                            <MySinglePosts key={"post-" + index} />
+                            <MySinglePost key={"post-" + index} />
                         </PostProvider>
                     ))}
         </>

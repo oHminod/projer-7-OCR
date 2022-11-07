@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
-import { useUser } from "../../../context/UserContext";
-import { useComment, usePost } from "../PostContext";
-import CommentBlock from "../singlePost/commentaires/CommentBlock";
-import LikeContainer from "../singlePost/LikeContainer";
-import "../singlePost/SinglePost.scss";
+import { useComment } from "../PostContext";
+import CommentBlock from "./commentaires/CommentBlock";
+import LikeContainer from "./LikeContainer";
 
-const MySinglePosts = () => {
+const SinglePostDisplay = ({ thisPost, thisUser }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
-    const user = useUser();
+    const comment = useComment();
     const formatedText = (txt) => {
         return { __html: txt };
     };
-    const thisPost = usePost();
-    const comment = useComment();
 
     useEffect(() => {
         thisPost &&
@@ -26,16 +22,21 @@ const MySinglePosts = () => {
     }, [thisPost]);
 
     useEffect(() => {
-        thisPost && setCreatedAt(localeDateFromDate(thisPost.createdAt));
-        thisPost && setUpdatedAt(localeDateFromDate(thisPost.createdAt));
+        thisPost &&
+            thisPost.createdAt &&
+            setCreatedAt(localeDateFromDate(thisPost.createdAt));
+        thisPost &&
+            thisPost.updatedAt &&
+            setUpdatedAt(localeDateFromDate(thisPost.createdAt));
     }, [thisPost]);
+
     return (
         <article className="singlePost" id={thisPost && thisPost._id}>
             <div className="creatorInfo">
-                {user ? (
+                {thisUser ? (
                     <img
                         className="imgUser"
-                        src={user.avatar}
+                        src={thisUser.avatar}
                         alt="avatar de l'auteur"
                     />
                 ) : (
@@ -46,9 +47,9 @@ const MySinglePosts = () => {
                     />
                 )}
                 <div className="legende">
-                    {user && (
+                    {thisUser && (
                         <p>
-                            Par <strong>{user.pseudo}</strong>&nbsp;
+                            Par <strong>{thisUser.pseudo}</strong>&nbsp;
                         </p>
                     )}
                     <p> {createdAt}</p>
@@ -75,4 +76,4 @@ const MySinglePosts = () => {
     );
 };
 
-export default MySinglePosts;
+export default SinglePostDisplay;
