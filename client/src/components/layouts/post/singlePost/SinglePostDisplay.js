@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { getAvatarAndPseudo } from "../../../../utils/axiosCalls";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
+import {
+    useNewUsersInfo,
+    useNewUsersInfoUpdate,
+} from "../../../context/NewUsersInfoContext";
 import { useComment } from "../PostContext";
 import CommentBlock from "./commentaires/CommentBlock";
 import LikeContainer from "./LikeContainer";
@@ -7,10 +12,40 @@ import LikeContainer from "./LikeContainer";
 const SinglePostDisplay = ({ thisPost, thisUser }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
+    const [originalPostCreatedAt, setOriginalPostCreatedAt] = useState();
+    const [sharedUser, setSharedUser] = useState();
+    const usersInfo = useNewUsersInfo();
+    const setUsersInfo = useNewUsersInfoUpdate();
     const comment = useComment();
     const formatedText = (txt) => {
         return { __html: txt };
     };
+
+    useEffect(() => {
+        usersInfo &&
+            thisPost &&
+            thisPost.hasOwnProperty("sharedUserId") &&
+            usersInfo.find(
+                (findUser) => findUser.userId === thisPost.sharedUserId
+            ) &&
+            setSharedUser(
+                usersInfo.find(
+                    (findUser) => findUser.userId === thisPost.sharedUserId
+                )
+            );
+        usersInfo &&
+            thisPost &&
+            thisPost.hasOwnProperty("sharedUserId") &&
+            !usersInfo.find(
+                (findUser) => findUser.userId === thisPost.sharedUserId
+            ) &&
+            getAvatarAndPseudo(thisPost.sharedUserId)
+                .then((userInfo) => {
+                    setUsersInfo([...usersInfo, userInfo]);
+                    setSharedUser(userInfo);
+                })
+                .catch((err) => console.log(err));
+    }, [setUsersInfo, thisPost, usersInfo]);
 
     useEffect(() => {
         thisPost &&
@@ -25,6 +60,11 @@ const SinglePostDisplay = ({ thisPost, thisUser }) => {
         thisPost &&
             thisPost.createdAt &&
             setCreatedAt(localeDateFromDate(thisPost.createdAt));
+        thisPost &&
+            thisPost.originalPostCreatedAt &&
+            setOriginalPostCreatedAt(
+                localeDateFromDate(thisPost.originalPostCreatedAt)
+            );
         thisPost &&
             thisPost.updatedAt &&
             setUpdatedAt(localeDateFromDate(thisPost.createdAt));
@@ -70,6 +110,50 @@ const SinglePostDisplay = ({ thisPost, thisUser }) => {
                     />
                 )}
             </div>
+            {sharedUser && (
+                <>
+                    <div className="creatorInfo shared">
+                        {sharedUser ? (
+                            <img
+                                className="imgUser"
+                                src={sharedUser.avatar}
+                                alt="avatar de l'auteur"
+                            />
+                        ) : (
+                            <img
+                                className="imgUser"
+                                src="http://localhost:36600/images/avatars/default-avatar.jpg"
+                                alt="avatar par défaut"
+                            />
+                        )}
+                        <div className="legende">
+                            {sharedUser && (
+                                <p>
+                                    Publication originale par{" "}
+                                    <strong>{sharedUser.pseudo}</strong>&nbsp;
+                                </p>
+                            )}
+                            <p>{originalPostCreatedAt}</p>
+                        </div>
+                    </div>
+                    <div className="postContainer">
+                        {sharedUser && thisPost.sharedTexte && (
+                            <p
+                                dangerouslySetInnerHTML={formatedText(
+                                    thisPost.sharedTexte
+                                )}
+                            ></p>
+                        )}
+                        {sharedUser && thisPost.sharedImage && (
+                            <img
+                                className="imgPost"
+                                src={thisPost.sharedImage}
+                                alt="illustration"
+                            />
+                        )}
+                    </div>
+                </>
+            )}
             <LikeContainer />
             {comment && <CommentBlock />}
         </article>

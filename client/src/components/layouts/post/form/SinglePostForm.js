@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-    axiosPostPostWithImage,
-    axiosPostPostWithoutImage,
-} from "../../../../utils/axiosCalls";
+import { axiosPostPost } from "../../../../utils/axiosCalls";
 import { useUser } from "../../../context/UserContext";
 import InputFile from "./InputFile";
 import "./SinglePostForm.scss";
@@ -31,9 +28,9 @@ const SinglePostForm = () => {
             data.append("imagePost", selectedImage);
             data.append("post", JSON.stringify(obj));
 
-            axiosPostPostWithImage(data, setDbError);
+            axiosPostPost(data, setDbError);
         } else {
-            axiosPostPostWithoutImage(obj, setDbError);
+            axiosPostPost(obj, setDbError);
         }
         setText();
         setResetTextInput(true);

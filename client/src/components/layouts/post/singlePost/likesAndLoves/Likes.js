@@ -64,9 +64,7 @@ const Likes = () => {
         let obj = {};
         actif ? (obj.like = "0") : (obj.like = "1");
 
-        thisPost && actif
-            ? likerPost(thisPost._id, obj)
-            : likerPost(thisPost._id, obj);
+        thisPost && likerPost(thisPost._id, obj);
     };
 
     return (

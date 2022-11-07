@@ -226,25 +226,7 @@ export function axiosUserChangeInfoWithoutImage(
             });
 }
 
-export function axiosPostPostWithImage(data, setDbError) {
-    const token = JSON.parse(
-        window.localStorage.getItem("groupomania-queryToken")
-    );
-    const headers = token && {
-        Authorization: `Bearer ${token}`,
-    };
-    token &&
-        API.post(`post/post`, data, {
-            headers,
-        })
-            .then(() => {})
-            .catch((err) => {
-                console.log(err.response.data);
-                setDbError(err.response.data);
-            });
-}
-
-export function axiosPostPostWithoutImage(obj, setDbError) {
+export function axiosPostPost(obj, setDbError) {
     const token = JSON.parse(
         window.localStorage.getItem("groupomania-queryToken")
     );
@@ -386,6 +368,41 @@ export function loverPost(id, obj) {
                 console.log(err.response.data);
             });
 }
+
+export function partagerPost(id, obj) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const headers = token && {
+        Authorization: `Bearer ${token}`,
+    };
+    token &&
+        API.post(`post/${id}/share`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+            });
+}
+
+export function postSharedPost(obj) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const headers = token && {
+        Authorization: `Bearer ${token}`,
+    };
+    token &&
+        API.post(`post/post`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+            });
+}
+
 export function postCommentWithoutImage(obj) {
     const token = JSON.parse(
         window.localStorage.getItem("groupomania-queryToken")

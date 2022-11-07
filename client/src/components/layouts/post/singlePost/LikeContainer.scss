@@ -29,6 +29,7 @@
 
     .likes,
     .loves,
+    .shares,
     .commenter {
         display: flex;
         align-items: center;
@@ -67,6 +68,7 @@
     }
 
     .likes,
+    .shares,
     .loves {
         width: 50%;
     }
