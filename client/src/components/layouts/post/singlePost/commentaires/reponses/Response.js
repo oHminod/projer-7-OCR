@@ -11,6 +11,7 @@ const Response = ({ reponse, resTargetPseudo }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [repondre, setRepondre] = useState(false);
+    const [commentText, setCommentText] = useState("");
     const formatedText = (txt) => {
         return { __html: txt };
     };
@@ -24,10 +25,11 @@ const Response = ({ reponse, resTargetPseudo }) => {
     useEffect(() => {
         reponse &&
             reponse.text &&
-            (reponse.text = reponse.text
-                .trim()
-                .split("\u000A")
-                .join("</p><p>"));
+            setCommentText(
+                "<p>" +
+                    reponse.text.trim().split("\u000A").join("</p><p>") +
+                    "</p>"
+            );
     }, [reponse]);
 
     useEffect(() => {
@@ -65,12 +67,12 @@ const Response = ({ reponse, resTargetPseudo }) => {
                                 </p>
                             )}
                             <div className="comment">
-                                {reponse && (
-                                    <p
+                                {commentText && (
+                                    <div
                                         dangerouslySetInnerHTML={formatedText(
-                                            reponse.text
+                                            commentText
                                         )}
-                                    ></p>
+                                    ></div>
                                 )}
                             </div>
                         </div>

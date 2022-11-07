@@ -10,6 +10,7 @@ const Commentaire = ({ comment }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [repondre, setRepondre] = useState(false);
+    const [commentText, setCommentText] = useState("");
     const formatedText = (txt) => {
         return { __html: txt };
     };
@@ -25,11 +26,12 @@ const Commentaire = ({ comment }) => {
     useEffect(() => {
         comment &&
             comment.text &&
-            (comment.text = comment.text
-                .trim()
-                .split("\u000A")
-                .join("</p><p>"));
-    }, [comment]);
+            setCommentText(
+                "<p>" +
+                    comment.text.trim().split("\u000A").join("</p><p>") +
+                    "</p>"
+            );
+    }, [comment, commentText]);
 
     useEffect(() => {
         comment && setCreatedAt(shortDateFromDate(comment.createdAt));
@@ -65,12 +67,12 @@ const Commentaire = ({ comment }) => {
                                 </p>
                             )}
                             <div className="comment">
-                                {comment && (
-                                    <p
+                                {commentText && (
+                                    <div
                                         dangerouslySetInnerHTML={formatedText(
-                                            comment.text
+                                            commentText
                                         )}
-                                    ></p>
+                                    ></div>
                                 )}
                             </div>
                         </div>
