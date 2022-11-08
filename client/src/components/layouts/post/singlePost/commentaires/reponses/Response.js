@@ -46,34 +46,36 @@ const Response = ({ reponse, resTargetPseudo }) => {
             <div className="reponse" key={reponse.threadId}>
                 <div className="card">
                     <div className="creatorInfo">
-                        {user ? (
-                            <img
-                                className="imgUser"
-                                src={user.avatar}
-                                alt="avatar de l'auteur"
-                            />
-                        ) : (
-                            <img
-                                className="imgUser"
-                                src="http://localhost:36600/images/avatars/default-avatar.jpg"
-                                alt="avatar par défaut"
-                            />
-                        )}
-                        <div className="legendeCom">
-                            {user && (
-                                <p>
-                                    <strong>{user.pseudo}</strong> pour{" "}
-                                    <strong>{resTargetPseudo}</strong>
-                                </p>
+                        <div className="wrapper">
+                            {user ? (
+                                <img
+                                    className="imgUser"
+                                    src={user.avatar}
+                                    alt="avatar de l'auteur"
+                                />
+                            ) : (
+                                <img
+                                    className="imgUser"
+                                    src="http://localhost:36600/images/avatars/default-avatar.jpg"
+                                    alt="avatar par défaut"
+                                />
                             )}
-                            <div className="comment">
-                                {commentText && (
-                                    <div
-                                        dangerouslySetInnerHTML={formatedText(
-                                            commentText
-                                        )}
-                                    ></div>
+                            <div className="legendeCom">
+                                {user && (
+                                    <p>
+                                        <strong>{user.pseudo}</strong> pour{" "}
+                                        <strong>{resTargetPseudo}</strong>
+                                    </p>
                                 )}
+                                <div className="comment">
+                                    {commentText && (
+                                        <div
+                                            dangerouslySetInnerHTML={formatedText(
+                                                commentText
+                                            )}
+                                        ></div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>

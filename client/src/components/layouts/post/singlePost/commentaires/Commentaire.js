@@ -47,33 +47,35 @@ const Commentaire = ({ comment }) => {
             <div className="commentaire">
                 <div className="card">
                     <div className="creatorInfo">
-                        {user ? (
-                            <img
-                                className="imgUser"
-                                src={user.avatar}
-                                alt="avatar de l'auteur"
-                            />
-                        ) : (
-                            <img
-                                className="imgUser"
-                                src="http://localhost:36600/images/avatars/default-avatar.jpg"
-                                alt="avatar par défaut"
-                            />
-                        )}
-                        <div className="legendeCom">
-                            {user && (
-                                <p>
-                                    <strong>{user.pseudo}</strong>
-                                </p>
+                        <div className="wrapper">
+                            {user ? (
+                                <img
+                                    className="imgUser"
+                                    src={user.avatar}
+                                    alt="avatar de l'auteur"
+                                />
+                            ) : (
+                                <img
+                                    className="imgUser"
+                                    src="http://localhost:36600/images/avatars/default-avatar.jpg"
+                                    alt="avatar par défaut"
+                                />
                             )}
-                            <div className="comment">
-                                {commentText && (
-                                    <div
-                                        dangerouslySetInnerHTML={formatedText(
-                                            commentText
-                                        )}
-                                    ></div>
+                            <div className="legendeCom">
+                                {user && (
+                                    <p>
+                                        <strong>{user.pseudo}</strong>
+                                    </p>
                                 )}
+                                <div className="comment">
+                                    {commentText && (
+                                        <div
+                                            dangerouslySetInnerHTML={formatedText(
+                                                commentText
+                                            )}
+                                        ></div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
