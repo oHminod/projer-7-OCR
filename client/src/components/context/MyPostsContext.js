@@ -1,6 +1,14 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
-import { useGetAllMyPosts } from "../../utils/axiosCalls";
+import React, {
+    useState,
+    createContext,
+    useContext,
+    useEffect,
+    // useMemo,
+} from "react";
+import { getAvatarAndPseudo, useGetAllMyPosts } from "../../utils/axiosCalls";
 import { useAuth } from "./AuthContext";
+import { useNewUsersInfo, useNewUsersInfoUpdate } from "./NewUsersInfoContext";
+import { usePosts } from "./PostsContext";
 import { useSocket } from "./SocketContext";
 import { useUser } from "./UserContext";
 
@@ -17,14 +25,61 @@ export function useMyPostsUpdate() {
 
 export const MyPostsProvider = ({ children }) => {
     const [myPosts, setMyPosts] = useState([]);
+    const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
+    const usersInfo = useNewUsersInfo();
+    const setUsersInfo = useNewUsersInfoUpdate();
+    const posts = usePosts();
     const token = useAuth();
     const my = useUser();
     const socket = useSocket();
     const allMyPosts = useGetAllMyPosts(my && my._id);
 
     useEffect(() => {
-        allMyPosts && setMyPosts(allMyPosts);
-    }, [allMyPosts]);
+        token && allMyPosts && setMyPosts(allMyPosts);
+    }, [allMyPosts, token]);
+
+    useEffect(() => {
+        posts &&
+            posts.map((post) => {
+                usersWhoHavePost.indexOf(post.userId) === -1 &&
+                    setUsersWhoHavePost([...usersWhoHavePost, post.userId]);
+                post.hasOwnProperty("sharedUserId") &&
+                    post.sharedUserId &&
+                    usersWhoHavePost.indexOf(post.sharedUserId) === -1 &&
+                    setUsersWhoHavePost([
+                        ...usersWhoHavePost,
+                        post.sharedUserId,
+                    ]);
+                return true;
+            });
+    }, [posts, usersWhoHavePost]);
+
+    useEffect(() => {
+        allMyPosts &&
+            allMyPosts.map((post) => {
+                usersWhoHavePost.indexOf(post.userId) === -1 &&
+                    setUsersWhoHavePost([...usersWhoHavePost, post.userId]);
+                post.hasOwnProperty("sharedUserId") &&
+                    post.sharedUserId &&
+                    usersWhoHavePost.indexOf(post.sharedUserId) === -1 &&
+                    setUsersWhoHavePost([
+                        ...usersWhoHavePost,
+                        post.sharedUserId,
+                    ]);
+                return true;
+            });
+    }, [allMyPosts, usersWhoHavePost]);
+
+    useEffect(() => {
+        usersWhoHavePost &&
+            usersWhoHavePost.map(
+                (id) =>
+                    !usersInfo.find((findUser) => findUser.userId === id) &&
+                    getAvatarAndPseudo(id).then((userInfo) =>
+                        setUsersInfo([...usersInfo, userInfo])
+                    )
+            );
+    }, [setUsersInfo, usersInfo, usersWhoHavePost]);
 
     useEffect(() => {
         socket &&

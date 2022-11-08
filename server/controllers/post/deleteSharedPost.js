@@ -22,7 +22,8 @@ const deleteSharedPost = (req, res, next) => {
             if (post.userId != req.session.userId) {
                 return next(ApiError.unauthorized("Accès refusé"));
             } else {
-                post.usersShared.map((ID) =>
+                post.usersShared.map((ID) => {
+                    console.log(ID);
                     PostModel.findOne({
                         userId: ID,
                         sharedPostId: req.params.id,
@@ -46,8 +47,8 @@ const deleteSharedPost = (req, res, next) => {
                         })
                         .catch((error) => {
                             return next(ApiError.notFound(error.message));
-                        })
-                );
+                        });
+                });
             }
             return post;
         })

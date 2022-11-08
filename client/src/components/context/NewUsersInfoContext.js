@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect } from "react";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import React, { createContext, useContext, useEffect, useState } from "react";
+// import useLocalStorage from "../../hooks/useLocalStorage";
 import { useSocket } from "./SocketContext";
 
 export const NewUsersInfoContext = createContext();
@@ -15,10 +15,7 @@ export function useNewUsersInfoUpdate() {
 }
 
 export function NewUsersInfoProvider({ children }) {
-    const [newUsersInfo, setNewUsersInfo] = useLocalStorage(
-        "groupomania-newUsersInfo",
-        []
-    );
+    const [newUsersInfo, setNewUsersInfo] = useState([]);
     const socket = useSocket();
 
     useEffect(() => {

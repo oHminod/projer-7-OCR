@@ -243,7 +243,22 @@ export function axiosPostPost(obj, setDbError) {
                 setDbError(err.response.data);
             });
 }
-// export function axiosGetAllPosts(token) {
+export function axiosGetAllPosts(token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    return API.get(`post/`, config)
+        .then((data) => data.data)
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+}
+// export function axiosGetAllPosts() {
+//     const token = JSON.parse(
+//         window.localStorage.getItem("groupomania-queryToken")
+//     );
 //     const config = {
 //         headers: {
 //             Authorization: `Bearer ${token}`,
@@ -255,28 +270,28 @@ export function axiosPostPost(obj, setDbError) {
 //             console.log(err.response.data);
 //         });
 // }
-export function useGetAllPosts() {
-    const token = JSON.parse(
-        window.localStorage.getItem("groupomania-queryToken")
-    );
-    const [data, setData] = useState();
-    useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        token &&
-            API.get(`post/`, config)
-                .then((data) => setData(data.data))
-                .catch((err) => {
-                    console.log(err.response.data);
-                });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+// export function useGetAllPosts() {
+//     const token = JSON.parse(
+//         window.localStorage.getItem("groupomania-queryToken")
+//     );
+//     const [data, setData] = useState();
+//     useEffect(() => {
+//         const config = {
+//             headers: {
+//                 Authorization: `Bearer ${token}`,
+//             },
+//         };
+//         token &&
+//             API.get(`post/`, config)
+//                 .then((data) => setData(data.data))
+//                 .catch((err) => {
+//                     console.log(err.response.data);
+//                 });
+//         // eslint-disable-next-line react-hooks/exhaustive-deps
+//     }, []);
 
-    return data;
-}
+//     return data;
+// }
 
 // export function axiosGetAllMyPosts(token, id) {
 //     const config = {
@@ -384,6 +399,37 @@ export function partagerPost(id, obj) {
             .catch((err) => {
                 console.log(err.response.data);
             });
+}
+
+export function deletePost(postId) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    config &&
+        API.delete(`post/${postId}`, config).catch((err) => {
+            console.log(err.response.data);
+        });
+    return;
+}
+export function deleteSharedPost(postId) {
+    const token = JSON.parse(
+        window.localStorage.getItem("groupomania-queryToken")
+    );
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    config &&
+        API.delete(`post/shared/${postId}`, config).catch((err) => {
+            console.log(err.response.data);
+        });
+    return;
 }
 
 export function postSharedPost(obj) {
