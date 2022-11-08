@@ -14,7 +14,7 @@ const updatePost = require("../helpers/updatePost");
  * router which, when invoked, executes the middleware succeeding the current
  * middleware.
  */
-const likerSauce = (req, res, next) => {
+const likerPost = (req, res, next) => {
     PostModel.findOne({ _id: req.params.id })
         .then((post) => {
             let userLike = post.usersLiked.indexOf(req.session.userId);
@@ -35,4 +35,4 @@ const likerSauce = (req, res, next) => {
             return next(ApiError.notFound(error.message));
         });
 };
-module.exports = likerSauce;
+module.exports = likerPost;

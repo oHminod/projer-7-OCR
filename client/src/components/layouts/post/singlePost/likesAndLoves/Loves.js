@@ -71,6 +71,7 @@ const Loves = () => {
         <button
             onClick={handelClick}
             className={actif ? "loves actif" : "loves"}
+            title="J'adore"
         >
             {thisPost && (
                 <i className="fa-regular fa-heart">

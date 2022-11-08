@@ -8,6 +8,8 @@ const getAllMyPosts = require("../controllers/post/getAllMyPosts");
 const likerPost = require("../controllers/post/likerPost");
 const loverPost = require("../controllers/post/loverPost");
 const partagerPost = require("../controllers/post/partagerPost");
+const deletePost = require("../controllers/post/deletePost");
+const deleteSharedPost = require("../controllers/post/deleteSharedPost");
 /**
  * Routes post.
  */
@@ -20,5 +22,7 @@ post.post("/post", sessionOk, multerPost, postPost);
 post.post("/:id/like", sessionOk, likerPost);
 post.post("/:id/love", sessionOk, loverPost);
 post.post("/:id/share", sessionOk, partagerPost);
+post.delete("/:id", sessionOk, deletePost);
+post.delete("/shared/:id", sessionOk, deleteSharedPost);
 
 module.exports = post;

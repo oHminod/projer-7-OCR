@@ -95,6 +95,7 @@ const Partager = () => {
         <button
             onClick={handelClick}
             className={actif ? "shares actif" : "shares"}
+            title="Partager"
         >
             {thisPost && (
                 <i className="fa-solid fa-retweet">
