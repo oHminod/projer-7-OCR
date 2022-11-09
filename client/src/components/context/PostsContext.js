@@ -8,7 +8,6 @@ import React, {
 import { axiosGetAllPosts } from "../../utils/axiosCalls";
 import { useAuth } from "../context/AuthContext";
 
-// import { useNewUsersInfo, useNewUsersInfoUpdate } from "./NewUsersInfoContext";
 import { useSocket } from "./SocketContext";
 
 export const PostsContext = createContext();
@@ -30,45 +29,13 @@ export function useUsersWithPosts() {
 
 export function PostsProvider({ children }) {
     const [posts, setPosts] = useState();
-    // const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
-    // const usersInfo = useNewUsersInfo();
-    // const setUsersInfo = useNewUsersInfoUpdate();
     const token = useAuth();
 
     const socket = useSocket();
 
-    // const axiosPosts = axiosGetAllPosts()
-
     useMemo(() => {
-        // console.log("coucou");
         token && axiosGetAllPosts(token).then((data) => setPosts(data));
     }, [token]);
-
-    // useMemo(() => {
-    //     posts &&
-    //         posts.map((post) => {
-    //             usersWhoHavePost.indexOf(post.userId) === -1 &&
-    //                 setUsersWhoHavePost([...usersWhoHavePost, post.userId]);
-    //             post.hasOwnProperty("sharedUserId") &&
-    //                 post.sharedUserId &&
-    //                 usersWhoHavePost.indexOf(post.sharedUserId) === -1 &&
-    //                 setUsersWhoHavePost([
-    //                     ...new Set([...usersWhoHavePost, post.sharedUserId]),
-    //                 ]);
-    //             return true;
-    //         });
-    // }, [posts, usersWhoHavePost]);
-
-    // useEffect(() => {
-    //     usersWhoHavePost &&
-    //         usersWhoHavePost.map(
-    //             (id) =>
-    //                 !usersInfo.find((findUser) => findUser.userId === id) &&
-    //                 getAvatarAndPseudo(id).then((userInfo) =>
-    //                     setUsersInfo([...usersInfo, userInfo])
-    //                 )
-    //         );
-    // }, [setUsersInfo, usersInfo, usersWhoHavePost]);
 
     useEffect(() => {
         socket &&
@@ -108,12 +75,25 @@ export function PostsProvider({ children }) {
             });
     }, [posts, socket]);
 
+    useEffect(() => {
+        socket &&
+            socket.on("postDeleted", (id) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(id);
+                    thisPostIndex !== -1 &&
+                        allPostsCopy.splice(thisPostIndex, 1);
+                    thisPostIndex !== -1 && setPosts(allPostsCopy);
+                }
+            });
+    }, [posts, socket]);
+
     return (
         <PostsContext.Provider value={posts}>
             <PostsUpdateContext.Provider value={setPosts}>
-                {/* <UsersWithPostsContext.Provider value={usersWhoHavePost}> */}
                 {children}
-                {/* </UsersWithPostsContext.Provider> */}
             </PostsUpdateContext.Provider>
         </PostsContext.Provider>
     );

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { partagerPost, postSharedPost } from "../../../../../utils/axiosCalls";
+import {
+    deletePost,
+    partagerPost,
+    postSharedPost,
+} from "../../../../../utils/axiosCalls";
 import {
     useMyPosts,
     useMyPostsUpdate,
@@ -66,28 +70,41 @@ const Partager = () => {
 
         let obj = {};
         actif ? (obj.share = "0") : (obj.share = "1");
+        if (!actif) {
+            thisPost && partagerPost(thisPost._id, obj);
 
-        thisPost && partagerPost(thisPost._id, obj);
-
-        let sharedPost = {};
-        if (thisPost && thisPost.hasOwnProperty("sharedUserId")) {
-            sharedPost.sharedPostId = thisPost.sharedPostId;
-            sharedPost.sharedUserId = thisPost.sharedUserId;
-            thisPost.sharedTexte &&
-                (sharedPost.sharedTexte = thisPost.sharedTexte);
-            thisPost.sharedImage &&
-                (sharedPost.sharedImage = thisPost.sharedImage);
-            sharedPost.userId = user._id;
-            sharedPost.originalPostCreatedAt = thisPost.originalPostCreatedAt;
-            postSharedPost(sharedPost);
-        } else if (thisPost) {
-            sharedPost.sharedPostId = thisPost._id;
-            sharedPost.sharedUserId = thisPost.userId;
-            thisPost.texte && (sharedPost.sharedTexte = thisPost.texte);
-            thisPost.image && (sharedPost.sharedImage = thisPost.image);
-            sharedPost.userId = user._id;
-            sharedPost.originalPostCreatedAt = thisPost.createdAt;
-            postSharedPost(sharedPost);
+            let sharedPost = {};
+            if (thisPost && thisPost.sharedUserId) {
+                sharedPost.sharedPostId = thisPost.sharedPostId;
+                sharedPost.sharedUserId = thisPost.sharedUserId;
+                thisPost.sharedTexte &&
+                    (sharedPost.sharedTexte = thisPost.sharedTexte);
+                thisPost.sharedImage &&
+                    (sharedPost.sharedImage = thisPost.sharedImage);
+                sharedPost.userId = user._id;
+                sharedPost.originalPostCreatedAt =
+                    thisPost.originalPostCreatedAt;
+                postSharedPost(sharedPost);
+            } else if (thisPost) {
+                sharedPost.sharedPostId = thisPost._id;
+                sharedPost.sharedUserId = thisPost.userId;
+                thisPost.texte && (sharedPost.sharedTexte = thisPost.texte);
+                thisPost.image && (sharedPost.sharedImage = thisPost.image);
+                sharedPost.userId = user._id;
+                sharedPost.originalPostCreatedAt = thisPost.createdAt;
+                postSharedPost(sharedPost);
+            }
+        } else if (actif) {
+            thisPost && partagerPost(thisPost._id, obj);
+            const sharedPost =
+                allMyPosts.find(
+                    (findPost) => findPost.sharedPostId === thisPost._id
+                ) ||
+                allMyPosts.find(
+                    (findPost) =>
+                        findPost.sharedPostId === thisPost.sharedPostId
+                );
+            deletePost(sharedPost._id);
         }
     };
 

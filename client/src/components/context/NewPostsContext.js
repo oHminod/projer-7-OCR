@@ -42,6 +42,60 @@ export const NewPostsProvider = ({ children }) => {
             });
     }, [newPosts, socket]);
 
+    useEffect(() => {
+        socket &&
+            socket.on("likeAndLovesResponse", (postObj) => {
+                if (
+                    newPosts &&
+                    newPosts.find((findPost) => findPost._id === postObj._id)
+                ) {
+                    let allPostsCopy = [...newPosts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(postObj._id);
+                    thisPostIndex !== -1 &&
+                        (allPostsCopy[thisPostIndex] = postObj);
+                    thisPostIndex !== -1 && setNewPosts(allPostsCopy);
+                }
+            });
+    }, [newPosts, socket]);
+
+    useEffect(() => {
+        socket &&
+            socket.on("postUpdate", (postObj) => {
+                if (
+                    newPosts &&
+                    newPosts.find((findPost) => findPost._id === postObj._id)
+                ) {
+                    let allPostsCopy = [...newPosts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(postObj._id);
+                    thisPostIndex !== -1 &&
+                        (allPostsCopy[thisPostIndex] = postObj);
+                    thisPostIndex !== -1 && setNewPosts(allPostsCopy);
+                }
+            });
+    }, [newPosts, socket]);
+
+    useEffect(() => {
+        socket &&
+            socket.on("postDeleted", (id) => {
+                if (
+                    newPosts &&
+                    newPosts.find((findPost) => findPost._id === id)
+                ) {
+                    let allPostsCopy = [...newPosts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(id);
+                    thisPostIndex !== -1 &&
+                        allPostsCopy.splice(thisPostIndex, 1);
+                    thisPostIndex !== -1 && setNewPosts(allPostsCopy);
+                }
+            });
+    }, [newPosts, socket]);
+
     return (
         <NewPostsContext.Provider value={newPosts}>
             <NewPostsUpdateContext.Provider value={setNewPosts}>

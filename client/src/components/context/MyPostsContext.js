@@ -117,6 +117,21 @@ export const MyPostsProvider = ({ children }) => {
             });
     }, [myPosts, socket]);
 
+    useEffect(() => {
+        socket &&
+            socket.on("postDeleted", (id) => {
+                if (myPosts) {
+                    let allMyPostsCopy = [...myPosts];
+                    const thisPostIndex = allMyPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(id);
+                    thisPostIndex !== -1 &&
+                        allMyPostsCopy.splice(thisPostIndex, 1);
+                    thisPostIndex !== -1 && setMyPosts(allMyPostsCopy);
+                }
+            });
+    }, [myPosts, socket]);
+
     return (
         <MyPostsContext.Provider value={myPosts}>
             <MyPostsUpdateContext.Provider value={setMyPosts}>

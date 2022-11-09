@@ -4,6 +4,7 @@ import {
     useNewUsersInfo,
     useNewUsersInfoUpdate,
 } from "../../../context/NewUsersInfoContext";
+import { useUser } from "../../../context/UserContext";
 import { useComment } from "../PostContext";
 import CommentBlock from "./commentaires/CommentBlock";
 import LikeContainer from "./LikeContainer";
@@ -17,6 +18,7 @@ const SinglePostDisplay = ({ thisPost, thisUser }) => {
     // const [loadInfos, setLoadInfos] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const usersInfo = useNewUsersInfo();
+    const my = useUser();
     const setUsersInfo = useNewUsersInfoUpdate();
     const comment = useComment();
     const formatedText = (txt) => {
@@ -109,15 +111,17 @@ const SinglePostDisplay = ({ thisPost, thisUser }) => {
                         )}
                     </div>
                 </div>
-                <div className="wrapper">
-                    {editModal && <ModifierOuSupprimer />}
-                    <button
-                        className="modifierOuSupprimer"
-                        onClick={handleEdit}
-                    >
-                        <i className="fa-solid fa-ellipsis"></i>
-                    </button>
-                </div>
+                {thisPost && my && thisPost.userId === my._id && (
+                    <div className="wrapper">
+                        {editModal && <ModifierOuSupprimer />}
+                        <button
+                            className="modifierOuSupprimer"
+                            onClick={handleEdit}
+                        >
+                            <i className="fa-solid fa-ellipsis"></i>
+                        </button>
+                    </div>
+                )}
             </div>
             <div className="postContainer">
                 {thisPost && thisPost.texte && (
