@@ -12,6 +12,7 @@ const postModel = mongoose.Schema(
         usersLoved: { type: Array, default: [] },
         usersShared: { type: Array, default: [] },
         commentaires: { type: Array, default: [] },
+        fromPostId: { type: String, default: "" },
         sharedPostId: { type: String, default: "" },
         sharedUserId: { type: String, default: "" },
         sharedTexte: { type: String, default: "" },

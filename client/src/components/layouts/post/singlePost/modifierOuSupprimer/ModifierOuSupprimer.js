@@ -2,11 +2,11 @@ import React from "react";
 import DeletePost from "./DeletePost";
 import EditPost from "./EditPost";
 
-const ModifierOuSupprimer = () => {
+const ModifierOuSupprimer = ({ setEditModal }) => {
     return (
         <div>
             <EditPost />
-            <DeletePost />
+            <DeletePost setEditModal={setEditModal} />
         </div>
     );
 };

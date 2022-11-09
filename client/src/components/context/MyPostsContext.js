@@ -106,6 +106,47 @@ export const MyPostsProvider = ({ children }) => {
 
     useEffect(() => {
         socket &&
+            socket.on("shareDeleted", (obj) => {
+                if (myPosts) {
+                    let allPostsCopy = [...myPosts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(obj.originalPostId);
+                    if (thisPostIndex !== -1) {
+                        const userId = allPostsCopy[
+                            thisPostIndex
+                        ].usersShared.indexOf(obj.userId);
+                        allPostsCopy[thisPostIndex].usersShared.splice(
+                            userId,
+                            1
+                        );
+                        allPostsCopy[thisPostIndex].shares =
+                            allPostsCopy[thisPostIndex].usersShared.length;
+                        setMyPosts(allPostsCopy);
+                    }
+                }
+            });
+    }, [myPosts, socket]);
+
+    useEffect(() => {
+        socket &&
+            socket.on("PropageContentDelete", (id) => {
+                if (myPosts) {
+                    let allPostsCopy = [...myPosts];
+                    allPostsCopy.map((post) => {
+                        if (post.sharedPostId === id) {
+                            post.sharedTexte = "La publication a été supprimée";
+                            post.sharedImage = "";
+                        }
+                        return true;
+                    });
+                    setMyPosts(allPostsCopy);
+                }
+            });
+    }, [myPosts, socket]);
+
+    useEffect(() => {
+        socket &&
             socket.on("postUpdate", (postObj) => {
                 let allMyPostsCopy = [...myPosts];
                 const thisPostIndex = allMyPostsCopy

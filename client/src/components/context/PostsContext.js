@@ -62,6 +62,30 @@ export function PostsProvider({ children }) {
 
     useEffect(() => {
         socket &&
+            socket.on("shareDeleted", (obj) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(obj.originalPostId);
+                    if (thisPostIndex !== -1) {
+                        const userId = allPostsCopy[
+                            thisPostIndex
+                        ].usersShared.indexOf(obj.userId);
+                        allPostsCopy[thisPostIndex].usersShared.splice(
+                            userId,
+                            1
+                        );
+                        allPostsCopy[thisPostIndex].shares =
+                            allPostsCopy[thisPostIndex].usersShared.length;
+                        setPosts(allPostsCopy);
+                    }
+                }
+            });
+    }, [posts, socket]);
+
+    useEffect(() => {
+        socket &&
             socket.on("postUpdate", (postObj) => {
                 if (posts) {
                     let allPostsCopy = [...posts];
@@ -71,6 +95,23 @@ export function PostsProvider({ children }) {
                     thisPostIndex !== -1 &&
                         (allPostsCopy[thisPostIndex] = postObj);
                     thisPostIndex !== -1 && setPosts(allPostsCopy);
+                }
+            });
+    }, [posts, socket]);
+
+    useEffect(() => {
+        socket &&
+            socket.on("PropageContentDelete", (id) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    allPostsCopy.map((post) => {
+                        if (post.sharedPostId === id) {
+                            post.sharedTexte = "La publication a été supprimée";
+                            post.sharedImage = "";
+                        }
+                        return true;
+                    });
+                    setPosts(allPostsCopy);
                 }
             });
     }, [posts, socket]);

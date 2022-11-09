@@ -37,6 +37,8 @@ const Partager = () => {
     }, [thisPost, user]);
 
     const handelClick = () => {
+        if (thisPost && thisPost.sharedPostId && thisPost.userId === user._id)
+            return;
         setActif(!actif);
         let postObj = { ...thisPost };
 
@@ -75,6 +77,7 @@ const Partager = () => {
 
             let sharedPost = {};
             if (thisPost && thisPost.sharedUserId) {
+                sharedPost.fromPostId = thisPost._id;
                 sharedPost.sharedPostId = thisPost.sharedPostId;
                 sharedPost.sharedUserId = thisPost.sharedUserId;
                 thisPost.sharedTexte &&
@@ -86,6 +89,7 @@ const Partager = () => {
                     thisPost.originalPostCreatedAt;
                 postSharedPost(sharedPost);
             } else if (thisPost) {
+                sharedPost.fromPostId = thisPost._id;
                 sharedPost.sharedPostId = thisPost._id;
                 sharedPost.sharedUserId = thisPost.userId;
                 thisPost.texte && (sharedPost.sharedTexte = thisPost.texte);
@@ -111,7 +115,14 @@ const Partager = () => {
     return (
         <button
             onClick={handelClick}
-            className={actif ? "shares actif" : "shares"}
+            className={
+                (thisPost &&
+                    user &&
+                    thisPost.sharedPostId &&
+                    thisPost.userId === user._id &&
+                    "shares neutralise") ||
+                (actif ? "shares actif" : "shares")
+            }
             title="Partager"
         >
             {thisPost && (

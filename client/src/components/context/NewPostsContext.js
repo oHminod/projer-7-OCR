@@ -42,20 +42,38 @@ export const NewPostsProvider = ({ children }) => {
             });
     }, [newPosts, socket]);
 
+    // useEffect(() => {
+    //     socket &&
+    //         socket.on("likeAndLovesResponse", (postObj) => {
+    //             if (
+    //                 newPosts &&
+    //                 newPosts.find((findPost) => findPost._id === postObj._id)
+    //             ) {
+    //                 console.log(newPosts);
+    //                 let allPostsCopy = [...newPosts];
+    //                 const thisPostIndex = allPostsCopy
+    //                     .map((post) => post._id)
+    //                     .indexOf(postObj._id);
+    //                 thisPostIndex !== -1 &&
+    //                     (allPostsCopy[thisPostIndex] = postObj);
+    //                 thisPostIndex !== -1 && setNewPosts(allPostsCopy);
+    //             }
+    //         });
+    // }, [newPosts, socket]);
+
     useEffect(() => {
         socket &&
-            socket.on("likeAndLovesResponse", (postObj) => {
-                if (
-                    newPosts &&
-                    newPosts.find((findPost) => findPost._id === postObj._id)
-                ) {
+            socket.on("PropageContentDelete", (id) => {
+                if (newPosts) {
                     let allPostsCopy = [...newPosts];
-                    const thisPostIndex = allPostsCopy
-                        .map((post) => post._id)
-                        .indexOf(postObj._id);
-                    thisPostIndex !== -1 &&
-                        (allPostsCopy[thisPostIndex] = postObj);
-                    thisPostIndex !== -1 && setNewPosts(allPostsCopy);
+                    allPostsCopy.map((post) => {
+                        if (post.sharedPostId === id) {
+                            post.sharedTexte = "La publication a été supprimée";
+                            post.sharedImage = "";
+                        }
+                        return true;
+                    });
+                    setNewPosts(allPostsCopy);
                 }
             });
     }, [newPosts, socket]);

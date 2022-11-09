@@ -48,6 +48,16 @@
             color: $primaire;
         }
 
+        &.neutralise {
+            color: lightgrey;
+
+            &:hover {
+                background-color: rgb(240, 239, 239);
+                color: grey;
+                cursor: pointer;
+            }
+        }
+
         &:hover {
             background-color: $secondaire;
             color: $primaire;

@@ -25,7 +25,7 @@ const postPost = async (req, res, next) => {
                                 newPost: data,
                             })
                         )
-                        .catch((err) => console.log(err));
+                        .catch((err) => next(ApiError.internal(err.message)));
                 }, 500)
             )
             .then(() => {
@@ -46,7 +46,7 @@ const postPost = async (req, res, next) => {
                                 newPost: data,
                             })
                         )
-                        .catch((err) => console.log(err));
+                        .catch((err) => next(ApiError.internal(err.message)));
                 }, 500)
             )
             .then(() => res.status(201).json({ message: "Post enregistré !" }))

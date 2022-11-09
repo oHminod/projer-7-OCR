@@ -113,7 +113,9 @@ const SinglePostDisplay = ({ thisPost, thisUser }) => {
                 </div>
                 {thisPost && my && thisPost.userId === my._id && (
                     <div className="wrapper">
-                        {editModal && <ModifierOuSupprimer />}
+                        {editModal && (
+                            <ModifierOuSupprimer setEditModal={setEditModal} />
+                        )}
                         <button
                             className="modifierOuSupprimer"
                             onClick={handleEdit}

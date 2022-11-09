@@ -411,11 +411,9 @@ export function deletePost(postId) {
         },
     };
     config &&
-        API.delete(`post/delete/${postId}`, config)
-            .then(() => {})
-            .catch((err) => {
-                console.log(err.response.data);
-            });
+        API.delete(`post/delete/${postId}`, config).catch((err) => {
+            console.log(err.response.data);
+        });
     return;
 }
 export function deleteSharedPost(postId) {
