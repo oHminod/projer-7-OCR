@@ -24,4 +24,25 @@
         padding: 8px;
         padding-left: 15px;
     }
+
+    textarea {
+        background-color: rgb(243, 240, 240);
+        height: 24px;
+        // line-height: 32px;
+        width: calc(100% - 32px);
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 24px;
+        padding: 12px;
+        resize: none;
+        border-radius: 24px;
+        border: none;
+        transition: all .3s;
+
+        &::placeholder {
+            line-height: 24px;
+        }
+
+    }
+
 }

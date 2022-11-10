@@ -1,47 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { getAvatarAndPseudo } from "../../../../../utils/axiosCalls";
 import { shortDateFromDate } from "../../../../../utils/localeDateFromDate";
-import { useAuth } from "../../../../context/AuthContext";
-import {
-    useUsersInfo,
-    useUsersInfoUpdate,
-} from "../../../../context/UsersInfoContext";
+import { useNewUsersInfo } from "../../../../context/NewUsersInfoContext";
 import DisplayResponses from "./reponses/DisplayResponses";
 import ResponsePrompt from "./reponses/ResponsePrompt";
 
 const Commentaire = ({ comment }) => {
-    const usersInfo = useUsersInfo();
-    const setUsersInfo = useUsersInfoUpdate();
+    const usersInfo = useNewUsersInfo();
     const [user, setUser] = useState();
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [repondre, setRepondre] = useState(false);
-    const token = useAuth();
+    const [commentText, setCommentText] = useState("");
+    const formatedText = (txt) => {
+        return { __html: txt };
+    };
 
     useEffect(() => {
-        if (usersInfo) {
-            const thisUserIndex = usersInfo
-                .map((userInf) => userInf.userId)
-                .indexOf(comment.userId);
-            thisUserIndex !== -1
-                ? usersInfo.map(
-                      (userInf) =>
-                          userInf.userId === comment.userId && setUser(userInf)
-                  )
-                : getAvatarAndPseudo(token, comment.userId).then((user) => {
-                      setUsersInfo([...usersInfo, user]);
-                      setUser(user);
-                  });
-        }
-    }, [comment.userId, setUsersInfo, token, usersInfo]);
+        usersInfo &&
+            usersInfo.map(
+                (userInf) =>
+                    userInf.userId === comment.userId && setUser(userInf)
+            );
+    }, [comment.userId, usersInfo]);
+
     useEffect(() => {
         comment &&
-            comment.texte &&
-            (comment.texte = comment.texte
-                .trim()
-                .split("\u000A")
-                .join("</p><p>"));
-    }, [comment]);
+            comment.text &&
+            setCommentText(
+                "<p>" +
+                    comment.text.trim().split("\u000A").join("</p><p>") +
+                    "</p>"
+            );
+    }, [comment, commentText]);
 
     useEffect(() => {
         comment && setCreatedAt(shortDateFromDate(comment.createdAt));
@@ -57,27 +47,35 @@ const Commentaire = ({ comment }) => {
             <div className="commentaire">
                 <div className="card">
                     <div className="creatorInfo">
-                        {user ? (
-                            <img
-                                className="imgUser"
-                                src={user.avatar}
-                                alt="avatar de l'auteur"
-                            />
-                        ) : (
-                            <img
-                                className="imgUser"
-                                src="http://localhost:36600/images/avatars/default-avatar.jpg"
-                                alt="avatar par défaut"
-                            />
-                        )}
-                        <div className="legendeCom">
-                            {user && (
-                                <p>
-                                    <strong>{user.pseudo}</strong>
-                                </p>
+                        <div className="wrapper">
+                            {user ? (
+                                <img
+                                    className="imgUser"
+                                    src={user.avatar}
+                                    alt="avatar de l'auteur"
+                                />
+                            ) : (
+                                <img
+                                    className="imgUser"
+                                    src="http://localhost:36600/images/avatars/default-avatar.jpg"
+                                    alt="avatar par défaut"
+                                />
                             )}
-                            <div className="comment">
-                                {comment && <p>{comment.text}</p>}
+                            <div className="legendeCom">
+                                {user && (
+                                    <p>
+                                        <strong>{user.pseudo}</strong>
+                                    </p>
+                                )}
+                                <div className="comment">
+                                    {commentText && (
+                                        <div
+                                            dangerouslySetInnerHTML={formatedText(
+                                                commentText
+                                            )}
+                                        ></div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,7 +84,7 @@ const Commentaire = ({ comment }) => {
                     <div className="heure">
                         <p>{createdAt}</p>
                         {updatedAt !== createdAt && (
-                            <p> (Modifié {updatedAt})</p>
+                            <p>(Modifié {updatedAt})</p>
                         )}
                     </div>
                     <p onClick={handleCommenter} className="commenter">

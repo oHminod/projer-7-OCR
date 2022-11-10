@@ -8,16 +8,20 @@ const postModel = mongoose.Schema(
         likes: { type: Number, default: 0 },
         loves: { type: Number, default: 0 },
         shares: { type: Number, default: 0 },
-        nbComments: { type: Number, default: 0 },
         usersLiked: { type: Array, default: [] },
         usersLoved: { type: Array, default: [] },
         usersShared: { type: Array, default: [] },
         commentaires: { type: Array, default: [] },
+        fromPostId: { type: String, default: "" },
+        sharedPostId: { type: String, default: "" },
+        sharedUserId: { type: String, default: "" },
+        sharedTexte: { type: String, default: "" },
+        sharedImage: { type: String, default: "" },
+        originalPostCreatedAt: { type: String },
     },
     { timestamps: true }
 );
 
-const Posts = mongoose.model("Posts", postModel);
 /**
  * * postModel :
  * Modèle de données d'un post.

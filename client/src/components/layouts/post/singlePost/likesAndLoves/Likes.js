@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { likerPost } from "../../../../../utils/axiosCalls";
-import { useAuth } from "../../../../context/AuthContext";
 import {
     useMyPosts,
     useMyPostsUpdate,
@@ -12,7 +11,6 @@ import { usePost, usePostUpdate } from "../../PostContext";
 const Likes = () => {
     const [actif, setActif] = useState(false);
     const user = useUser();
-    const token = useAuth();
     const thisPost = usePost();
     const setThisPost = usePostUpdate();
     const allPosts = usePosts();
@@ -66,9 +64,7 @@ const Likes = () => {
         let obj = {};
         actif ? (obj.like = "0") : (obj.like = "1");
 
-        thisPost && actif
-            ? likerPost(token, thisPost._id, obj)
-            : likerPost(token, thisPost._id, obj);
+        thisPost && likerPost(thisPost._id, obj);
     };
 
     return (

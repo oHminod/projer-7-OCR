@@ -1,17 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { postCommentWithoutImage } from "../../../../../utils/axiosCalls";
-import { useAuth } from "../../../../context/AuthContext";
 import { useUser } from "../../../../context/UserContext";
 import { usePost } from "../../PostContext";
 import "./CommentPrompt.scss";
+import ResponseTextArea from "./reponses/ResponseTextArea";
 
 const CommentPrompt = () => {
     const user = useUser();
     const thisPost = usePost();
-    const token = useAuth();
     const [text, setText] = useState();
-    const inputComment = useRef();
+    // const inputComment = useRef();
+    const [resetTextInput, setResetTextInput] = useState(false);
 
     const submitComment = (e) => {
         e.preventDefault();
@@ -23,24 +23,35 @@ const CommentPrompt = () => {
             threadId: commentId,
             text: text,
         };
-        postCommentWithoutImage(token, comment);
-        inputComment.current.value = "";
+        postCommentWithoutImage(comment);
+        // inputComment.current.value = "";
+        setText();
+        setResetTextInput(true);
 
         // console.log(comment);
     };
-    const handleChange = () => {
-        setText(inputComment.current.value);
-    };
+    // const handleChange = () => {
+    //     setText(inputComment.current.value);
+    // };
 
     return (
         <div className="commentPrompt">
             {user && <img src={user.avatar} alt={"avatar" + user.pseudo} />}
             <form onSubmit={submitComment} method="post" id="postComment">
-                <input
+                {/* <input
+                    autoFocus
                     type="text"
                     ref={inputComment}
                     placeholder="Votre commentaire..."
                     onChange={handleChange}
+                /> */}
+                <ResponseTextArea
+                    name="texteReponse"
+                    setText={setText}
+                    resetTextInput={resetTextInput}
+                    setResetTextInput={setResetTextInput}
+                    submitNewPost={submitComment}
+                    placeholder="Votre commentaire"
                 />
             </form>
         </div>

@@ -13,19 +13,14 @@ const { Socket } = require("../../utils/socket");
  * @param {function} next The next function is a function in the
  * Express router which, when invoked, executes the middleware
  * succeeding the current middleware.
+ * @param {json} id id du post à modifier
  * @param {json} post Les données fournies par cet objet
  * écraseront celles de la BDD.
  * @param {string} message Message de réussite.
  */
-module.exports = (req, res, next, post, message) => {
-    PostModel.updateOne({ _id: req.params.id }, post)
-        .then(() =>
-            setTimeout(() => {
-                PostModel.findOne({ _id: req.params.id })
-                    .then((data) => Socket.emit("likeAndLovesResponse", data))
-                    .catch((err) => next(ApiError.notFound(err.message)));
-            }, 100)
-        )
+module.exports = (req, res, next, id, post, message) => {
+    PostModel.updateOne({ _id: id }, post)
+        .then(() => Socket.emit("likeAndLovesResponse", post))
         .then(() => {
             res.status(200).json({ message: message });
         })

@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import socketio from "socket.io-client";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const SocketContext = createContext();
 
@@ -15,7 +16,7 @@ export function SocketProvider({ children }) {
     useEffect(() => {
         token &&
             setSocket(
-                socketio.connect("http://localhost:36600", {
+                socketio.connect(API_URL, {
                     transportOptions: {
                         polling: {
                             extraHeaders: {

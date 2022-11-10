@@ -1,5 +1,6 @@
 const ApiError = require("../../error/ApiError");
 const UserModel = require("../../models/user");
+const { Socket } = require("../../utils/socket");
 
 /**
  * * updateUser :
@@ -17,6 +18,9 @@ const UserModel = require("../../models/user");
  * @param {string} message Message de réussite.
  */
 module.exports = (req, res, next, user, message) => {
+    const userToEmit = { ...user, userId: req.session.userId };
+    // console.log(userToEmit);
+    Socket.emit("newUserInfo", userToEmit);
     UserModel.updateOne({ _id: req.session.userId }, user)
         .then(() => res.status(200).json({ message: message }))
         .catch((error) => {

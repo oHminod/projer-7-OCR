@@ -29,6 +29,7 @@
 
     .likes,
     .loves,
+    .shares,
     .commenter {
         display: flex;
         align-items: center;
@@ -45,6 +46,16 @@
 
         &.actif {
             color: $primaire;
+        }
+
+        &.neutralise {
+            color: lightgrey;
+
+            &:hover {
+                background-color: rgb(240, 239, 239);
+                color: grey;
+                cursor: pointer;
+            }
         }
 
         &:hover {
@@ -67,6 +78,7 @@
     }
 
     .likes,
+    .shares,
     .loves {
         width: 50%;
     }

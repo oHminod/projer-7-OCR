@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { loverPost } from "../../../../../utils/axiosCalls";
-import { useAuth } from "../../../../context/AuthContext";
 import {
     useMyPosts,
     useMyPostsUpdate,
@@ -12,7 +11,6 @@ import { usePost, usePostUpdate } from "../../PostContext";
 const Loves = () => {
     const [actif, setActif] = useState(false);
     const user = useUser();
-    const token = useAuth();
     const thisPost = usePost();
     const setThisPost = usePostUpdate();
     const allPosts = usePosts();
@@ -66,15 +64,14 @@ const Loves = () => {
         let obj = {};
         actif ? (obj.love = "0") : (obj.love = "1");
 
-        thisPost && actif
-            ? loverPost(token, thisPost._id, obj)
-            : loverPost(token, thisPost._id, obj);
+        thisPost && loverPost(thisPost._id, obj);
     };
 
     return (
         <button
             onClick={handelClick}
             className={actif ? "loves actif" : "loves"}
+            title="J'adore"
         >
             {thisPost && (
                 <i className="fa-regular fa-heart">

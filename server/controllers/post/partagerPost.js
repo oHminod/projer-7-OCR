@@ -3,7 +3,7 @@ const PostModel = require("../../models/post");
 const updatePost = require("../helpers/updatePost");
 
 /**
- * * likerSauce :
+ * * patagerPost :
  * Fonction pour mettre à jour (update) les like d'une sauce.
  * @param {json} req The req object represents the HTTP request and has
  * properties for the request query string, parameters, body, HTTP headers,
@@ -14,19 +14,25 @@ const updatePost = require("../helpers/updatePost");
  * router which, when invoked, executes the middleware succeeding the current
  * middleware.
  */
-const likerPost = (req, res, next) => {
+const partagerPost = (req, res, next) => {
     PostModel.findOne({ _id: req.params.id })
         .then((post) => {
-            let userLike = post.usersLiked.indexOf(req.session.userId);
+            let userShare = post.usersShared.indexOf(req.session.userId);
 
-            if (req.body.like == "1" && userLike == -1) {
-                post.usersLiked.push(req.session.userId);
-                post.likes = post.usersLiked.length;
-                updatePost(req, res, next, post, "Post likée !");
-            } else if (req.body.like == "0" && userLike != -1) {
-                post.usersLiked.splice(userLike, 1);
-                post.likes = post.usersLiked.length;
-                updatePost(req, res, next, post, "Pas d'avis sur le post !");
+            if (req.body.share == "1" && userShare == -1) {
+                post.usersShared.push(req.session.userId);
+                post.shares = post.usersShared.length;
+                updatePost(req, res, next, post, "Post partagé !");
+            } else if (req.body.share == "0" && userShare != -1) {
+                post.usersShared.splice(userShare, 1);
+                post.shares = post.usersShared.length;
+                updatePost(
+                    req,
+                    res,
+                    next,
+                    post,
+                    "Le post n'est plus partagé !"
+                );
             } else {
                 return next(ApiError.badRequest("Bad request"));
             }
@@ -35,4 +41,4 @@ const likerPost = (req, res, next) => {
             return next(ApiError.notFound(error.message));
         });
 };
-module.exports = likerPost;
+module.exports = partagerPost;

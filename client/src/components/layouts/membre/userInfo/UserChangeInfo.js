@@ -4,26 +4,24 @@ import {
     axiosUserChangeInfoWithoutImage,
 } from "../../../../utils/axiosCalls";
 import verifEmail from "../../../../utils/verifEmail";
-import { useAuth } from "../../../context/AuthContext";
 import { useEditUpdate } from "./EditContext";
 import { useUser, useUserUpdate } from "../../../context/UserContext";
 import { motion } from "framer-motion";
 import {
-    useUsersInfo,
-    useUsersInfoUpdate,
-} from "../../../context/UsersInfoContext";
+    useNewUsersInfo,
+    useNewUsersInfoUpdate,
+} from "../../../context/NewUsersInfoContext";
 
 const UserChangeInfo = () => {
     const user = useUser();
     const setUser = useUserUpdate();
-    const usersInfo = useUsersInfo();
-    const setUsersInfo = useUsersInfoUpdate();
+    const usersInfo = useNewUsersInfo();
+    const setUsersInfo = useNewUsersInfoUpdate();
     const inputPseudo = useRef();
     const inputEmail = useRef();
     const setModifier = useEditUpdate();
     const [selectedImage, setSelectedImage] = useState(null);
     const [dbError, setDbError] = useState();
-    const token = useAuth();
 
     const submitNewInfos = (e) => {
         e.preventDefault();
@@ -42,7 +40,6 @@ const UserChangeInfo = () => {
             data.append("user", JSON.stringify(obj));
 
             axiosUserChangeInfoWithImage(
-                token,
                 user,
                 data,
                 setUser,
@@ -52,7 +49,6 @@ const UserChangeInfo = () => {
             );
         } else {
             axiosUserChangeInfoWithoutImage(
-                token,
                 user,
                 obj,
                 setUser,

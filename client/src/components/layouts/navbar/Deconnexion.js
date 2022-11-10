@@ -12,6 +12,8 @@ const Deconnexion = () => {
     const deconnexion = () => {
         window.localStorage.removeItem("token_groupomania");
         window.localStorage.removeItem("userId_groupomania");
+        window.localStorage.removeItem("groupomania-newUsersInfo");
+        window.localStorage.removeItem("groupomania-queryToken");
         setToken();
         socket.disconnect();
         navigate("/login");

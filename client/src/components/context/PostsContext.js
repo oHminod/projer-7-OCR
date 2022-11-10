@@ -6,7 +6,8 @@ import React, {
     useMemo,
 } from "react";
 import { axiosGetAllPosts } from "../../utils/axiosCalls";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../context/AuthContext";
+
 import { useSocket } from "./SocketContext";
 
 export const PostsContext = createContext();
@@ -28,34 +29,13 @@ export function useUsersWithPosts() {
 
 export function PostsProvider({ children }) {
     const [posts, setPosts] = useState();
-    const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
-
     const token = useAuth();
+
     const socket = useSocket();
 
-    const getIDs = useMemo(() => {
-        if (posts) {
-            let tempTab = [];
-            posts.map(
-                (post) =>
-                    tempTab.indexOf(post.userId) === -1 &&
-                    (tempTab = [...tempTab, post.userId])
-            );
-
-            return tempTab;
-        }
-    }, [posts]);
-
-    useEffect(() => {
-        token &&
-            axiosGetAllPosts(token)
-                .then((allPosts) => setPosts(allPosts))
-                .catch((err) => console.log(err));
+    useMemo(() => {
+        token && axiosGetAllPosts(token).then((data) => setPosts(data));
     }, [token]);
-
-    useEffect(() => {
-        getIDs && setUsersWhoHavePost(getIDs);
-    }, [getIDs]);
 
     useEffect(() => {
         socket &&
@@ -82,6 +62,30 @@ export function PostsProvider({ children }) {
 
     useEffect(() => {
         socket &&
+            socket.on("shareDeleted", (obj) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(obj.originalPostId);
+                    if (thisPostIndex !== -1) {
+                        const userId = allPostsCopy[
+                            thisPostIndex
+                        ].usersShared.indexOf(obj.userId);
+                        allPostsCopy[thisPostIndex].usersShared.splice(
+                            userId,
+                            1
+                        );
+                        allPostsCopy[thisPostIndex].shares =
+                            allPostsCopy[thisPostIndex].usersShared.length;
+                        setPosts(allPostsCopy);
+                    }
+                }
+            });
+    }, [posts, socket]);
+
+    useEffect(() => {
+        socket &&
             socket.on("postUpdate", (postObj) => {
                 if (posts) {
                     let allPostsCopy = [...posts];
@@ -95,12 +99,42 @@ export function PostsProvider({ children }) {
             });
     }, [posts, socket]);
 
+    useEffect(() => {
+        socket &&
+            socket.on("PropageContentDelete", (id) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    allPostsCopy.map((post) => {
+                        if (post.sharedPostId === id) {
+                            post.sharedTexte = "La publication a été supprimée";
+                            post.sharedImage = "";
+                        }
+                        return true;
+                    });
+                    setPosts(allPostsCopy);
+                }
+            });
+    }, [posts, socket]);
+
+    useEffect(() => {
+        socket &&
+            socket.on("postDeleted", (id) => {
+                if (posts) {
+                    let allPostsCopy = [...posts];
+                    const thisPostIndex = allPostsCopy
+                        .map((post) => post._id)
+                        .indexOf(id);
+                    thisPostIndex !== -1 &&
+                        allPostsCopy.splice(thisPostIndex, 1);
+                    thisPostIndex !== -1 && setPosts(allPostsCopy);
+                }
+            });
+    }, [posts, socket]);
+
     return (
         <PostsContext.Provider value={posts}>
             <PostsUpdateContext.Provider value={setPosts}>
-                <UsersWithPostsContext.Provider value={usersWhoHavePost}>
-                    {children}
-                </UsersWithPostsContext.Provider>
+                {children}
             </PostsUpdateContext.Provider>
         </PostsContext.Provider>
     );

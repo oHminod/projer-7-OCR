@@ -14,6 +14,7 @@
     .creatorInfo {
         display: flex;
         align-items: center;
+        justify-content: space-between;
 
         .legende {
             p {
@@ -23,6 +24,44 @@
                 margin: 0;
             }
         }
+
+    }
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .modifierOuSupprimer {
+        background-color: transparent;
+        color: $tertiaire;
+        transition: all .3s;
+        border-radius: 50%;
+        padding: 10px 12.2px;
+        margin-right: 10px;
+
+        &:hover {
+            color: $primaire;
+            @extend .card_shadow
+        }
+    }
+
+    .mod-supp {
+        background-color: transparent;
+        color: $tertiaire;
+        transition: all .3s;
+        padding: 10px 12.2px;
+        margin-right: 10px;
+
+        &:hover {
+            color: $primaire;
+            @extend .card_shadow
+        }
+    }
+
+    .shared {
+        padding-left: 2%;
+        border-top: 1px solid rgba(50, 50, 50, .1);
     }
 
     .imgUser {
