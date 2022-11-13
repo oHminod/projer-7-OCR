@@ -22,8 +22,11 @@ const session = (req, res, next) => {
         const token = req.headers.authorization.split(" ")[1];
         const decodedToken = jwt.verify(token, process.env.TOKEN);
         const userId = decodedToken.userId;
+        const userRole = decodedToken.userRole;
+
         req.session = {
             userId: userId,
+            userRole: userRole,
         };
         next();
     } catch (error) {

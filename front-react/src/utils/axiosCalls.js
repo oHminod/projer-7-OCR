@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { ACTIONS } from "../components/contexts/actions/posts";
+import { UIACTIONS } from "../components/contexts/actions/usersInfo";
 import { useAuth, useAuthUpdate } from "../components/contexts/AuthContext";
 import { useUser, useUserUpdate } from "../components/contexts/UserContext";
 
@@ -154,5 +156,80 @@ export function useAxiosSetUser(obj, setDbError, go, setGo, setModifier) {
                         console.log(err.response.data);
                     }
                 });
-    }, [go, obj, setDbError, setGo, setModifier, token, user._id]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [go]);
+}
+
+export function useAxiosPostPost(obj, setDbError, go, setGo) {
+    const token = useAuth();
+
+    useEffect(() => {
+        const headers = token && {
+            Authorization: `Bearer ${token}`,
+        };
+        token &&
+            go &&
+            obj &&
+            API.post(`post/post`, obj, {
+                headers,
+            })
+                .then(() => setGo(false))
+                .catch((err) => {
+                    console.log(err.response.data);
+                    setDbError(err.response.data);
+                });
+    }, [go, obj, setDbError, setGo, token]);
+}
+
+export function useAxiosGetAllPosts(go, setGo, dispatchPosts) {
+    const token = useAuth();
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        // token && setGo(true);
+        token &&
+            go &&
+            API.get(`post/`, config)
+                .then((data) => {
+                    dispatchPosts({
+                        type: ACTIONS.GET_POSTS,
+                        payload: { posts: data.data },
+                    });
+                    setGo(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [go]);
+}
+
+export function getAvatarAndPseudo(userId, dispatchUsersInfo) {
+    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    API.get(`user/posterinfo/${userId}`, config)
+        .then((data) => {
+            const user = (data && data.data) || false;
+            user &&
+                dispatchUsersInfo({
+                    type: UIACTIONS.ADD_USER,
+                    payload: { user: user },
+                });
+            // data.data = {
+            //     ...data.data,
+            //     avatar: data.data.avatar.split("localhost").join(API_IP),
+            // };
+            return data.data;
+        })
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+    return null;
 }

@@ -14,6 +14,7 @@ const UserChangeInfo = ({ setModifier }) => {
     const [go, setGo] = useState(false);
     const [dbError, setDbError] = useState();
 
+    let obj = {};
     useAxiosSetUser(newInfos, setDbError, go, setGo, setModifier);
 
     const submitNewInfos = (e) => {
@@ -21,7 +22,6 @@ const UserChangeInfo = ({ setModifier }) => {
         const pseudo = inputPseudo.current.value;
         const email = inputEmail.current.value;
         if (email && !verifEmail(email)) return;
-        let obj = {};
         selectedImage && (obj.avatar = URL.createObjectURL(selectedImage));
         pseudo && (obj.pseudo = pseudo);
         email && (obj.email = email);
@@ -36,7 +36,6 @@ const UserChangeInfo = ({ setModifier }) => {
             setNewInfos(data);
             setGo(() => true);
         } else if (pseudo || email) {
-            console.log(go);
             let userInfo = {};
             userInfo.userId = user._id;
             userInfo.avatar = obj.avatar || user.avatar;

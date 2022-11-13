@@ -4,14 +4,14 @@ import UserInfo from "../components/layouts/membre/userInfo/UserInfo";
 import { motion } from "framer-motion";
 import Wall from "../components/layouts/membre/mur/Wall";
 import { useCurrentWidth } from "../components/utils/windowWidth";
-import { useGetUser, useVerify } from "../utils/axiosCalls";
+import { useVerify } from "../utils/axiosCalls";
 import { useAuth } from "../components/contexts/AuthContext";
 
 const Membre = () => {
     const auth = useAuth();
     const width = useCurrentWidth();
     useVerify();
-    useGetUser();
+    // useGetUser();
 
     return auth ? (
         <motion.main
