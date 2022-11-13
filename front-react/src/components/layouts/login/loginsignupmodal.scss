@@ -1,0 +1,137 @@
+@import "../../../styles/settings.scss";
+
+.loginSignupModal {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    // width: 100%;
+    // margin-top: calc(50vh - 200px);
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, .6);
+    backdrop-filter: blur(10px);
+    transition: all .3s;
+    @extend .card_shadow;
+
+    @media screen and (min-width: 400px) {
+        width: 90%;
+        max-width: 850px;
+    }
+
+    .motionDiv {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .logo {
+        margin: 20px;
+
+        @media screen and (min-width: 600px) {
+            width: 500px;
+            margin: 20px auto;
+        }
+
+    }
+
+    .LogoOrigin {
+        fill: $tertiaire;
+    }
+
+    input[type=text],
+    input[type=password],
+    input[type=email] {
+        background-color: rgba(255, 255, 255, .7);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
+        padding: 20px;
+        border: none;
+        margin: 20px;
+        width: calc(100% - 80px);
+        transition: all .3s;
+        @extend .card_shadow;
+
+        &::placeholder {
+            font-size: 26px;
+            font-weight: 300;
+        }
+
+        &:hover,
+        &:focus {
+            @extend .card_shadow_hover;
+            transform: scale(1.005);
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+
+        button {
+            align-self: center;
+            @extend .card_shadow;
+        }
+    }
+
+    p {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 300;
+        margin: 18px 16px;
+        color: $tertiaire;
+    }
+
+    h2 {
+        margin: 20px;
+        font-size: 40px;
+        font-weight: 400;
+        text-align: center;
+        color: $tertiaire;
+    }
+
+    button {
+        background-color: $tertiaire;
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        padding: 10px 30px;
+        border-radius: 8px;
+        margin: 0 20px;
+        border: none;
+        transition: all .3s;
+        margin: 20px;
+        align-self: center;
+        @extend .card_shadow;
+
+        &:hover {
+            background-color: #282c45;
+            @extend .card_shadow_hover;
+            transform: scale(1.015);
+        }
+    }
+
+    button.nav-modal {
+        background-color: rgb(0, 189, 0);
+        padding: 10px;
+        font-size: 24px;
+        font-weight: 600;
+        transition: all .3s;
+        @extend .card_shadow;
+
+        &:hover {
+            background-color: rgb(0, 145, 0);
+            @extend .card_shadow_hover;
+            transform: scale(1.015);
+        }
+    }
+
+    .error {
+        text-align: center;
+        background-color: $primaire;
+        color: white;
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    &:hover {
+        @extend .card_shadow_hover;
+    }
+}

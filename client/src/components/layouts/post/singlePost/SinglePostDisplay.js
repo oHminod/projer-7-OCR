@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import localeDateFromDate from "../../../../utils/localeDateFromDate";
-import {
-    useNewUsersInfo,
-    useNewUsersInfoUpdate,
-} from "../../../context/NewUsersInfoContext";
+import { useNewUsersInfo } from "../../../context/NewUsersInfoContext";
 import { useUser } from "../../../context/UserContext";
 import { useComment } from "../PostContext";
 import CommentBlock from "./commentaires/CommentBlock";
@@ -19,7 +16,6 @@ const SinglePostDisplay = ({ thisPost, thisUser }) => {
     const [editModal, setEditModal] = useState(false);
     const usersInfo = useNewUsersInfo();
     const my = useUser();
-    const setUsersInfo = useNewUsersInfoUpdate();
     const comment = useComment();
     const formatedText = (txt) => {
         return { __html: txt };
@@ -37,7 +33,7 @@ const SinglePostDisplay = ({ thisPost, thisUser }) => {
                     (findUser) => findUser.userId === thisPost.sharedUserId
                 )
             );
-    }, [setUsersInfo, thisPost, usersInfo]);
+    }, [thisPost, usersInfo]);
     // useMemo(() => {
     //     loadInfos &&
     //         usersInfo &&
