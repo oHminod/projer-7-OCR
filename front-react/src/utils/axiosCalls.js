@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useEffect } from "react";
-import { ACTIONS } from "../components/contexts/actions/posts";
+import { useEffect, useState } from "react";
+import { PACTIONS } from "../components/contexts/actions/posts";
 import { UIACTIONS } from "../components/contexts/actions/usersInfo";
 import { useAuth, useAuthUpdate } from "../components/contexts/AuthContext";
 import { useUser, useUserUpdate } from "../components/contexts/UserContext";
@@ -195,7 +195,7 @@ export function useAxiosGetAllPosts(go, setGo, dispatchPosts) {
             API.get(`post/`, config)
                 .then((data) => {
                     dispatchPosts({
-                        type: ACTIONS.GET_POSTS,
+                        type: PACTIONS.GET_POSTS,
                         payload: { posts: data.data },
                     });
                     setGo(false);
@@ -232,4 +232,29 @@ export function getAvatarAndPseudo(userId, dispatchUsersInfo) {
             console.log(err.response.data);
         });
     return null;
+}
+
+export function useGetAllMyPosts(id, setGo) {
+    const token = useAuth();
+    const [data, setData] = useState();
+    useEffect(() => {
+        const config = token && {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        config &&
+            id &&
+            setTimeout(() => {
+                API.get(`post/${id}`, config)
+                    .then((data) => {
+                        setData(data.data);
+                        setGo(false);
+                    })
+                    .catch((err) => {
+                        console.log(err.response.data);
+                    });
+            }, 100);
+    }, [id, setGo, token]);
+    return data;
 }

@@ -1,9 +1,9 @@
-import { PACTIONS } from "../actions/posts";
+import { MPACTIONS } from "../actions/myPosts";
 
-export function postsReducer(posts, action) {
+export function myPostsReducer(myPosts, action) {
     switch (action.type) {
-        case PACTIONS.GET_POSTS:
-            return action.payload.posts;
+        case MPACTIONS.GET_MY_POSTS:
+            return action.payload.myPosts;
         // case ACTIONS.ADD_USER:
         //     if (
         //         usersInfo.find(
@@ -27,6 +27,6 @@ export function postsReducer(posts, action) {
         // case ACTIONS.LOADING_TODOS:
         //     return action.payload.todos;
         default:
-            return posts;
+            return myPosts;
     }
 }

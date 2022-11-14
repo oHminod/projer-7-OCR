@@ -1,23 +1,13 @@
 import React, {
     createContext,
     useContext,
-    useEffect,
-    // useEffect,
     useMemo,
-    // useEffect,
-    // useMemo,
     useReducer,
     useState,
 } from "react";
-import {
-    getAvatarAndPseudo,
-    useAxiosGetAllPosts,
-} from "../../utils/axiosCalls";
-// import { ACTIONS } from "./actions/posts";
-// import { ACTIONS } from "./actions/posts";
+import { useAxiosGetAllPosts } from "../../utils/axiosCalls";
 import { postsReducer } from "./reducers/posts";
 import { useUser } from "./UserContext";
-import { useUsersInfo, useUsersInfoUpdate } from "./UsersInfoContext";
 
 // import { useSocket } from "./SocketContext";
 
@@ -41,10 +31,7 @@ export function useUsersWithPosts() {
 export function PostsProvider({ children }) {
     const [posts, dispatchPosts] = useReducer(postsReducer, []);
     const [go, setGo] = useState(false);
-    const [userIds, setUserIds] = useState([]);
     const user = useUser();
-    const usersInfo = useUsersInfo();
-    const dispatchUsersInfo = useUsersInfoUpdate();
 
     useAxiosGetAllPosts(go, setGo, dispatchPosts);
 
@@ -53,30 +40,6 @@ export function PostsProvider({ children }) {
     useMemo(() => {
         user && setGo(true);
     }, [user]);
-
-    useMemo(() => {
-        posts &&
-            posts.map((post) =>
-                setUserIds((prev) => {
-                    if (!prev.includes(post.userId)) {
-                        return [...prev, post.userId];
-                    } else {
-                        return [...prev];
-                    }
-                })
-            );
-    }, [posts]);
-
-    useEffect(() => {
-        userIds &&
-            userIds.map((id) => {
-                if (usersInfo.find((findUser) => findUser.userId === id))
-                    return id;
-                getAvatarAndPseudo(id, dispatchUsersInfo);
-                return id;
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userIds]);
 
     // useEffect(() => {
     //     socket &&
