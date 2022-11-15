@@ -37,21 +37,11 @@ const useInfiniteFetch = (go, offset, lastItemId = "") => {
         if (go && oldestPostId && offset && config) {
             if (lastItemId !== "" && oldestPostId >= lastItemId)
                 return setLoading(false);
+            if (posts && posts.length > 0 && !lastItemId)
+                return setLoading(false);
 
             API.get(`post/${offset}/${lastItemId}`, config)
                 .then((res) => {
-                    if (
-                        res.data.map((post) => {
-                            if (
-                                posts.find(
-                                    (findPost) => findPost._id === post._id
-                                )
-                            )
-                                return true;
-                            return false;
-                        })[0]
-                    )
-                        return setLoading(false);
                     dispatchPosts({
                         type: PACTIONS.ADD_POSTS,
                         payload: { posts: res.data },

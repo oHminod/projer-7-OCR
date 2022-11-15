@@ -10,9 +10,10 @@ const Posts = () => {
     const [lastItemId, setLastItemId] = useState("");
     const [go, setGo] = useState(false);
     const user = useUser();
-
     const observer = useRef();
-    const { loading } = useInfiniteFetch(go, 3, lastItemId);
+
+    const { loading } = useInfiniteFetch(go, 1, lastItemId);
+
     const lastItemElementRef = useCallback(
         (node) => {
             if (loading) return;
