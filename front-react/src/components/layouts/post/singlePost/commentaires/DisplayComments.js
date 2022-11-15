@@ -25,7 +25,7 @@ const DisplayComments = () => {
     const commentActif = useComment();
     const thisPost = usePost();
     const usersInfo = useUsersInfo();
-    const setUsersInfo = useUsersInfoUpdate();
+    const dispatchUsersInfo = useUsersInfoUpdate();
     const [usersWhoNeedsInfo, setUsersWhoNeedsInfo] = useState([]);
 
     useMemo(() => {
@@ -44,7 +44,7 @@ const DisplayComments = () => {
                         (findUser) => findUser.userId === comment.userId
                     ) &&
                     usersWhoNeedsInfo.indexOf(comment.userId) === -1 &&
-                    setUsersWhoNeedsInfo([...usersWhoNeedsInfo, comment.userId])
+                    setUsersWhoNeedsInfo((prev) => [...prev, comment.userId])
             );
             return usersWhoNeedsInfo;
         }
@@ -55,13 +55,9 @@ const DisplayComments = () => {
             usersWhoNeedsInfo.map(
                 (ID) =>
                     !usersInfo.find((findUser) => findUser.userId === ID) &&
-                    getAvatarAndPseudo(ID)
-                        .then((userInfo) => {
-                            setUsersInfo([...usersInfo, userInfo]);
-                        })
-                        .catch((err) => console.log(err))
+                    getAvatarAndPseudo(ID, dispatchUsersInfo)
             );
-    }, [setUsersInfo, usersWhoNeedsInfo, usersInfo]);
+    }, [usersWhoNeedsInfo, usersInfo, dispatchUsersInfo]);
 
     return (
         comments && (

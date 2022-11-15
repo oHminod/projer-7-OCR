@@ -1,4 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
+import { useSocket } from "../../contexts/SocketContext";
 
 export const PostContext = createContext();
 export const PostUpdateContext = createContext();
@@ -37,20 +38,22 @@ export function PostProvider({ children, thisPost }) {
     const [post, setPost] = useState();
     const [commentaires, setCommentaires] = useState([]);
     const [comment, setComment] = useState(false);
-    // const socket = useSocket();
+    const socket = useSocket();
 
     useEffect(() => {
         setPost(thisPost);
     }, [thisPost]);
-
-    // useEffect(() => {
-    //     socket &&
-    //         socket.on("newComment", (data) => {
-    //             data &&
-    //                 data.newComment.postId === thisPost._id &&
-    //                 setCommentaires([...commentaires, data.newComment]);
-    //         });
-    // }, [commentaires, socket, thisPost._id]);
+    useEffect(() => {
+        socket &&
+            socket.on("newComment", (data) => {
+                data &&
+                    data.newComment.postId === thisPost._id &&
+                    setCommentaires((prev) => [
+                        ...new Set([...prev, data.newComment]),
+                    ]);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [socket]);
 
     return (
         <PostContext.Provider value={post}>
