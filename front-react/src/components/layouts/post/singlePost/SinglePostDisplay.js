@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import localeDateFromDate from "../../../utils/localeDateFromDate";
-import { useUser } from "../../contexts/UserContext";
-import { useUsersInfo } from "../../contexts/UsersInfoContext";
-import { useComment } from "./PostContext";
-import CommentBlock from "./singlePost/commentaires/CommentBlock";
-import LikeContainer from "./singlePost/LikeContainer";
-import ModifierOuSupprimer from "./singlePost/modifierOuSupprimer/ModifierOuSupprimer";
+import localeDateFromDate from "../../../../utils/localeDateFromDate";
+import { useUser } from "../../../contexts/UserContext";
+import { useUsersInfo } from "../../../contexts/UsersInfoContext";
+import { useComment } from "../PostContext";
+import CommentBlock from "./commentaires/CommentBlock";
+import LikeContainer from "./LikeContainer";
+import ModifierOuSupprimer from "./modifierOuSupprimer/ModifierOuSupprimer";
 
 const SinglePostDisplay = ({ thisPost, thisUser, lastItemElementRef }) => {
     const [updatedAt, setUpdatedAt] = useState();

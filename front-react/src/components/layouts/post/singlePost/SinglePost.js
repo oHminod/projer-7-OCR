@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useUsersInfo } from "../../../contexts/UsersInfoContext";
 import { usePost } from "../PostContext";
-import SinglePostDisplay from "../SinglePostDisplay";
+import SinglePostDisplay from "./SinglePostDisplay";
 import "./SinglePost.scss";
 
 const SinglePost = ({ lastItemElementRef }) => {

@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
+import { MPACTIONS } from "../components/contexts/actions/myPosts";
 import { NPACTIONS } from "../components/contexts/actions/newPosts";
-import { PACTIONS } from "../components/contexts/actions/posts";
 import { useAuth } from "../components/contexts/AuthContext";
+import {
+    useMyPosts,
+    useMyPostsUpdate,
+} from "../components/contexts/MyPostsContext";
 import {
     useNewPosts,
     useNewPostsUpdate,
 } from "../components/contexts/NewPostsContext";
-import { usePosts, usePostsUpdate } from "../components/contexts/PostsContext";
 import { API } from "../utils/axiosCalls";
 
-const useInfiniteFetch = (go, offset, lastItemId = "") => {
-    const [oldestPostId, setOldestPostId] = useState();
+const useMyInfiniteFetch = (go, offset, lastItemId = "") => {
+    const [myOldestPostId, setMyOldestPostId] = useState();
     const [loading, setLoading] = useState(true);
     const newPosts = useNewPosts();
     const dispatchNewPosts = useNewPostsUpdate();
-    const dispatchPosts = usePostsUpdate();
-    const posts = usePosts();
+    const dispatchMyPosts = useMyPostsUpdate();
+    const myPosts = useMyPosts();
     const token = useAuth();
 
     useEffect(() => {
@@ -26,8 +29,8 @@ const useInfiniteFetch = (go, offset, lastItemId = "") => {
         };
         go &&
             config &&
-            API.get(`post/oldest`, config)
-                .then((res) => setOldestPostId(res.data.oldestPostId))
+            API.get(`post/myOldest`, config)
+                .then((res) => setMyOldestPostId(res.data.oldestPostId))
                 .catch((err) => {
                     console.log("setOldestPostId : " + err.response.data);
                 });
@@ -35,12 +38,13 @@ const useInfiniteFetch = (go, offset, lastItemId = "") => {
     }, [token, go]);
 
     useEffect(() => {
-        if (posts && posts.length > 0 && !lastItemId) return setLoading(false);
+        if (myPosts && myPosts.length > 0 && !lastItemId)
+            return setLoading(false);
         setLoading(true);
         if (go && newPosts.length > 0) {
-            dispatchPosts({
-                type: PACTIONS.ADD_POSTS,
-                payload: { posts: newPosts },
+            dispatchMyPosts({
+                type: MPACTIONS.ADD_MY_POSTS,
+                payload: { myPosts: newPosts },
             });
             dispatchNewPosts({
                 type: NPACTIONS.DELETE_NEW_POSTS,
@@ -52,25 +56,25 @@ const useInfiniteFetch = (go, offset, lastItemId = "") => {
                 Authorization: `Bearer ${token}`,
             },
         };
-        if (go && oldestPostId && offset && config) {
-            if (lastItemId !== "" && oldestPostId >= lastItemId)
+        if (go && myOldestPostId && offset && config) {
+            if (lastItemId !== "" && myOldestPostId >= lastItemId)
                 return setLoading(false);
 
-            API.get(`post/${offset}/${lastItemId}`, config)
+            API.get(`post/my/${offset}/${lastItemId}`, config)
                 .then((res) => {
-                    dispatchPosts({
-                        type: PACTIONS.ADD_POSTS,
-                        payload: { posts: res.data },
+                    dispatchMyPosts({
+                        type: MPACTIONS.ADD_MY_POSTS,
+                        payload: { myPosts: res.data },
                     });
                     setLoading(false);
                 })
                 .catch((err) => {
-                    console.log("infiniteFetch : " + err.response.data);
+                    console.log("myInfiniteFetch : " + err.response.data);
                 });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [lastItemId, token, go, oldestPostId]);
+    }, [lastItemId, token, go, myOldestPostId]);
 
-    return { loading, oldestPostId };
+    return { loading, myOldestPostId };
 };
-export default useInfiniteFetch;
+export default useMyInfiniteFetch;

@@ -1,30 +1,18 @@
-import React, {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
-import useInfiniteFetch from "../../../hooks/useInfiniteFetch";
-import { NPACTIONS } from "../../contexts/actions/newPosts";
-import { PACTIONS } from "../../contexts/actions/posts";
-import { useNewPosts, useNewPostsUpdate } from "../../contexts/NewPostsContext";
-import { usePosts, usePostsUpdate } from "../../contexts/PostsContext";
-import { useUser } from "../../contexts/UserContext";
-import PostProvider from "./PostContext";
-import SinglePost from "./singlePost/SinglePost";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import useMyInfiniteFetch from "../../../../hooks/useMyInfiniteFetch";
+import { useMyPosts } from "../../../contexts/MyPostsContext";
+import { useUser } from "../../../contexts/UserContext";
+import PostProvider from "../PostContext";
+import MySinglePost from "./MySinglePost";
 
-const Posts = () => {
-    const posts = usePosts();
+const MyPosts = () => {
+    const myPosts = useMyPosts();
     const [lastItemId, setLastItemId] = useState("");
-    const dispatchPosts = usePostsUpdate();
-    const newPosts = useNewPosts();
-    const dispatchNewPosts = useNewPostsUpdate();
     const [go, setGo] = useState(false);
     const user = useUser();
     const observer = useRef();
 
-    const { loading } = useInfiniteFetch(go, 2, lastItemId);
+    const { loading } = useMyInfiniteFetch(go, 2, lastItemId);
 
     const lastItemElementRef = useCallback(
         (node) => {
@@ -45,39 +33,25 @@ const Posts = () => {
     useMemo(() => {
         user && setGo(true);
     }, [user]);
-
-    useEffect(() => {
-        if (newPosts && newPosts.length > 0) {
-            dispatchPosts({
-                type: PACTIONS.ADD_POSTS_ON_TOP,
-                payload: { posts: newPosts },
-            });
-            dispatchNewPosts({
-                type: NPACTIONS.DELETE_NEW_POSTS,
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     return (
         <>
-            {posts &&
-                posts
+            {myPosts &&
+                myPosts
                     // .sort(
                     //     (a, b) =>
                     //         Date.parse(b.createdAt) - Date.parse(a.createdAt)
                     // )
-                    .map((post, index) => {
-                        if (posts.length === index + 1) {
+                    .map((myPost, index) => {
+                        if (myPosts.length === index + 1) {
                             return (
                                 <PostProvider
                                     key={"postContext-" + index}
-                                    thisPost={post}
+                                    thisPost={myPost}
                                 >
-                                    <SinglePost
+                                    <MySinglePost
                                         lastItemElementRef={lastItemElementRef}
-                                        key={"post-" + index}
                                         setLastItemId={setLastItemId}
+                                        key={"post-" + index}
                                     />
                                 </PostProvider>
                             );
@@ -85,19 +59,18 @@ const Posts = () => {
                             return (
                                 <PostProvider
                                     key={"postContext-" + index}
-                                    thisPost={post}
+                                    thisPost={myPost}
                                 >
-                                    <SinglePost
-                                        key={"post-" + index}
+                                    <MySinglePost
                                         setLastItemId={setLastItemId}
+                                        key={"post-" + index}
                                     />
                                 </PostProvider>
                             );
                         }
                     })}
-            {loading && <div>loading...</div>}
         </>
     );
 };
 
-export default Posts;
+export default MyPosts;
