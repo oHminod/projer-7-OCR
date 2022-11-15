@@ -12,7 +12,7 @@ const Posts = () => {
     const user = useUser();
     const observer = useRef();
 
-    const { loading } = useInfiniteFetch(go, 1, lastItemId);
+    const { loading } = useInfiniteFetch(go, 2, lastItemId);
 
     const lastItemElementRef = useCallback(
         (node) => {
@@ -38,10 +38,10 @@ const Posts = () => {
         <>
             {posts &&
                 posts
-                    .sort(
-                        (a, b) =>
-                            Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                    )
+                    // .sort(
+                    //     (a, b) =>
+                    //         Date.parse(b.createdAt) - Date.parse(a.createdAt)
+                    // )
                     .map((post, index) => {
                         if (posts.length === index + 1) {
                             return (

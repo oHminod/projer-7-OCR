@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
+import { NPACTIONS } from "../components/contexts/actions/newPosts";
 import { PACTIONS } from "../components/contexts/actions/posts";
 import { useAuth } from "../components/contexts/AuthContext";
+import {
+    useNewPosts,
+    useNewPostsUpdate,
+} from "../components/contexts/NewPostsContext";
 import { usePosts, usePostsUpdate } from "../components/contexts/PostsContext";
 import { API } from "../utils/axiosCalls";
 
 const useInfiniteFetch = (go, offset, lastItemId = "") => {
     const [oldestPostId, setOldestPostId] = useState();
     const [loading, setLoading] = useState(true);
+    const newPosts = useNewPosts();
+    const dispatchNewPosts = useNewPostsUpdate();
     const dispatchPosts = usePostsUpdate();
     const posts = usePosts();
     const token = useAuth();
@@ -29,6 +36,16 @@ const useInfiniteFetch = (go, offset, lastItemId = "") => {
 
     useEffect(() => {
         setLoading(true);
+        if (newPosts.length > 0) {
+            dispatchPosts({
+                type: PACTIONS.ADD_POSTS,
+                payload: { posts: newPosts },
+            });
+            dispatchNewPosts({
+                type: NPACTIONS.DELETE_NEW_POSTS,
+            });
+        }
+
         const config = token && {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -58,7 +75,3 @@ const useInfiniteFetch = (go, offset, lastItemId = "") => {
     return { loading, oldestPostId };
 };
 export default useInfiniteFetch;
-// post.get("/oldest", sessionOk, getOldestPostId);
-// post.get("/:offset/:lastItemId?", sessionOk, getAllPostsPaginated);
-
-// dispatchPosts({type: PACTIONS.ADD_POSTS, payload:{ posts: res.data } })

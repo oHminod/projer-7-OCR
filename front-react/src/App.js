@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./components/contexts/AuthContext";
 import MyPostsProvider from "./components/contexts/MyPostsContext";
+import NewPostsProvider from "./components/contexts/NewPostsContext";
 import PostsProvider from "./components/contexts/PostsContext";
 import SocketProvider from "./components/contexts/SocketContext";
 import UserProvider from "./components/contexts/UserContext";
@@ -14,14 +15,16 @@ function App() {
             <SocketProvider>
                 <UserProvider>
                     <UsersInfoProvider>
-                        <PostsProvider>
-                            <MyPostsProvider>
-                                <BrowserRouter>
-                                    <GlobalSocketListener />
-                                    <AnimatedRoutes />
-                                </BrowserRouter>
-                            </MyPostsProvider>
-                        </PostsProvider>
+                        <NewPostsProvider>
+                            <PostsProvider>
+                                <MyPostsProvider>
+                                    <BrowserRouter>
+                                        <GlobalSocketListener />
+                                        <AnimatedRoutes />
+                                    </BrowserRouter>
+                                </MyPostsProvider>
+                            </PostsProvider>
+                        </NewPostsProvider>
                     </UsersInfoProvider>
                 </UserProvider>
             </SocketProvider>
