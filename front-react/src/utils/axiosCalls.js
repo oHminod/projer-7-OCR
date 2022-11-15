@@ -7,7 +7,7 @@ import { useUser, useUserUpdate } from "../components/contexts/UserContext";
 
 const API_URL = process.env.REACT_APP_API_URL;
 // const API_IP = process.env.REACT_APP_API_IP;
-const API = axios.create({
+export const API = axios.create({
     baseURL: API_URL,
 });
 
@@ -257,4 +257,104 @@ export function useGetAllMyPosts(id, setGo) {
             }, 100);
     }, [id, setGo, token]);
     return data;
+}
+
+export function postCommentWithoutImage(obj) {
+    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
+    const headers = token && {
+        Authorization: `Bearer ${token}`,
+    };
+    token &&
+        API.post(`comment/`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+            });
+}
+export function getThisPostComments(id) {
+    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
+    const config = token && {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    return API.get(`comment/${id}`, config)
+        .then((data) => data.data)
+        .catch((err) => {
+            console.log(err.response.data);
+        });
+}
+
+export function loverPost(id, obj) {
+    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
+    const headers = token && {
+        Authorization: `Bearer ${token}`,
+    };
+    token &&
+        API.post(`post/${id}/love`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+            });
+}
+
+export function partagerPost(id, obj) {
+    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
+    const headers = token && {
+        Authorization: `Bearer ${token}`,
+    };
+    token &&
+        API.post(`post/${id}/share`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+            });
+}
+
+export function deletePost(postId) {
+    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    config &&
+        API.delete(`post/delete/${postId}`, config).catch((err) => {
+            console.log(err.response.data);
+        });
+    return;
+}
+export function deleteSharedPost(postId) {
+    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    config &&
+        API.delete(`post/shared/${postId}`, config).catch((err) => {
+            console.log(err.response.data);
+        });
+    return;
+}
+
+export function postSharedPost(obj) {
+    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
+    const headers = token && {
+        Authorization: `Bearer ${token}`,
+    };
+    token &&
+        API.post(`post/post`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+            });
 }

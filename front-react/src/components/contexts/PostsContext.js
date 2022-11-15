@@ -1,13 +1,13 @@
 import React, {
     createContext,
     useContext,
-    useMemo,
+    // useMemo,
     useReducer,
-    useState,
+    // useState,
 } from "react";
-import { useAxiosGetAllPosts } from "../../utils/axiosCalls";
+// import { useAxiosGetAllPosts } from "../../utils/axiosCalls";
 import { postsReducer } from "./reducers/posts";
-import { useUser } from "./UserContext";
+// import { useUser } from "./UserContext";
 
 // import { useSocket } from "./SocketContext";
 
@@ -30,16 +30,16 @@ export function useUsersWithPosts() {
 
 export function PostsProvider({ children }) {
     const [posts, dispatchPosts] = useReducer(postsReducer, []);
-    const [go, setGo] = useState(false);
-    const user = useUser();
+    // const [go, setGo] = useState(false);
+    // const user = useUser();
 
-    useAxiosGetAllPosts(go, setGo, dispatchPosts);
+    // useAxiosGetAllPosts(go, setGo, dispatchPosts);
 
     // const socket = useSocket();
 
-    useMemo(() => {
-        user && setGo(true);
-    }, [user]);
+    // useMemo(() => {
+    //     user && setGo(true);
+    // }, [user]);
 
     // useEffect(() => {
     //     socket &&

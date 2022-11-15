@@ -5,13 +5,13 @@ import React, {
     useEffect,
     useReducer,
 } from "react";
-import { getAvatarAndPseudo, useGetAllMyPosts } from "../../utils/axiosCalls";
-import { MPACTIONS } from "./actions/myPosts";
-import { useAuth } from "./AuthContext";
+import { getAvatarAndPseudo } from "../../utils/axiosCalls";
+// import { MPACTIONS } from "./actions/myPosts";
+// import { useAuth } from "./AuthContext";
 import { usePosts } from "./PostsContext";
 import { myPostsReducer } from "./reducers/myPosts";
 // import { useSocket } from "./SocketContext";
-import { useUser } from "./UserContext";
+// import { useUser } from "./UserContext";
 import { useUsersInfo, useUsersInfoUpdate } from "./UsersInfoContext";
 
 export const MyPostsContext = createContext();
@@ -28,23 +28,23 @@ export function useMyPostsUpdate() {
 export const MyPostsProvider = ({ children }) => {
     const [myPosts, distpatchMyPosts] = useReducer(myPostsReducer, []);
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
-    const [go, setGo] = useState(true);
+    // const [go, setGo] = useState(true);
     const usersInfo = useUsersInfo();
     const setUsersInfo = useUsersInfoUpdate();
     const posts = usePosts();
-    const token = useAuth();
-    const my = useUser();
-    // const socket = useSocket();
-    const allMyPosts = useGetAllMyPosts(my && go && my._id, setGo);
+    // const token = useAuth();
+    // const my = useUser();
+    // // const socket = useSocket();
+    // const allMyPosts = useGetAllMyPosts(my && go && my._id, setGo);
 
-    useEffect(() => {
-        token &&
-            allMyPosts &&
-            distpatchMyPosts({
-                type: MPACTIONS.GET_MY_POSTS,
-                payload: { myPosts: allMyPosts },
-            });
-    }, [allMyPosts, token]);
+    // useEffect(() => {
+    //     token &&
+    //         allMyPosts &&
+    //         distpatchMyPosts({
+    //             type: MPACTIONS.GET_MY_POSTS,
+    //             payload: { myPosts: allMyPosts },
+    //         });
+    // }, [allMyPosts, token]);
 
     useEffect(() => {
         posts &&
@@ -66,25 +66,25 @@ export const MyPostsProvider = ({ children }) => {
             });
     }, [posts]);
 
-    useEffect(() => {
-        allMyPosts &&
-            allMyPosts.map((post) => {
-                setUsersWhoHavePost((prev) => {
-                    if (!prev.includes(post.userId)) {
-                        return [...new Set([...prev, post.userId])];
-                    } else if (
-                        post.hasOwnProperty("sharedUserId") &&
-                        post.sharedUserId &&
-                        !prev.includes(post.sharedUserId)
-                    ) {
-                        return [...new Set([...prev, post.sharedUserId])];
-                    } else {
-                        return [...prev];
-                    }
-                });
-                return true;
-            });
-    }, [allMyPosts]);
+    // useEffect(() => {
+    //     allMyPosts &&
+    //         allMyPosts.map((post) => {
+    //             setUsersWhoHavePost((prev) => {
+    //                 if (!prev.includes(post.userId)) {
+    //                     return [...new Set([...prev, post.userId])];
+    //                 } else if (
+    //                     post.hasOwnProperty("sharedUserId") &&
+    //                     post.sharedUserId &&
+    //                     !prev.includes(post.sharedUserId)
+    //                 ) {
+    //                     return [...new Set([...prev, post.sharedUserId])];
+    //                 } else {
+    //                     return [...prev];
+    //                 }
+    //             });
+    //             return true;
+    //         });
+    // }, [allMyPosts]);
 
     useEffect(() => {
         usersWhoHavePost &&

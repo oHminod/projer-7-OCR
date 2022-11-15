@@ -4,6 +4,8 @@ export function postsReducer(posts, action) {
     switch (action.type) {
         case PACTIONS.GET_POSTS:
             return action.payload.posts;
+        case PACTIONS.ADD_POSTS:
+            return [...new Set([...posts, ...action.payload.posts])];
         // case ACTIONS.ADD_USER:
         //     if (
         //         usersInfo.find(
