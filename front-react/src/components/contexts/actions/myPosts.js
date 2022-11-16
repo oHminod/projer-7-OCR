@@ -3,4 +3,5 @@ export const MPACTIONS = {
     ADD_MY_POSTS_ON_TOP: "add-my-posts-on-top",
     ADD_MY_POST_ON_TOP: "add-my-post-on-top",
     ADD_MY_POSTS: "add-my-posts",
+    UPDATE_MY_POST: "update-my-post",
 };

@@ -6,6 +6,16 @@ export function newPostsReducer(newPosts, action) {
             return [...new Set([action.payload.newPost, ...newPosts])];
         case NPACTIONS.DELETE_NEW_POSTS:
             return [];
+        case NPACTIONS.UPDATE_NEW_POST:
+            return newPosts.map((post) => {
+                if (post._id === action.payload.post._id) {
+                    return {
+                        ...post,
+                        ...action.payload.post,
+                    };
+                }
+                return post;
+            });
         default:
             return newPosts;
     }

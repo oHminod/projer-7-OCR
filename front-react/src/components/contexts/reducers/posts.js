@@ -10,6 +10,16 @@ export function postsReducer(posts, action) {
             return [...new Set([...action.payload.posts, ...posts])];
         case PACTIONS.ADD_MY_POST_ON_TOP:
             return [...new Set([action.payload.myPost, ...posts])];
+        case PACTIONS.UPDATE_POST:
+            return posts.map((post) => {
+                if (post._id === action.payload.post._id) {
+                    return {
+                        ...post,
+                        ...action.payload.post,
+                    };
+                }
+                return post;
+            });
         // case ACTIONS.ADD_USER:
         //     if (
         //         usersInfo.find(

@@ -14,9 +14,7 @@ const NewUserInfoListener = () => {
                     payload: newUserInfo,
                 });
             });
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [socket]);
+    }, [dispatchUsersInfo, socket]);
 };
 
 export default NewUserInfoListener;

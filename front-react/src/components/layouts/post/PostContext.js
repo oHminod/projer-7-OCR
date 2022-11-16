@@ -52,8 +52,7 @@ export function PostProvider({ children, thisPost }) {
                         ...new Set([...prev, data.newComment]),
                     ]);
             });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [socket]);
+    }, [socket, thisPost]);
 
     return (
         <PostContext.Provider value={post}>
