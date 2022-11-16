@@ -20,7 +20,7 @@ const { Socket } = require("../../utils/socket");
  */
 module.exports = (req, res, next, id, post, message) => {
     PostModel.updateOne({ _id: id }, post)
-        .then(() => Socket.emit("likeAndLovesResponse", post))
+        .then(() => Socket.emit("postUpdate", post))
         .then(() => {
             res.status(200).json({ message: message });
         })

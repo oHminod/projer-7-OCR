@@ -23,6 +23,7 @@ const userModel = mongoose.Schema(
         posts: { type: Array, default: [] },
         sharedPosts: [sharedPosts],
         commentaires: { type: Array, default: [] },
+        role: { type: String, default: "visitor" },
     },
     { timestamps: true }
 );

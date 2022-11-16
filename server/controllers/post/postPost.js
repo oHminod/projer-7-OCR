@@ -5,7 +5,6 @@ require("dotenv").config();
 
 const postPost = async (req, res, next) => {
     const image = req.file;
-
     if (image) {
         const userRequete = JSON.parse(req.body.post);
         const postReq = {

@@ -6,7 +6,18 @@ const user = (req, res, next) => {
     }
     UserModel.findOne({ _id: req.params.id })
         .then((user) => {
-            res.status(200).json(user);
+            res.status(200).json({
+                _id: user._id,
+                pseudo: user.pseudo,
+                avatar: user.avatar,
+                email: user.email,
+                bio: user.bio,
+                amis: user.amis,
+                demandesAmis: user.demandesAmis,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt,
+                role: user.role,
+            });
         })
         .catch((error) => {
             return next(ApiError.notFound(error.message));

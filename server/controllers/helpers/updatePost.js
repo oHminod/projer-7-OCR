@@ -22,7 +22,7 @@ module.exports = (req, res, next, post, message) => {
         .then(() =>
             setTimeout(() => {
                 PostModel.findOne({ _id: req.params.id })
-                    .then((data) => Socket.emit("likeAndLovesResponse", data))
+                    .then((data) => Socket.emit("postUpdate", data))
                     .catch((err) => next(ApiError.notFound(err.message)));
             }, 100)
         )

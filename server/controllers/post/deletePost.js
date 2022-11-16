@@ -22,38 +22,8 @@ const deletePost = (req, res, next) => {
         .then((post) => {
             post.userId != req.session.userId &&
                 next(ApiError.unauthorized("Accès refusé"));
-            //Si c'est un post partagé alors sharedPostId contient l'id du post d'origine
-            if (post.sharedPostId && post.fromPostId === post.sharedPostId) {
-                PostModel.findOne({ _id: post.sharedPostId })
-                    .then((originalPost) => {
-                        const userIndex = originalPost.usersShared.indexOf(
-                            req.session.userId
-                        );
-                        userIndex !== -1 &&
-                            originalPost.usersShared.splice(userIndex, 1);
-                        userIndex !== -1 &&
-                            originalPost.shares > 0 &&
-                            (originalPost.shares -= 1);
-                        return originalPost;
-                    })
-                    .then((originalPost) => {
-                        const obj = {
-                            originalPostId: originalPost._id,
-                            userId: req.session.userId,
-                        };
-                        PostModel.updateOne(
-                            { _id: originalPost._id },
-                            originalPost
-                        )
-                            .then(() => Socket.emit("shareDeleted", obj))
-                            .catch((error) => {
-                                return next(ApiError.badRequest(error.message));
-                            });
-                    })
-                    .catch(() => {
-                        return post;
-                    });
-            } else if (post.fromPostId) {
+
+            if (post.fromPostId) {
                 PostModel.findOne({ _id: post.fromPostId })
                     .then((fromPost) => {
                         const userIndex = fromPost.usersShared.indexOf(
@@ -67,12 +37,8 @@ const deletePost = (req, res, next) => {
                         return fromPost;
                     })
                     .then((fromPost) => {
-                        const obj = {
-                            originalPostId: fromPost._id,
-                            userId: req.session.userId,
-                        };
                         PostModel.updateOne({ _id: fromPost._id }, fromPost)
-                            .then(() => Socket.emit("shareDeleted", obj))
+                            .then(() => Socket.emit("postUpdate", fromPost))
                             .catch((error) => {
                                 return next(ApiError.badRequest(error.message));
                             });

@@ -27,9 +27,7 @@ const loverPost = (req, res, next) => {
                     .then(() =>
                         setTimeout(() => {
                             PostModel.findOne({ _id: req.params.id })
-                                .then((data) =>
-                                    Socket.emit("likeAndLovesResponse", data)
-                                )
+                                .then((data) => Socket.emit("postUpdate", data))
                                 .catch((err) =>
                                     next(ApiError.notFound(err.message))
                                 );
@@ -48,9 +46,7 @@ const loverPost = (req, res, next) => {
                     .then(() =>
                         setTimeout(() => {
                             PostModel.findOne({ _id: req.params.id })
-                                .then((data) =>
-                                    Socket.emit("likeAndLovesResponse", data)
-                                )
+                                .then((data) => Socket.emit("postUpdate", data))
                                 .catch((err) =>
                                     next(ApiError.notFound(err.message))
                                 );

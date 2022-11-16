@@ -33,11 +33,23 @@ const userLogin = (req, res, next) => {
                                 ApiError.forbidden("Mot de passe incorrect !")
                             );
                         } else {
+                            const userInfos = {
+                                _id: user._id,
+                                pseudo: user.pseudo,
+                                avatar: user.avatar,
+                                email: user.email,
+                                bio: user.bio,
+                                amis: user.amis,
+                                demandesAmis: user.demandesAmis,
+                                createdAt: user.createdAt,
+                                updatedAt: user.updatedAt,
+                                role: user.role,
+                            };
                             res.status(200).json({
                                 userId: user._id,
-                                user: user,
+                                user: userInfos,
                                 token: jwt.sign(
-                                    { userId: user._id },
+                                    { userId: user._id, userRole: user.role },
                                     process.env.TOKEN,
                                     {
                                         expiresIn: "24h",
