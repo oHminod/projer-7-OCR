@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const postModel = mongoose.Schema(
     {
         userId: { type: String, required: true },
-        texte: { type: String },
-        image: { type: String },
+        texte: { type: String, default: "" },
+        image: { type: String, default: "" },
         likes: { type: Number, default: 0 },
         loves: { type: Number, default: 0 },
         shares: { type: Number, default: 0 },

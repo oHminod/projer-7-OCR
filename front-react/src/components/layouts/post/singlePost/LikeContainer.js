@@ -2,13 +2,15 @@ import React from "react";
 import "./LikeContainer.scss";
 import Commenter from "./likesAndLoves/Commenter";
 import Loves from "./likesAndLoves/Loves";
-import Partager from "./likesAndLoves/Partager";
+import Share from "./likesAndLoves/Share";
+// import Partager from "./likesAndLoves/Partager";
 
 const LikeContainer = () => {
     return (
         <div className="likeContainer">
             <div className="likeLove">
-                <Partager />
+                {/* <Partager /> */}
+                <Share />
                 <Loves />
             </div>
             <Commenter />

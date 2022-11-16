@@ -16,6 +16,8 @@ export function newPostsReducer(newPosts, action) {
                 }
                 return post;
             });
+        case NPACTIONS.DELETE_NEW_POST:
+            return newPosts.filter((post) => post._id !== action.payload.id);
         default:
             return newPosts;
     }

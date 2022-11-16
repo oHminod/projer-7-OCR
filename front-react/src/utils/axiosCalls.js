@@ -317,6 +317,21 @@ export function partagerPost(id, obj) {
             });
 }
 
+export function sharePost(obj) {
+    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
+    const headers = token && {
+        Authorization: `Bearer ${token}`,
+    };
+    token &&
+        API.post(`post/share`, obj, {
+            headers,
+        })
+            .then(() => {})
+            .catch((err) => {
+                console.log(err.response.data);
+            });
+}
+
 export function deletePost(postId) {
     const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
     const config = {
