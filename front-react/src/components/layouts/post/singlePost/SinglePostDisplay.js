@@ -3,16 +3,15 @@ import localeDateFromDate from "../../../../utils/localeDateFromDate";
 import { useUser } from "../../../contexts/UserContext";
 import { useUsersInfo } from "../../../contexts/UsersInfoContext";
 import { useComment } from "../PostContext";
-import CommentBlock from "./commentaires/CommentBlock";
-import LikeContainer from "./LikeContainer";
 import ModifierOuSupprimer from "./modifierOuSupprimer/ModifierOuSupprimer";
+import LikeContainer from "./LikeContainer";
+import CommentBlock from "./commentaires/CommentBlock";
 
 const SinglePostDisplay = ({ thisPost, thisUser, lastItemElementRef }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [originalPostCreatedAt, setOriginalPostCreatedAt] = useState();
     const [sharedUser, setSharedUser] = useState();
-    // const [loadInfos, setLoadInfos] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const usersInfo = useUsersInfo();
     const my = useUser();
@@ -34,22 +33,6 @@ const SinglePostDisplay = ({ thisPost, thisUser, lastItemElementRef }) => {
                 )
             );
     }, [thisPost, usersInfo]);
-    // useMemo(() => {
-    //     loadInfos &&
-    //         usersInfo &&
-    //         thisPost &&
-    //         thisPost.hasOwnProperty("sharedUserId") &&
-    //         thisPost.sharedUserId &&
-    //         !usersInfo.find(
-    //             (findUser) => findUser.userId === thisPost.sharedUserId
-    //         ) &&
-    //         getAvatarAndPseudo(thisPost.sharedUserId)
-    //             .then((userInfo) => {
-    //                 setUsersInfo([...usersInfo, userInfo]);
-    //                 setSharedUser(userInfo);
-    //             })
-    //             .catch((err) => console.log(err));
-    // }, [loadInfos, setUsersInfo, thisPost, usersInfo]);
 
     useEffect(() => {
         thisPost &&

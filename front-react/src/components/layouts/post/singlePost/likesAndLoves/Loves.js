@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { loverPost } from "../../../../../utils/axiosCalls";
-import {
-    useMyPosts,
-    useMyPostsUpdate,
-} from "../../../../contexts/MyPostsContext";
-import { usePosts, usePostsUpdate } from "../../../../contexts/PostsContext";
 import { useUser } from "../../../../contexts/UserContext";
 import { usePost, usePostUpdate } from "../../PostContext";
 
@@ -13,10 +8,6 @@ const Loves = () => {
     const user = useUser();
     const thisPost = usePost();
     const setThisPost = usePostUpdate();
-    const allPosts = usePosts();
-    const setAllPosts = usePostsUpdate();
-    const allMyPosts = useMyPosts();
-    const setAllMyPosts = useMyPostsUpdate();
 
     useEffect(() => {
         thisPost &&
@@ -32,13 +23,6 @@ const Loves = () => {
     const handelClick = () => {
         setActif(!actif);
         let postObj = { ...thisPost };
-
-        let allPostsCopy = [...allPosts];
-        let allMyPostsCopy = [];
-
-        const thisPostIndex = allPostsCopy
-            .map((post) => post._id)
-            .indexOf(thisPost._id);
         let userIndex = postObj.usersLoved.indexOf(user._id);
 
         if (thisPost && actif) {
@@ -48,17 +32,7 @@ const Loves = () => {
             postObj = { ...postObj, loves: thisPost.loves + 1 };
             postObj.usersLoved.push(user._id);
         }
-        if (thisPost.userId === user._id) {
-            allMyPostsCopy = [...allMyPosts];
-            const thisMyPostIndex = allMyPostsCopy
-                .map((post) => post._id)
-                .indexOf(thisPost._id);
-            allMyPostsCopy[thisMyPostIndex] = postObj;
 
-            setAllMyPosts(allMyPostsCopy);
-        }
-        allPostsCopy[thisPostIndex] = postObj;
-        setAllPosts(allPostsCopy);
         setThisPost(postObj);
 
         let obj = {};

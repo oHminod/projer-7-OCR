@@ -20,7 +20,7 @@ const { Socket } = require("../../utils/socket");
 const sharePost = (req, res, next) => {
     const shareThisPost = req.body.post;
     const action = +req.body.action; // 0 ou 1
-    console.log(shareThisPost);
+
     if (action === 1) {
         shareThisPost.usersShared.push(req.session.userId);
         shareThisPost.shares = shareThisPost.usersShared.length;

@@ -36,39 +36,35 @@ const MyPosts = () => {
     return (
         <>
             {myPosts &&
-                myPosts
-                    // .sort(
-                    //     (a, b) =>
-                    //         Date.parse(b.createdAt) - Date.parse(a.createdAt)
-                    // )
-                    .map((myPost, index) => {
-                        if (myPosts.length === index + 1) {
-                            return (
-                                <PostProvider
-                                    key={"postContext-" + index}
-                                    thisPost={myPost}
-                                >
-                                    <MySinglePost
-                                        lastItemElementRef={lastItemElementRef}
-                                        setLastItemId={setLastItemId}
-                                        key={"post-" + index}
-                                    />
-                                </PostProvider>
-                            );
-                        } else {
-                            return (
-                                <PostProvider
-                                    key={"postContext-" + index}
-                                    thisPost={myPost}
-                                >
-                                    <MySinglePost
-                                        setLastItemId={setLastItemId}
-                                        key={"post-" + index}
-                                    />
-                                </PostProvider>
-                            );
-                        }
-                    })}
+                myPosts.map((myPost, index) => {
+                    if (myPosts.length === index + 1) {
+                        return (
+                            <PostProvider
+                                key={"postContext-" + index}
+                                thisPost={myPost}
+                            >
+                                <MySinglePost
+                                    lastItemElementRef={lastItemElementRef}
+                                    setLastItemId={setLastItemId}
+                                    key={"post-" + index}
+                                />
+                            </PostProvider>
+                        );
+                    } else {
+                        return (
+                            <PostProvider
+                                key={"postContext-" + index}
+                                thisPost={myPost}
+                            >
+                                <MySinglePost
+                                    setLastItemId={setLastItemId}
+                                    key={"post-" + index}
+                                />
+                            </PostProvider>
+                        );
+                    }
+                })}
+            {loading && <div>loading...</div>}
         </>
     );
 };

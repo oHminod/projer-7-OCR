@@ -21,7 +21,10 @@ export function myPostsReducer(myPosts, action) {
                 return post;
             });
         case MPACTIONS.DELETE_MY_POST:
-            return myPosts.filter((post) => post._id !== action.payload.id);
+            if (myPosts.find((post) => post._id === action.payload.id)) {
+                return myPosts.filter((post) => post._id !== action.payload.id);
+            }
+            return myPosts;
         default:
             return myPosts;
     }

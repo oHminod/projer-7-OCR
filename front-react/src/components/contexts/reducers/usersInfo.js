@@ -5,7 +5,6 @@ import { UIACTIONS } from "../actions/usersInfo";
 export function usersInfoReducer(usersInfo, action) {
     switch (action.type) {
         case UIACTIONS.ADD_USER:
-            // console.log("action.payload.user");
             if (
                 usersInfo.find(
                     (findUser) => findUser.userId === action.payload.user.userId
@@ -40,19 +39,7 @@ export function usersInfoReducer(usersInfo, action) {
                 }
                 return userInfo;
             });
-        // case ACTIONS.DELETE_TODO:
-        //     return todos.filter((todo) => todo.id !== action.payload.id);
-        // case ACTIONS.LOADING_TODOS:
-        //     return action.payload.todos;
         default:
             return usersInfo;
     }
 }
-
-// function newUser(id) {
-//     let user = {};
-//     getAvatarAndPseudo(id)
-//         .then((userInfo) => (user = userInfo))
-//         .catch((err) => console.log(err));
-//     return user;
-// }

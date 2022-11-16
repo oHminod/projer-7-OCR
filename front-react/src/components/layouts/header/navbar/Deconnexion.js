@@ -1,20 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthUpdate } from "../../../contexts/AuthContext";
+import { useSocket } from "../../../contexts/SocketContext";
 import { useUserUpdate } from "../../../contexts/UserContext";
-// import { useSocket } from "../../context/SocketContext";
 import "./Deconnexion.scss";
 
 const Deconnexion = () => {
     const setToken = useAuthUpdate();
     const setUser = useUserUpdate();
     const navigate = useNavigate();
-    // const socket = useSocket();
+    const socket = useSocket();
 
     const deconnexion = () => {
         setToken("");
         setUser("");
-        // socket.disconnect();
+        socket.disconnect();
         navigate("/login");
     };
 

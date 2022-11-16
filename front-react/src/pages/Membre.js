@@ -11,7 +11,6 @@ const Membre = () => {
     const auth = useAuth();
     const width = useCurrentWidth();
     useVerify();
-    // useGetUser();
 
     return auth ? (
         <motion.main

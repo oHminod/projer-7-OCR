@@ -21,7 +21,10 @@ export function postsReducer(posts, action) {
                 return post;
             });
         case PACTIONS.DELETE_POST:
-            return posts.filter((post) => post._id !== action.payload.id);
+            if (posts.find((post) => post._id === action.payload.id)) {
+                return posts.filter((post) => post._id !== action.payload.id);
+            }
+            return posts;
         default:
             return posts;
     }

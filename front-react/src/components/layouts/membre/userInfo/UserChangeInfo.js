@@ -38,19 +38,11 @@ const UserChangeInfo = ({ setModifier }) => {
         } else if (pseudo || email) {
             let userInfo = {};
             userInfo.userId = user._id;
-            userInfo.avatar = obj.avatar || user.avatar;
+            userInfo.email = email || user.email;
             userInfo.pseudo = pseudo || user.pseudo;
             setNewInfos(userInfo);
             setGo(() => true);
         }
-
-        // let usersInfoCopy = [...usersInfo];
-        // const thisUserIndex = usersInfoCopy
-        //     .map((user) => user.userId)
-        //     .indexOf(user._id);
-        // usersInfoCopy[thisUserIndex] = userInfo;
-        // thisUserIndex !== -1 && setUsersInfo(usersInfoCopy);
-        // setModifier(false);
 
         inputPseudo.current.value = "";
         inputEmail.current.value = "";
