@@ -23,7 +23,7 @@ const SinglePostDisplay = ({ thisPost, thisUser, lastItemElementRef }) => {
     useEffect(() => {
         usersInfo &&
             thisPost &&
-            thisPost.hasOwnProperty("sharedUserId") &&
+            thisPost.sharedUserId !== "" &&
             usersInfo.find(
                 (findUser) => findUser.userId === thisPost.sharedUserId
             ) &&

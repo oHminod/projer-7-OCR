@@ -6,20 +6,18 @@ import "./SinglePost.scss";
 
 const SinglePost = ({ lastItemElementRef }) => {
     const [thisUser, setThisUser] = useState();
-    const [checkedUser, setCheckedUser] = useState();
     const thisPost = usePost();
     const usersInfo = useUsersInfo();
 
     useEffect(() => {
         usersInfo &&
             thisPost &&
-            setCheckedUser(
+            setThisUser(
                 usersInfo.find(
                     (findUser) => findUser.userId === thisPost.userId
                 )
             );
-        checkedUser && setThisUser(checkedUser);
-    }, [usersInfo, checkedUser, thisPost]);
+    }, [usersInfo, thisPost]);
 
     return (
         <SinglePostDisplay
