@@ -5,6 +5,7 @@ import { API } from "../utils/axiosCalls";
 const useOldestPostFetch = (setOldestPost) => {
     const token = useAuth();
     const [id, setId] = useState("");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         id !== "" && setOldestPost(id);
@@ -18,11 +19,15 @@ const useOldestPostFetch = (setOldestPost) => {
         };
         config &&
             id === "" &&
+            loading &&
             API.get(`post/oldest`, config)
-                .then((res) => setId(res.data.oldestPostId))
+                .then((res) => {
+                    setId(res.data.oldestPostId);
+                    setLoading(false);
+                })
                 .catch((err) => {
                     console.log("setOldestPostId : " + err.response.data);
                 });
-    }, [id, token]);
+    }, [id, loading, token]);
 };
 export default useOldestPostFetch;

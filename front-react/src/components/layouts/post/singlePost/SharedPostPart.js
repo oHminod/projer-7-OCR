@@ -46,13 +46,9 @@ const SharedPostPart = ({ thisPost }) => {
 
     return (
         <>
-            {/* {console.log(sharedUser)} */}
             <div className="creatorInfo shared">
                 <div className="wrapper">
-                    {thisPost &&
-                    thisPost.sharedUserId !== "" &&
-                    sharedUser &&
-                    sharedUser !== "" ? (
+                    {thisPost && thisPost.sharedUserId !== "" && sharedUser ? (
                         <img
                             className="imgUser"
                             src={sharedUser.avatar}
@@ -68,8 +64,7 @@ const SharedPostPart = ({ thisPost }) => {
                     <div className="legende">
                         {thisPost &&
                             thisPost.sharedUserId !== "" &&
-                            sharedUser &&
-                            sharedUser !== "" && (
+                            sharedUser && (
                                 <p>
                                     Publication originale par{" "}
                                     <strong>{sharedUser.pseudo}</strong>
@@ -84,16 +79,14 @@ const SharedPostPart = ({ thisPost }) => {
                 {thisPost &&
                 thisPost.sharedUserId !== "" &&
                 thisPost.sharedTexte &&
-                tabTexte.length > 0 ? (
-                    tabTexte.map((paragraphe, index) => (
-                        <p key={index}>{paragraphe}</p>
-                    ))
-                ) : (
-                    <p>{thisPost && thisPost.sharedTexte}</p>
-                )}
+                tabTexte.length > 0
+                    ? tabTexte.map((paragraphe, index) => (
+                          <p key={index}>{paragraphe}</p>
+                      ))
+                    : thisPost &&
+                      thisPost.sharedTexte && <p>{thisPost.sharedTexte}</p>}
                 {thisPost &&
                     thisPost.sharedUserId !== "" &&
-                    sharedUser !== "" &&
                     thisPost.sharedImage && (
                         <img
                             className="imgPost"

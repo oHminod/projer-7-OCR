@@ -48,6 +48,7 @@ const PostPart = () => {
     const handleEdit = () => {
         setEditModal(!editModal);
     };
+
     return (
         <>
             <div className="creatorInfo">
@@ -92,13 +93,11 @@ const PostPart = () => {
                 )}
             </div>
             <div className="postContainer">
-                {thisPost && thisPost.texte && tabTexte.length > 0 ? (
-                    tabTexte.map((paragraphe, index) => (
-                        <p key={index}>{paragraphe}</p>
-                    ))
-                ) : (
-                    <p>{thisPost && thisPost.texte}</p>
-                )}
+                {thisPost && thisPost.texte && tabTexte.length > 0
+                    ? tabTexte.map((paragraphe, index) => (
+                          <p key={index}>{paragraphe}</p>
+                      ))
+                    : thisPost && thisPost.texte && <p>{thisPost.texte}</p>}
                 {thisPost && thisPost.image && (
                     <img
                         className="imgPost"

@@ -34,14 +34,7 @@ const Share = () => {
     return (
         <button
             onClick={handelClick}
-            className={
-                (thisPost &&
-                    user &&
-                    thisPost.sharedPostId &&
-                    thisPost.userId === user._id &&
-                    "shares neutralise") ||
-                (actif ? "shares actif" : "shares")
-            }
+            className={actif ? "shares actif" : "shares"}
             title="Partager"
         >
             {thisPost && (
