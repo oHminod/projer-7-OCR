@@ -6,33 +6,18 @@ import {
     useNewPosts,
     useNewPostsUpdate,
 } from "../components/contexts/NewPostsContext";
+import { useOldestPost } from "../components/contexts/OldestPostContext";
 import { usePosts, usePostsUpdate } from "../components/contexts/PostsContext";
 import { API } from "../utils/axiosCalls";
 
 const useInfiniteFetch = (go, offset, lastItemId = "") => {
-    const [oldestPostId, setOldestPostId] = useState();
+    const oldestPostId = useOldestPost();
     const [loading, setLoading] = useState(true);
     const newPosts = useNewPosts();
     const dispatchNewPosts = useNewPostsUpdate();
     const dispatchPosts = usePostsUpdate();
     const posts = usePosts();
     const token = useAuth();
-
-    useEffect(() => {
-        const config = token && {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        go &&
-            config &&
-            API.get(`post/oldest`, config)
-                .then((res) => setOldestPostId(res.data.oldestPostId))
-                .catch((err) => {
-                    console.log("setOldestPostId : " + err.response.data);
-                });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [token, go]);
 
     useEffect(() => {
         if (posts && posts.length > 0 && !lastItemId) return setLoading(false);

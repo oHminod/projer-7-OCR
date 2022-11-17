@@ -4,11 +4,13 @@ import { Navigate } from "react-router-dom";
 import Timeline from "../components/layouts/home/Timeline";
 import { useVerify } from "../utils/axiosCalls";
 import { useAuth } from "../components/contexts/AuthContext";
+import useSetUsersInfo from "../hooks/useSetUsersInfo";
 
 const Home = () => {
     const authToken = useAuth();
 
     useVerify();
+    useSetUsersInfo();
 
     return authToken ? (
         <motion.div

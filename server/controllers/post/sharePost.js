@@ -91,40 +91,36 @@ const sharePost = (req, res, next) => {
                     ],
                 })
                     .then((post) => {
-                        if (post && post.usersShared.length > 0) {
-                            PostModel.find({
-                                sharedPostId: req.params.id,
-                            })
-                                .then((sharedPosts) => {
-                                    sharedPosts.map((sharedPost) => {
-                                        sharedPost.sharedImage = "";
-                                        sharedPost.sharedTexte =
-                                            "La publication a été supprimée";
-                                        PostModel.updateOne(
-                                            { _id: sharedPost._id },
-                                            sharedPost
-                                        )
-                                            .then(() =>
-                                                Socket.emit(
-                                                    "PropageContentDelete",
-                                                    post._id
-                                                )
+                        PostModel.find({
+                            sharedPostId: req.params.id,
+                        })
+                            .then((sharedPosts) => {
+                                sharedPosts.map((sharedPost) => {
+                                    sharedPost.sharedImage = "";
+                                    sharedPost.sharedTexte =
+                                        "La publication a été supprimée";
+                                    PostModel.updateOne(
+                                        { _id: sharedPost._id },
+                                        sharedPost
+                                    )
+                                        .then(() =>
+                                            Socket.emit(
+                                                "PropageContentDelete",
+                                                post._id
                                             )
-                                            .catch((error) => {
-                                                return next(
-                                                    ApiError.badRequest(
-                                                        error.message
-                                                    )
-                                                );
-                                            });
-                                    });
-                                })
-                                .catch((error) => {
-                                    return next(
-                                        ApiError.notFound(error.message)
-                                    );
+                                        )
+                                        .catch((error) => {
+                                            return next(
+                                                ApiError.badRequest(
+                                                    error.message
+                                                )
+                                            );
+                                        });
                                 });
-                        }
+                            })
+                            .catch(() => {
+                                return post; //next(ApiError.notFound(error.message));
+                            });
                         return post;
                     })
                     .then((post) => {

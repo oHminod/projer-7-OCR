@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import useMyInfiniteFetch from "../../../../hooks/useMyInfiniteFetch";
-import { useMyPosts } from "../../../contexts/MyPostsContext";
-import { useUser } from "../../../contexts/UserContext";
-import PostProvider from "../PostContext";
-import MySinglePost from "./MySinglePost";
+import useMyInfiniteFetch from "../../../hooks/useMyInfiniteFetch";
+import { useMyPosts } from "../../contexts/MyPostsContext";
+import { useUser } from "../../contexts/UserContext";
+import PostProvider from "./PostContext";
+import SinglePost from "./singlePost/SinglePost";
 
 const MyPosts = () => {
     const myPosts = useMyPosts();
@@ -33,6 +33,7 @@ const MyPosts = () => {
     useMemo(() => {
         user && setGo(true);
     }, [user]);
+
     return (
         <>
             {myPosts &&
@@ -43,7 +44,7 @@ const MyPosts = () => {
                                 key={"postContext-" + index}
                                 thisPost={myPost}
                             >
-                                <MySinglePost
+                                <SinglePost
                                     lastItemElementRef={lastItemElementRef}
                                     setLastItemId={setLastItemId}
                                     key={"post-" + index}
@@ -56,7 +57,7 @@ const MyPosts = () => {
                                 key={"postContext-" + index}
                                 thisPost={myPost}
                             >
-                                <MySinglePost
+                                <SinglePost
                                     setLastItemId={setLastItemId}
                                     key={"post-" + index}
                                 />

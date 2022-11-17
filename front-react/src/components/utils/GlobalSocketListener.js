@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useSocket } from "../contexts/SocketContext";
+import React from "react";
 import NewPostsListener from "./socketListeners/NewPostsListener";
 import NewUserInfoListener from "./socketListeners/NewUserInfoListener";
 import PostDeleted from "./socketListeners/PostDeleted";
@@ -7,14 +6,6 @@ import PropageContentDeleteListener from "./socketListeners/PropageContentDelete
 import UpdatePostsListener from "./socketListeners/UpdatePostListener";
 
 const GlobalSocketListener = () => {
-    const socket = useSocket();
-
-    useEffect(() => {
-        socket &&
-            socket.on("connect", () => {
-                console.log(`connecté avec l'id ${socket.id}`);
-            });
-    }, [socket]);
     return (
         <>
             <NewPostsListener />

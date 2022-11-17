@@ -1,31 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useUsersInfo } from "../../../contexts/UsersInfoContext";
-import { usePost } from "../PostContext";
-import SinglePostDisplay from "./SinglePostDisplay";
+import React from "react";
+import { useComment, usePost } from "../PostContext";
+import LikeContainer from "./LikeContainer";
+import CommentBlock from "./commentaires/CommentBlock";
+import SharedPostPart from "./SharedPostPart";
+import PostPart from "./PostPart";
 import "./SinglePost.scss";
 
 const SinglePost = ({ lastItemElementRef }) => {
-    const [thisUser, setThisUser] = useState();
+    const comment = useComment();
     const thisPost = usePost();
-    const usersInfo = useUsersInfo();
-
-    useEffect(() => {
-        usersInfo &&
-            thisPost &&
-            setThisUser(
-                usersInfo.find(
-                    (findUser) => findUser.userId === thisPost.userId
-                )
-            );
-    }, [usersInfo, thisPost]);
 
     return (
-        <SinglePostDisplay
-            thisPost={thisPost}
-            thisUser={thisUser}
-            lastItemElementRef={lastItemElementRef}
-        />
+        <article
+            ref={lastItemElementRef}
+            className="singlePost"
+            id={thisPost && thisPost._id}
+        >
+            <PostPart />
+            {thisPost && thisPost.sharedUserId !== "" && (
+                <SharedPostPart thisPost={thisPost} />
+            )}
+            <LikeContainer />
+            {comment && <CommentBlock />}
+        </article>
     );
 };
-
 export default SinglePost;

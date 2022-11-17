@@ -17,14 +17,15 @@ const AnimatedRoutes = () => {
             <AnimatePresence mode="wait" transition={{ duration: 0.8 }}>
                 <Routes location={location} key={location.pathname}>
                     {token ? (
-                        <Route path="*" element={<Home />}></Route>
+                        <>
+                            <Route path="*" element={<Home />}></Route>
+                            <Route path="/membre" element={<Membre />}></Route>
+                        </>
                     ) : (
-                        <Route path="*" element={<Login />}></Route>
-                    )}
-                    {token ? (
-                        <Route path="/membre" element={<Membre />}></Route>
-                    ) : (
-                        <Route path="/membre" element={<Login />}></Route>
+                        <>
+                            <Route path="*" element={<Login />}></Route>
+                            <Route path="/membre" element={<Login />}></Route>
+                        </>
                     )}
                 </Routes>
             </AnimatePresence>

@@ -2,6 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./components/contexts/AuthContext";
 import MyPostsProvider from "./components/contexts/MyPostsContext";
 import NewPostsProvider from "./components/contexts/NewPostsContext";
+import OldestPostsProvider from "./components/contexts/OldestPostContext";
 import PostsProvider from "./components/contexts/PostsContext";
 import SocketProvider from "./components/contexts/SocketContext";
 import UserProvider from "./components/contexts/UserContext";
@@ -14,18 +15,20 @@ function App() {
         <AuthProvider>
             <SocketProvider>
                 <UserProvider>
-                    <UsersInfoProvider>
-                        <NewPostsProvider>
-                            <PostsProvider>
-                                <MyPostsProvider>
-                                    <BrowserRouter>
-                                        <GlobalSocketListener />
-                                        <AnimatedRoutes />
-                                    </BrowserRouter>
-                                </MyPostsProvider>
-                            </PostsProvider>
-                        </NewPostsProvider>
-                    </UsersInfoProvider>
+                    <OldestPostsProvider>
+                        <UsersInfoProvider>
+                            <NewPostsProvider>
+                                <PostsProvider>
+                                    <MyPostsProvider>
+                                        <BrowserRouter>
+                                            <GlobalSocketListener />
+                                            <AnimatedRoutes />
+                                        </BrowserRouter>
+                                    </MyPostsProvider>
+                                </PostsProvider>
+                            </NewPostsProvider>
+                        </UsersInfoProvider>
+                    </OldestPostsProvider>
                 </UserProvider>
             </SocketProvider>
         </AuthProvider>

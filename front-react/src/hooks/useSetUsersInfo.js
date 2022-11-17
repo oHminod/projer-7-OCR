@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { getAvatarAndPseudo } from "../../utils/axiosCalls";
-import { useMyPosts } from "./MyPostsContext";
-import { useNewPosts } from "./NewPostsContext";
-import { usePosts } from "./PostsContext";
-import { useUsersInfo, useUsersInfoUpdate } from "./UsersInfoContext";
+import { useMyPosts } from "../components/contexts/MyPostsContext";
+import { useNewPosts } from "../components/contexts/NewPostsContext";
+import { usePosts } from "../components/contexts/PostsContext";
+import {
+    useUsersInfo,
+    useUsersInfoUpdate,
+} from "../components/contexts/UsersInfoContext";
+import { getAvatarAndPseudo } from "../utils/axiosCalls";
 
 const useSetUsersInfo = () => {
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);

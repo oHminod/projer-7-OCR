@@ -1,6 +1,6 @@
 import React from "react";
 import SinglePostForm from "../../post/form/SinglePostForm";
-import MyPosts from "../../post/myPosts/MyPosts";
+import MyPosts from "../../post/MyPosts";
 import "./Wall.scss";
 
 const Wall = () => {
