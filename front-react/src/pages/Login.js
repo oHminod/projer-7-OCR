@@ -8,9 +8,11 @@ import BackgroundLogoSvg from "../components/layouts/svg/BackgroundLogoSvg";
 const Login = () => {
     const token = useAuth();
     const navigate = useNavigate();
+
     useEffect(() => {
         token && navigate("/home");
     }, [token, navigate]);
+
     return (
         <motion.main
             className="login"

@@ -9,6 +9,7 @@ import UserProvider from "./components/contexts/UserContext";
 import UsersInfoProvider from "./components/contexts/UsersInfoContext";
 import AnimatedRoutes from "./components/utils/AnimatedRoutes";
 import GlobalSocketListener from "./components/utils/GlobalSocketListener";
+import SetOldestsPosts from "./components/utils/SetOldestsPosts";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                                 <PostsProvider>
                                     <MyPostsProvider>
                                         <BrowserRouter>
+                                            <SetOldestsPosts />
                                             <GlobalSocketListener />
                                             <AnimatedRoutes />
                                         </BrowserRouter>

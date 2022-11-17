@@ -16,20 +16,20 @@ const NewPostsListener = () => {
     const dispatchPosts = usePostsUpdate();
     useEffect(() => {
         socket &&
-            socket.on("newPost", (data) => {
-                if (data && data.newPost.userId === my._id) {
+            socket.on("newPost", (newPost) => {
+                if (newPost && newPost.newPost.userId === my._id) {
                     dispatchMyPosts({
                         type: MPACTIONS.ADD_MY_POST_ON_TOP,
-                        payload: { myPost: data.newPost },
+                        payload: { myPost: newPost.newPost },
                     });
                     dispatchPosts({
                         type: PACTIONS.ADD_MY_POST_ON_TOP,
-                        payload: { myPost: data.newPost },
+                        payload: { myPost: newPost.newPost },
                     });
-                } else if (data) {
+                } else if (newPost) {
                     dispatchNewPosts({
                         type: NPACTIONS.ADD_NEW_POST,
-                        payload: { newPost: data.newPost },
+                        payload: { newPost: newPost.newPost },
                     });
                 }
             });

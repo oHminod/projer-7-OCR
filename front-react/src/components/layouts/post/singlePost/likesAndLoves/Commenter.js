@@ -12,6 +12,7 @@ const Commenter = () => {
     useEffect(() => {
         thisPost && setNbComments(thisPost.commentaires.length);
     }, [thisPost]);
+
     return (
         <button onClick={handleClick} className="commenter">
             {nbComments > 0 && nbComments}&nbsp;&nbsp;

@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../components/contexts/AuthContext";
+import { useOldestPostUpdate } from "../components/contexts/OldestPostContext";
 import { API } from "../utils/axiosCalls";
 
-const useOldestPostFetch = (setOldestPost) => {
+const useOldestPostFetch = () => {
     const token = useAuth();
-    const [id, setId] = useState("");
+    const setOldestPost = useOldestPostUpdate();
     const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        id !== "" && setOldestPost(id);
-    }, [id, setOldestPost]);
 
     useEffect(() => {
         const config = token && {
@@ -18,16 +15,15 @@ const useOldestPostFetch = (setOldestPost) => {
             },
         };
         config &&
-            id === "" &&
             loading &&
             API.get(`post/oldest`, config)
                 .then((res) => {
-                    setId(res.data.oldestPostId);
+                    setOldestPost(res.data.oldestPostId);
                     setLoading(false);
                 })
                 .catch((err) => {
                     console.log("setOldestPostId : " + err.response.data);
                 });
-    }, [id, loading, token]);
+    }, [loading, setOldestPost, token]);
 };
 export default useOldestPostFetch;

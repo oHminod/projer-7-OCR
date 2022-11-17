@@ -1,12 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-// import { PACTIONS } from "../components/contexts/actions/posts";
 import { UIACTIONS } from "../components/contexts/actions/usersInfo";
 import { useAuth, useAuthUpdate } from "../components/contexts/AuthContext";
 import { useUser, useUserUpdate } from "../components/contexts/UserContext";
 
 const API_URL = process.env.REACT_APP_API_URL;
-// const API_IP = process.env.REACT_APP_API_IP;
 export const API = axios.create({
     baseURL: API_URL,
 });
@@ -181,32 +179,6 @@ export function useAxiosPostPost(obj, setDbError, go, setGo) {
     }, [go, obj, setDbError, setGo, token]);
 }
 
-// export function useAxiosGetAllPosts(go, setGo, dispatchPosts) {
-//     const token = useAuth();
-//     useEffect(() => {
-//         const config = {
-//             headers: {
-//                 Authorization: `Bearer ${token}`,
-//             },
-//         };
-//         // token && setGo(true);
-//         token &&
-//             go &&
-//             API.get(`post/`, config)
-//                 .then((data) => {
-//                     dispatchPosts({
-//                         type: PACTIONS.GET_POSTS,
-//                         payload: { posts: data.data },
-//                     });
-//                     setGo(false);
-//                 })
-//                 .catch((err) => {
-//                     console.log(err);
-//                 });
-//         // eslint-disable-next-line react-hooks/exhaustive-deps
-//     }, [go]);
-// }
-
 export function getAvatarAndPseudo(userId, dispatchUsersInfo) {
     const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
     const config = {
@@ -222,10 +194,6 @@ export function getAvatarAndPseudo(userId, dispatchUsersInfo) {
                     type: UIACTIONS.ADD_USER,
                     payload: { user: user },
                 });
-            // data.data = {
-            //     ...data.data,
-            //     avatar: data.data.avatar.split("localhost").join(API_IP),
-            // };
             return data.data;
         })
         .catch((err) => {

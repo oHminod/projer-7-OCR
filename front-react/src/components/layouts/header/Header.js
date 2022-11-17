@@ -4,7 +4,13 @@ import Navigation from "./navbar/Navigation";
 
 const Header = () => {
     const token = useAuth();
-    return <header>{token && <Navigation />}</header>;
+    return (
+        token && (
+            <header>
+                <Navigation />
+            </header>
+        )
+    );
 };
 
 export default Header;

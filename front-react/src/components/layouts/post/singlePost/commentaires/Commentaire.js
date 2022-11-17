@@ -10,10 +10,7 @@ const Commentaire = ({ comment }) => {
     const [updatedAt, setUpdatedAt] = useState();
     const [createdAt, setCreatedAt] = useState();
     const [repondre, setRepondre] = useState(false);
-    const [commentText, setCommentText] = useState("");
-    const formatedText = (txt) => {
-        return { __html: txt };
-    };
+    const [tabTexte, setTabTexte] = useState([]);
 
     useEffect(() => {
         usersInfo &&
@@ -26,12 +23,14 @@ const Commentaire = ({ comment }) => {
     useEffect(() => {
         comment &&
             comment.text &&
-            setCommentText(
-                "<p>" +
-                    comment.text.trim().split("\u000A").join("</p><p>") +
-                    "</p>"
+            setTabTexte(
+                comment.text
+                    .trim()
+                    .split("\u000A")
+                    .filter((p) => p !== "")
             );
-    }, [comment, commentText]);
+        comment && comment.text && (comment.text = comment.text.trim());
+    }, [comment]);
 
     useEffect(() => {
         comment && setCreatedAt(shortDateFromDate(comment.createdAt));
@@ -68,13 +67,12 @@ const Commentaire = ({ comment }) => {
                                     </p>
                                 )}
                                 <div className="comment">
-                                    {commentText && (
-                                        <div
-                                            dangerouslySetInnerHTML={formatedText(
-                                                commentText
-                                            )}
-                                        ></div>
-                                    )}
+                                    {tabTexte.length > 0
+                                        ? tabTexte.map((paragraphe, index) => (
+                                              <p key={index}>{paragraphe}</p>
+                                          ))
+                                        : comment &&
+                                          comment.text && <p>{comment.text}</p>}
                                 </div>
                             </div>
                         </div>

@@ -43,6 +43,7 @@ export function PostProvider({ children, thisPost }) {
     useEffect(() => {
         setPost(thisPost);
     }, [thisPost]);
+
     useEffect(() => {
         socket &&
             socket.on("newComment", (data) => {

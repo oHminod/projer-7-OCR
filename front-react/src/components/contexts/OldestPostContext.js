@@ -1,6 +1,4 @@
 import React, { createContext, useContext, useState } from "react";
-import useMyOldestPostFetch from "../../hooks/useMyOldestPostFetch";
-import useOldestPostFetch from "../../hooks/useOldestPostFetch";
 
 export const OldestPostContext = createContext();
 export const MyOldestPostContext = createContext();
@@ -26,9 +24,6 @@ export function useMyOldestPostUpdate() {
 export function OldestPostsProvider({ children }) {
     const [oldestPost, setOldestPost] = useState("");
     const [myOldestPost, setMyOldestPost] = useState("");
-
-    useMyOldestPostFetch(setMyOldestPost);
-    useOldestPostFetch(setOldestPost);
 
     return (
         <OldestPostContext.Provider value={oldestPost}>
