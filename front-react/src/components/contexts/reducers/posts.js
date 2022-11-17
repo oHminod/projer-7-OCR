@@ -2,8 +2,6 @@ import { PACTIONS } from "../actions/posts";
 
 export function postsReducer(posts, action) {
     switch (action.type) {
-        case PACTIONS.GET_POSTS:
-            return action.payload.posts;
         case PACTIONS.ADD_POSTS:
             return [...new Set([...posts, ...action.payload.posts])];
         case PACTIONS.ADD_POSTS_ON_TOP:
@@ -29,3 +27,5 @@ export function postsReducer(posts, action) {
             return posts;
     }
 }
+// case PACTIONS.GET_POSTS:
+//     return action.payload.posts;

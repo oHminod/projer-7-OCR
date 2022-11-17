@@ -2,8 +2,6 @@ import { MPACTIONS } from "../actions/myPosts";
 
 export function myPostsReducer(myPosts, action) {
     switch (action.type) {
-        case MPACTIONS.GET_MY_POSTS:
-            return action.payload.myPosts;
         case MPACTIONS.ADD_MY_POSTS:
             return [...new Set([...myPosts, ...action.payload.myPosts])];
         case MPACTIONS.ADD_MY_POSTS_ON_TOP:
@@ -29,3 +27,6 @@ export function myPostsReducer(myPosts, action) {
             return myPosts;
     }
 }
+
+// case MPACTIONS.GET_MY_POSTS:
+//     return action.payload.myPosts;

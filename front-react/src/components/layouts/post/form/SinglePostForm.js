@@ -2,12 +2,8 @@ import React, { useState } from "react";
 import { useAxiosPostPost } from "../../../../utils/axiosCalls";
 import { useUser } from "../../../contexts/UserContext";
 import InputFile from "./InputFile";
-// import { axiosPostPost } from "../../../../utils/axiosCalls";
-// import { useUser } from "../../../context/UserContext";
-// import InputFile from "./InputFile";
 import "./SinglePostForm.scss";
 import TextArea from "./TextArea";
-// import TextArea from "./TextArea";
 
 const SinglePostForm = () => {
     const user = useUser();

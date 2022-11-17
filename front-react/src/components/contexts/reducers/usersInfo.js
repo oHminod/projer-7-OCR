@@ -1,5 +1,4 @@
 // import { getAvatarAndPseudo } from "../../../utils/axiosCalls";
-import { getAvatarAndPseudo } from "../../../utils/axiosCalls";
 import { UIACTIONS } from "../actions/usersInfo";
 
 export function usersInfoReducer(usersInfo, action) {
@@ -12,23 +11,6 @@ export function usersInfoReducer(usersInfo, action) {
             )
                 return usersInfo;
             return [...usersInfo, action.payload.user];
-        case UIACTIONS.GET_USERS:
-            if (
-                usersInfo.find(
-                    (findUser) => findUser.userId === action.payload.id
-                )
-            )
-                return usersInfo;
-
-            let newUserInfo;
-            getAvatarAndPseudo(action.payload.id)
-                .then((userInfo) => {
-                    console.log(userInfo);
-                    newUserInfo = userInfo;
-                })
-                .catch((err) => console.log(err));
-            console.log(newUserInfo);
-            return [...usersInfo, newUserInfo];
         case UIACTIONS.UPDATE_USER:
             return usersInfo.map((userInfo) => {
                 if (userInfo.userId === action.payload.userId) {
@@ -43,3 +25,20 @@ export function usersInfoReducer(usersInfo, action) {
             return usersInfo;
     }
 }
+
+// case UIACTIONS.GET_USERS:
+//     if (
+//         usersInfo.find(
+//             (findUser) => findUser.userId === action.payload.id
+//         )
+//     )
+//         return usersInfo;
+
+//     let newUserInfo;
+//     getAvatarAndPseudo(action.payload.id)
+//         .then((userInfo) => {
+//             console.log(userInfo);
+//             newUserInfo = userInfo;
+//         })
+//         .catch((err) => console.log(err));
+//     return [...usersInfo, newUserInfo];
