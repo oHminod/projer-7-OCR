@@ -1,12 +1,11 @@
 import React, { useRef, useState } from "react";
 import verifEmail from "../../../../utils/verifEmail";
-import { motion } from "framer-motion";
-import { useUser, useUserUpdate } from "../../../contexts/UserContext";
+// import { motion } from "framer-motion";
+import { useUser } from "../../../contexts/UserContext";
 import { useAxiosSetUser } from "../../../../utils/axiosCalls";
 
 const UserChangeInfo = ({ setModifier }) => {
     const user = useUser();
-    const setUser = useUserUpdate();
     const inputPseudo = useRef("");
     const inputEmail = useRef("");
     const [selectedImage, setSelectedImage] = useState(null);
@@ -25,9 +24,6 @@ const UserChangeInfo = ({ setModifier }) => {
         selectedImage && (obj.avatar = URL.createObjectURL(selectedImage));
         pseudo && (obj.pseudo = pseudo);
         email && (obj.email = email);
-        setUser((prevUser) => {
-            return { ...prevUser, ...obj };
-        });
 
         if (selectedImage) {
             const data = new FormData();
@@ -57,13 +53,7 @@ const UserChangeInfo = ({ setModifier }) => {
     };
 
     return (
-        <motion.form
-            layout
-            animate={{ height: 423, opacity: 1 }}
-            initial={{ height: 305, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onSubmit={submitNewInfos}
-        >
+        <form onSubmit={submitNewInfos}>
             {selectedImage ? (
                 <img
                     alt="nouvel avatar"
@@ -106,7 +96,7 @@ const UserChangeInfo = ({ setModifier }) => {
             <button onClick={submitNewInfos} className="success">
                 Enregistrer
             </button>
-        </motion.form>
+        </form>
     );
 };
 

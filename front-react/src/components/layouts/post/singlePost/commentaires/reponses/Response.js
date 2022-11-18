@@ -93,6 +93,7 @@ const Response = ({ reponse, resTargetPseudo }) => {
                     <ResponsePrompt
                         thisComment={reponse}
                         thisCommentUser={user}
+                        setRepondre={setRepondre}
                     />
                 )}
                 <DisplayResponses

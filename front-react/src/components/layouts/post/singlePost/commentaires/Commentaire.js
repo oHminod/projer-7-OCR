@@ -93,6 +93,7 @@ const Commentaire = ({ comment }) => {
                     <ResponsePrompt
                         thisComment={comment}
                         thisCommentUser={user}
+                        setRepondre={setRepondre}
                     />
                 )}
                 <div className="reponses">

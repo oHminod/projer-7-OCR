@@ -20,7 +20,7 @@ const postComment = async (req, res, next) => {
             .then(() =>
                 setTimeout(() => {
                     updatePostAndEmit(req, res, next);
-                }, 500)
+                }, 20)
             )
             .then(() => {
                 res.status(201).json({ message: "Commentaire enregistré !" });
@@ -35,7 +35,7 @@ const postComment = async (req, res, next) => {
             .then(() =>
                 setTimeout(() => {
                     updatePostAndEmit(req, res, next);
-                }, 500)
+                }, 20)
             )
             .then(() =>
                 res.status(201).json({ message: "Commentaire enregistré !" })

@@ -6,7 +6,7 @@ import { usePost } from "../../../PostContext";
 import "../CommentPrompt.scss";
 import ResponseTextArea from "./ResponseTextArea";
 
-const ResponsePrompt = ({ thisComment, thisCommentUser }) => {
+const ResponsePrompt = ({ thisComment, thisCommentUser, setRepondre }) => {
     const user = useUser();
     const thisPost = usePost();
     const [text, setText] = useState();
@@ -25,6 +25,9 @@ const ResponsePrompt = ({ thisComment, thisCommentUser }) => {
         postCommentWithoutImage(comment);
         setResetTextInput(true);
         setText();
+        setTimeout(() => {
+            setRepondre(false);
+        }, 100);
     };
 
     return (

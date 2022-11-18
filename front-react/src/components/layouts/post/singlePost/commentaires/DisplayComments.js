@@ -59,20 +59,19 @@ const DisplayComments = () => {
             );
     }, [usersWhoNeedsInfo, usersInfo, dispatchUsersInfo]);
 
+    if (!comments) return null;
     return (
-        comments && (
-            <div className="commentaires">
-                {comments.map(
-                    (comment, index) =>
-                        comment.commentId === comment.threadId && (
-                            <Commentaire
-                                comment={comment}
-                                key={"commentaire-" + index}
-                            />
-                        )
-                )}
-            </div>
-        )
+        <div className="commentaires">
+            {comments.map(
+                (comment, index) =>
+                    comment.commentId === comment.threadId && (
+                        <Commentaire
+                            comment={comment}
+                            key={"commentaire-" + index}
+                        />
+                    )
+            )}
+        </div>
     );
 };
 
