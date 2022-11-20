@@ -1,23 +1,16 @@
 import { useEffect, useState } from "react";
 import { MPACTIONS } from "../components/contexts/actions/myPosts";
-import { NPACTIONS } from "../components/contexts/actions/newPosts";
 import { useAuth } from "../components/contexts/AuthContext";
 import {
     useMyPosts,
     useMyPostsUpdate,
 } from "../components/contexts/MyPostsContext";
-import {
-    useNewPosts,
-    useNewPostsUpdate,
-} from "../components/contexts/NewPostsContext";
 import { useMyOldestPost } from "../components/contexts/OldestPostContext";
 import { API } from "../utils/axiosCalls";
 
 const useMyInfiniteFetch = (go, offset, lastItemId = "") => {
     const myOldestPostId = useMyOldestPost();
     const [loading, setLoading] = useState(true);
-    const newPosts = useNewPosts();
-    const dispatchNewPosts = useNewPostsUpdate();
     const dispatchMyPosts = useMyPostsUpdate();
     const myPosts = useMyPosts();
     const token = useAuth();
@@ -26,15 +19,6 @@ const useMyInfiniteFetch = (go, offset, lastItemId = "") => {
         if (myPosts && myPosts.length > 0 && !lastItemId)
             return setLoading(false);
         setLoading(true);
-        if (go && newPosts.length > 0) {
-            dispatchMyPosts({
-                type: MPACTIONS.ADD_MY_POSTS,
-                payload: { myPosts: newPosts },
-            });
-            dispatchNewPosts({
-                type: NPACTIONS.DELETE_NEW_POSTS,
-            });
-        }
 
         const config = token && {
             headers: {
@@ -58,7 +42,7 @@ const useMyInfiniteFetch = (go, offset, lastItemId = "") => {
                 });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [lastItemId, token, go, myOldestPostId]);
+    }, [lastItemId, offset, token, go, myOldestPostId]);
 
     return { loading, myOldestPostId };
 };

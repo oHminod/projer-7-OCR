@@ -18,12 +18,12 @@ const NewPosts = () => {
         dispatchNewPosts({ type: NPACTIONS.DELETE_NEW_POSTS });
     };
 
-    return (
-        newPosts.length > 0 && (
-            <div className="newPosts" onClick={handleClick}>
-                <p>Cliquer pour voir les nouveaux posts</p>
-            </div>
-        )
+    return newPosts.length > 0 ? (
+        <div className="newPosts" onClick={handleClick}>
+            <p>Cliquer pour voir les nouveaux posts</p>
+        </div>
+    ) : (
+        <div className="newPostsFiller"></div>
     );
 };
 

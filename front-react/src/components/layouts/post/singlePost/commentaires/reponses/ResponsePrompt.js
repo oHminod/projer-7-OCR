@@ -25,9 +25,7 @@ const ResponsePrompt = ({ thisComment, thisCommentUser, setRepondre }) => {
         postCommentWithoutImage(comment);
         setResetTextInput(true);
         setText();
-        setTimeout(() => {
-            setRepondre(false);
-        }, 100);
+        setTimeout(setRepondre(false), 100);
     };
 
     return (

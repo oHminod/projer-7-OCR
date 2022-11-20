@@ -14,8 +14,8 @@ import SetOldestsPosts from "./components/utils/SetOldestsPosts";
 function App() {
     return (
         <AuthProvider>
-            <SocketProvider>
-                <UserProvider>
+            <UserProvider>
+                <SocketProvider>
                     <OldestPostsProvider>
                         <UsersInfoProvider>
                             <NewPostsProvider>
@@ -31,8 +31,8 @@ function App() {
                             </NewPostsProvider>
                         </UsersInfoProvider>
                     </OldestPostsProvider>
-                </UserProvider>
-            </SocketProvider>
+                </SocketProvider>
+            </UserProvider>
         </AuthProvider>
     );
 }

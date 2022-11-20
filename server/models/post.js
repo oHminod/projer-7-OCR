@@ -8,7 +8,7 @@ const postModel = mongoose.Schema(
         likes: { type: Number, default: 0 },
         loves: { type: Number, default: 0 },
         shares: { type: Number, default: 0 },
-        usersLiked: { type: Array, default: [] },
+        // usersLiked: { type: Array, default: [] },
         usersLoved: { type: Array, default: [] },
         usersShared: { type: Array, default: [] },
         commentaires: { type: Array, default: [] },

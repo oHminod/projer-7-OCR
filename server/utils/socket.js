@@ -5,46 +5,54 @@ const ApiError = require("../error/ApiError");
 require("dotenv").config();
 
 const Socket = {
-    emit: function (event, data) {
-        // console.log(event, data);
+    emit: (event, data) => {
         io.sockets.emit(event, data);
+    },
+    to: (room, event, data) => {
+        io.to(room).emit(event, data);
+    },
+    // Chaque browser connecté avec un utilisateur donné est dans
+    // une room nommée avec l'id de l'utilisateur. (première implémentation)
+    has: (room) => {
+        return io.sockets.adapter.rooms.has(room);
     },
 };
 
-const isValidJwt = (header) => {
+const userAuth = (header, userId) => {
     try {
         const token = header.split(" ")[1];
         const decodedToken = jwt.verify(token, process.env.TOKEN);
-        if (decodedToken) {
+        // console.log(decodedToken.userRole);
+
+        if (decodedToken && decodedToken.userId === userId) {
             return true;
         } else {
             return false;
         }
-    } catch (error) {
-        return next(ApiError.forbidden(error));
+    } catch {
+        return next(ApiError.unauthorized("Token invalide"));
     }
 };
 
+let userId = "";
 io.use((socket, next) => {
     const header = socket.handshake.headers["authorization"];
-    if (isValidJwt(header)) {
+    userId = socket.handshake.headers["userid"];
+
+    if (userAuth(header, userId)) {
         return next();
     }
-    return next(new Error("authentication error"));
-});
-io.on("connection", (socket) => {
-    // console.log("utilisateur connecté : " + socket.id);
-    socket.on("likeAndLoves", (postObj) => {
-        socket.broadcast.emit("likeAndLovesResponse", postObj);
-    });
-    // socket.on("room", (room) => {
-    //     console.log(room);
-    //     socket.join(room);
-    // });
-    // socket.on("disconnect", (socket) => {
-    //     console.log(socket.id + " déconnecté!");
-    // });
+    return next(ApiError.forbidden("Accès interdit"));
 });
 
+io.on("connection", (socket) => {
+    // Connexion à la room de l'utilisateur après vérification de l'id avec le token
+    socket.join(userId);
+    // console.log(io.sockets.adapter.rooms.has("6351f4ae3f4026d3035f9ebd"));
+
+    socket.on("disconnect", () => {
+        // console.log("Un utilisateur s'est déconnecté");
+    });
+});
 exports.Socket = Socket;
 exports.io = io;

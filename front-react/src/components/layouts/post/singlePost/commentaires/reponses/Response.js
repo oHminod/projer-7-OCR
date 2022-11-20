@@ -12,11 +12,18 @@ const Response = ({ reponse, resTargetPseudo }) => {
     const [createdAt, setCreatedAt] = useState();
     const [repondre, setRepondre] = useState(false);
     const [tabTexte, setTabTexte] = useState([]);
+    const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date());
 
     useEffect(() => {
-        usersInfo.map(
-            (userInf) => userInf.userId === reponse.userId && setUser(userInf)
-        );
+        setTimeout(() => setFakeCurrentDate(new Date()), 9000);
+    }, [fakeCurrentDate]);
+
+    useEffect(() => {
+        usersInfo &&
+            usersInfo.map(
+                (userInf) =>
+                    userInf.userId === reponse.userId && setUser(userInf)
+            );
     }, [reponse.userId, usersInfo]);
 
     useEffect(() => {
@@ -34,7 +41,7 @@ const Response = ({ reponse, resTargetPseudo }) => {
     useEffect(() => {
         reponse && setCreatedAt(shortDateFromDate(reponse.createdAt));
         reponse && setUpdatedAt(shortDateFromDate(reponse.createdAt));
-    }, [reponse]);
+    }, [reponse, fakeCurrentDate]);
 
     const handleCommenter = () => {
         setRepondre(!repondre);

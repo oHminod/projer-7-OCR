@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const uniqueInDB = require("mongoose-unique-validator");
 
-const sharedPosts = mongoose.Schema(
-    {
-        postId: { type: String, required: true },
-    },
-    { timestamps: true }
-);
+// const sharedPosts = mongoose.Schema(
+//     {
+//         postId: { type: String, required: true },
+//     },
+//     { timestamps: true }
+// );
 
 const userModel = mongoose.Schema(
     {
@@ -20,9 +20,9 @@ const userModel = mongoose.Schema(
         bio: { type: String, text: true, default: "" },
         amis: { type: Array, default: [] },
         demandesAmis: { type: Array, default: [] },
-        posts: { type: Array, default: [] },
-        sharedPosts: [sharedPosts],
-        commentaires: { type: Array, default: [] },
+        // posts: { type: Array, default: [] },
+        // sharedPosts: [sharedPosts],
+        // commentaires: { type: Array, default: [] },
         role: { type: String, default: "visitor" },
     },
     { timestamps: true }

@@ -11,6 +11,11 @@ const Commentaire = ({ comment }) => {
     const [createdAt, setCreatedAt] = useState();
     const [repondre, setRepondre] = useState(false);
     const [tabTexte, setTabTexte] = useState([]);
+    const [fakeCurrentDate, setFakeCurrentDate] = useState(new Date());
+
+    useEffect(() => {
+        setTimeout(() => setFakeCurrentDate(new Date()), 12000);
+    }, [fakeCurrentDate]);
 
     useEffect(() => {
         usersInfo &&
@@ -35,7 +40,7 @@ const Commentaire = ({ comment }) => {
     useEffect(() => {
         comment && setCreatedAt(shortDateFromDate(comment.createdAt));
         comment && setUpdatedAt(shortDateFromDate(comment.createdAt));
-    }, [comment]);
+    }, [comment, fakeCurrentDate]);
 
     const handleCommenter = () => {
         setRepondre(!repondre);
