@@ -20,10 +20,8 @@
         bottom: 28px;
         right: 10px;
         background-color: $success;
-        @extend .card_shadow;
 
         &:hover {
-            @extend .card_shadow_hover;
             background-color: $successHover;
         }
     }
@@ -42,6 +40,10 @@
 
         &:hover {
             color: #b28a8a;
+        }
+
+        &:active {
+            transform: scale(.95);
         }
     }
 

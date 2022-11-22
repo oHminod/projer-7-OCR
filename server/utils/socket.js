@@ -46,6 +46,7 @@ io.use((socket, next) => {
 });
 
 io.on("connection", (socket) => {
+    // console.log(req.app.locals);
     // Connexion à la room de l'utilisateur après vérification de l'id avec le token
     socket.join(userId);
     // console.log(io.sockets.adapter.rooms.has("6351f4ae3f4026d3035f9ebd"));

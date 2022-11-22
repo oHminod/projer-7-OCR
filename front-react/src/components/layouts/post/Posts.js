@@ -31,11 +31,16 @@ const Posts = () => {
             if (loading) return;
             if (observer.current) observer.current.disconnect();
 
-            observer.current = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    setLastItemId(node.id);
+            observer.current = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0].isIntersecting) {
+                        setLastItemId(node.id);
+                    }
+                },
+                {
+                    rootMargin: "200px",
                 }
-            });
+            );
             if (node) observer.current.observe(node);
             // eslint-disable-next-line no-use-before-define
         },

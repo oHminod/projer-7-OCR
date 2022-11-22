@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { NPACTIONS } from "../../contexts/actions/newPosts";
 import { PACTIONS } from "../../contexts/actions/posts";
 import { useNewPosts, useNewPostsUpdate } from "../../contexts/NewPostsContext";
@@ -18,12 +19,22 @@ const NewPosts = () => {
         dispatchNewPosts({ type: NPACTIONS.DELETE_NEW_POSTS });
     };
 
-    return newPosts.length > 0 ? (
-        <div className="newPosts" onClick={handleClick}>
-            <p>Cliquer pour voir les nouveaux posts</p>
+    return (
+        <div className="newPostsFiller">
+            {newPosts.length > 0 && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                        opacity: { duration: 0.1, ease: "easeInOut" },
+                    }}
+                    className="newPosts"
+                    onClick={handleClick}
+                >
+                    <p>Cliquer pour voir les nouveaux posts</p>
+                </motion.div>
+            )}
         </div>
-    ) : (
-        <div className="newPostsFiller"></div>
     );
 };
 
