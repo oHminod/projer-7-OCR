@@ -186,45 +186,21 @@ export function getAvatarAndPseudo(userId, dispatchUsersInfo) {
             Authorization: `Bearer ${token}`,
         },
     };
-    API.get(`user/posterinfo/${userId}`, config)
-        .then((data) => {
-            const user = (data && data.data) || false;
-            user &&
-                dispatchUsersInfo({
-                    type: UIACTIONS.ADD_USER,
-                    payload: { user: user },
-                });
-            return data.data;
-        })
-        .catch((err) => {
-            console.log(err.response.data);
-        });
-    return null;
-}
-
-export function useGetAllMyPosts(id, setGo) {
-    const token = useAuth();
-    const [data, setData] = useState();
-    useEffect(() => {
-        const config = token && {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        config &&
-            id &&
-            setTimeout(() => {
-                API.get(`post/${id}`, config)
-                    .then((data) => {
-                        setData(data.data);
-                        setGo(false);
-                    })
-                    .catch((err) => {
-                        console.log(err.response.data);
+    token &&
+        API.get(`user/posterinfo/${userId}`, config)
+            .then((data) => {
+                const user = (data && data.data) || false;
+                user &&
+                    dispatchUsersInfo({
+                        type: UIACTIONS.ADD_USER,
+                        payload: { user: user },
                     });
-            }, 100);
-    }, [id, setGo, token]);
-    return data;
+                return data.data;
+            })
+            .catch((err) => {
+                console.log(err.response.data);
+            });
+    return null;
 }
 
 export function postCommentWithoutImage(obj) {
@@ -270,21 +246,6 @@ export function loverPost(id, obj) {
             });
 }
 
-export function partagerPost(id, obj) {
-    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
-    const headers = token && {
-        Authorization: `Bearer ${token}`,
-    };
-    token &&
-        API.post(`post/${id}/share`, obj, {
-            headers,
-        })
-            .then(() => {})
-            .catch((err) => {
-                console.log(err.response.data);
-            });
-}
-
 export function sharePost(obj) {
     const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
     const headers = token && {
@@ -313,31 +274,182 @@ export function deletePost(postId) {
         });
     return;
 }
-export function deleteSharedPost(postId) {
-    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-    config &&
-        API.delete(`post/shared/${postId}`, config).catch((err) => {
-            console.log(err.response.data);
-        });
-    return;
+
+export function useGetAllUsers(users, setUsers) {
+    const token = useAuth();
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const config = token && {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        !users &&
+            token &&
+            loading &&
+            API.get(`user/getAll`, config)
+                .then((data) => {
+                    setUsers(data.data);
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+                });
+    }, [loading, setUsers, token, users]);
 }
 
-export function postSharedPost(obj) {
-    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
-    const headers = token && {
-        Authorization: `Bearer ${token}`,
-    };
-    token &&
-        API.post(`post/post`, obj, {
-            headers,
-        })
-            .then(() => {})
-            .catch((err) => {
-                console.log(err.response.data);
-            });
+export function useSearchUser(query, setUser) {
+    const token = useAuth();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
+
+    useEffect(() => {
+        const headers = token && {
+            Authorization: `Bearer ${token}`,
+        };
+        token &&
+            loading &&
+            API.post(`user/search`, query, {
+                headers,
+            })
+                .then((user) => {
+                    setUser(user.data);
+                    setLoading(false);
+                    setError(false);
+                })
+                .catch(() => {
+                    setUser(false);
+                    setError("Utilisateur introuvable");
+                });
+    }, [loading, query, setUser, token]);
+
+    return { setLoading, error };
+}
+
+export function useAjouterAmi() {
+    const token = useAuth();
+    const [goAdd, setGoAdd] = useState(false);
+    const [idAdd, setIdAdd] = useState();
+
+    useEffect(() => {
+        const config = token && {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        goAdd &&
+            idAdd &&
+            API.get(`user/friends/add/${idAdd}`, config)
+                .then(() => {
+                    setGoAdd(false);
+                    setIdAdd(false);
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+                });
+    }, [goAdd, idAdd, token]);
+
+    return { setGoAdd, setIdAdd };
+}
+
+export function useRetirerAmi() {
+    const token = useAuth();
+    const [goRemove, setGoRemove] = useState(false);
+    const [idRemove, setIdRemove] = useState();
+
+    useEffect(() => {
+        const config = token && {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        goRemove &&
+            idRemove &&
+            API.get(`user/friends/remove/${idRemove}`, config)
+                .then(() => {
+                    setGoRemove(false);
+                    setIdRemove(false);
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+                });
+    }, [goRemove, idRemove, token]);
+
+    return { setGoRemove, setIdRemove };
+}
+
+export function useAccepterAmi() {
+    const token = useAuth();
+    const [goAccept, setGoAccept] = useState(false);
+    const [idAccept, setIdAccept] = useState();
+
+    useEffect(() => {
+        const config = token && {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        goAccept &&
+            idAccept &&
+            API.get(`user/friends/accept/${idAccept}`, config)
+                .then(() => {
+                    setGoAccept(false);
+                    setIdAccept(false);
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+                });
+    }, [goAccept, idAccept, token]);
+
+    return { setGoAccept, setIdAccept };
+}
+export function useRefuserAmi() {
+    const token = useAuth();
+    const [goReject, setGoReject] = useState(false);
+    const [idReject, setIdReject] = useState();
+
+    useEffect(() => {
+        const config = token && {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        goReject &&
+            idReject &&
+            API.get(`user/friends/reject/${idReject}`, config)
+                .then(() => {
+                    setGoReject(false);
+                    setIdReject(false);
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+                });
+    }, [goReject, idReject, token]);
+
+    return { setGoReject, setIdReject };
+}
+export function useAnnulerDemande() {
+    const token = useAuth();
+    const [goCancel, setGoCancel] = useState(false);
+    const [idCancel, setIdCancel] = useState();
+
+    useEffect(() => {
+        const config = token && {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        goCancel &&
+            idCancel &&
+            API.get(`user/friends/cancel/${idCancel}`, config)
+                .then(() => {
+                    setGoCancel(false);
+                    setIdCancel(false);
+                })
+                .catch((err) => {
+                    console.log(err.response.data);
+                });
+    }, [goCancel, idCancel, token]);
+
+    return { setGoCancel, setIdCancel };
 }

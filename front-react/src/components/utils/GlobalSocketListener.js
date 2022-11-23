@@ -4,6 +4,7 @@ import NewUserInfoListener from "./socketListeners/NewUserInfoListener";
 import PostDeleted from "./socketListeners/PostDeleted";
 import PropageContentDeleteListener from "./socketListeners/PropageContentDeleteListener";
 import TestListener from "./socketListeners/TestListener";
+import UpdateMyInfoListener from "./socketListeners/UpdateMyInfoListener";
 import UpdatePostsListener from "./socketListeners/UpdatePostListener";
 
 const GlobalSocketListener = () => {
@@ -14,6 +15,7 @@ const GlobalSocketListener = () => {
             <UpdatePostsListener />
             <PropageContentDeleteListener />
             <PostDeleted />
+            <UpdateMyInfoListener />
             <TestListener />
         </>
     );

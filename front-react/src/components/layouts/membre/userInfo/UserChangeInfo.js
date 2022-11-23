@@ -8,6 +8,7 @@ const UserChangeInfo = ({ setModifier }) => {
     const user = useUser();
     const inputPseudo = useRef("");
     const inputEmail = useRef("");
+    const inputBio = useRef("");
     const [selectedImage, setSelectedImage] = useState(null);
     const [newInfos, setNewInfos] = useState({});
     const [go, setGo] = useState(false);
@@ -20,10 +21,12 @@ const UserChangeInfo = ({ setModifier }) => {
         e.preventDefault();
         const pseudo = inputPseudo.current.value;
         const email = inputEmail.current.value;
+        const bio = inputBio.current.value;
         if (email && !verifEmail(email)) return;
         selectedImage && (obj.avatar = URL.createObjectURL(selectedImage));
         pseudo && (obj.pseudo = pseudo);
         email && (obj.email = email);
+        bio && (obj.bio = bio);
 
         if (selectedImage) {
             const data = new FormData();
@@ -31,17 +34,19 @@ const UserChangeInfo = ({ setModifier }) => {
             data.append("user", JSON.stringify(obj));
             setNewInfos(data);
             setGo(() => true);
-        } else if (pseudo || email) {
+        } else if (pseudo || email || bio) {
             let userInfo = {};
             userInfo.userId = user._id;
             userInfo.email = email || user.email;
             userInfo.pseudo = pseudo || user.pseudo;
+            userInfo.bio = bio || user.bio;
             setNewInfos(userInfo);
             setGo(() => true);
         }
 
         inputPseudo.current.value = "";
         inputEmail.current.value = "";
+        inputBio.current.value = "";
     };
 
     const setImage = (e) => {
@@ -52,6 +57,7 @@ const UserChangeInfo = ({ setModifier }) => {
         verifEmail(inputEmail.current.value, "userEmail");
     };
 
+    if (!user) return null;
     return (
         <form onSubmit={submitNewInfos}>
             {selectedImage ? (
@@ -93,6 +99,7 @@ const UserChangeInfo = ({ setModifier }) => {
                 placeholder={user && user.email}
                 onChange={handleEmailChange}
             />
+            <textarea ref={inputBio} placeholder={user.bio} />
             <button onClick={submitNewInfos} className="success">
                 Enregistrer
             </button>

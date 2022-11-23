@@ -19,10 +19,12 @@ const { Socket } = require("../../utils/socket");
  */
 module.exports = (req, res, next, user, message) => {
     const userToEmit = { ...user, userId: req.session.userId };
-    // console.log(userToEmit);
-    Socket.emit("newUserInfo", userToEmit);
+
     UserModel.updateOne({ _id: req.session.userId }, user)
-        .then(() => res.status(200).json({ message: message }))
+        .then(() => {
+            Socket.emit("newUserInfo", userToEmit);
+            res.status(200).json({ message: message });
+        })
         .catch((error) => {
             return next(ApiError.badRequest(error.message));
         });

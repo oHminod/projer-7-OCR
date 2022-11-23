@@ -5,8 +5,11 @@ import Timeline from "../components/layouts/home/Timeline";
 import { useVerify } from "../utils/axiosCalls";
 import { useAuth } from "../components/contexts/AuthContext";
 import useSetUsersInfo from "../hooks/useSetUsersInfo";
+import { useCurrentWidth } from "../components/utils/windowWidth";
+import Users from "../components/users/Users";
 
 const Home = () => {
+    const width = useCurrentWidth();
     const authToken = useAuth();
 
     useVerify();
@@ -25,7 +28,18 @@ const Home = () => {
             }}
         >
             <div className="content">
-                <Timeline />
+                {width > 880 ? (
+                    <>
+                        <div className="wallContainer">
+                            <Timeline />
+                        </div>
+                        <div className="usersContainer">
+                            <Users />
+                        </div>
+                    </>
+                ) : (
+                    <Timeline />
+                )}
             </div>
         </motion.div>
     ) : (

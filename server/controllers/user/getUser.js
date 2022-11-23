@@ -14,6 +14,7 @@ const user = (req, res, next) => {
                 bio: user.bio,
                 amis: user.amis,
                 demandesAmis: user.demandesAmis,
+                demandesEnvoyees: user.demandesEnvoyees,
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt,
                 role: user.role,

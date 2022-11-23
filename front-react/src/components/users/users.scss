@@ -1,0 +1,123 @@
+@import "../../styles/settings.scss";
+
+.usersContainer {
+    position: fixed;
+    height: 90vh;
+    right: calc(0.5*calc(100vw - 1160px));
+    overflow-y: scroll;
+
+    @media screen and (max-width: 1160px) {
+        right: 0;
+    }
+}
+
+.users {
+
+    button {
+        padding: 2px;
+        margin: 2px;
+        font-size: 15px;
+    }
+
+    input[type=text] {
+        background-color: rgba(255, 255, 255, .7);
+        backdrop-filter: blur(10px);
+        border-radius: 8px;
+        padding: 10px;
+        border: none;
+        transition: all .3s;
+        box-shadow: 0px 2px 5px rgba(15, 15, 15, .25);
+
+        &::placeholder {
+            font-size: 18px;
+            font-weight: 300;
+        }
+
+        &:hover,
+        &:focus {
+            @extend .card_shadow;
+            transform: scale(1.005);
+        }
+    }
+
+    .error {
+        background-color: rgb(132, 1, 203);
+        padding: 5px;
+        border-radius: 5px;
+        color: white;
+    }
+
+    .utilisateurs {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        background-color: rgba(255, 255, 255, .8);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        margin: 20px;
+        border-radius: 15px;
+        width: 200px;
+        transition: all .3s;
+        @extend .card_shadow;
+
+        &:hover {
+            @extend .card_shadow_hover;
+            transform: scale(1.005);
+        }
+
+        .userContainer {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+    }
+
+    h2 {
+        width: 200px;
+        text-align: center;
+        font-weight: 400;
+        color: #7c7c85;
+    }
+
+    .aUser {
+        position: relative;
+        display: flex;
+        align-items: center;
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+        padding: 0 5px;
+        margin: 5px 0;
+
+        // .userCard {
+        //     display: none;
+        //     position: absolute;
+        //     z-index: 1;
+        //     bottom: 45px;
+        //     width: 200px;
+        //     height: 100px;
+        //     background-color: rgba(255, 255, 255, .8);
+        //     border-radius: 15px;
+        //     backdrop-filter: blur(10px);
+        //     padding: 20px;
+        // }
+
+        // &:hover .userCard {
+        //     display: block;
+        // }
+    }
+
+    .avatar {
+        width: 50px;
+        border-radius: 50%;
+        transition: all .3s;
+        margin: 5px;
+
+        &:hover {
+            cursor: pointer;
+            @extend .card_shadow;
+            transform: scale(1.005);
+        }
+    }
+}

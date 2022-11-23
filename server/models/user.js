@@ -20,6 +20,7 @@ const userModel = mongoose.Schema(
         bio: { type: String, text: true, default: "" },
         amis: { type: Array, default: [] },
         demandesAmis: { type: Array, default: [] },
+        demandesEnvoyees: { type: Array, default: [] },
         // posts: { type: Array, default: [] },
         // sharedPosts: [sharedPosts],
         // commentaires: { type: Array, default: [] },
