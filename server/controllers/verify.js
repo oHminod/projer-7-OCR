@@ -7,7 +7,7 @@ const verify = (req, res, next) => {
             { userId: req.session.userId, userRole: req.session.userRole },
             process.env.TOKEN,
             {
-                expiresIn: "24h",
+                expiresIn: "1w",
             }
         ),
     };

@@ -115,7 +115,7 @@ export function useVerify() {
                     setAuthToken(data.data.token);
                 })
                 .catch((err) => {
-                    setAuthToken();
+                    setAuthToken("");
                     console.log("authContext : " + err.message);
                 });
         // eslint-disable-next-line react-hooks/exhaustive-deps
