@@ -1,7 +1,5 @@
 const ApiError = require("../../error/ApiError");
 const UserModel = require("../../models/user");
-// const updatePost = require("../helpers/updatePost");
-const { Socket } = require("../../utils/socket");
 const loverhelper = require("../helpers/loverhelper");
 
 /**

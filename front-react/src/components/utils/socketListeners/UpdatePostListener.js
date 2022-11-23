@@ -15,7 +15,6 @@ const UpdatePostsListener = () => {
     useEffect(() => {
         socket &&
             socket.on("postUpdate", (post) => {
-                // console.log("socket", socket);
                 dispatchPosts({
                     type: PACTIONS.UPDATE_POST,
                     payload: { post: post },

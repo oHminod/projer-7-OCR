@@ -18,14 +18,39 @@ const { Socket } = require("../../utils/socket");
  * @param {string} message Message de réussite.
  */
 module.exports = (req, res, next, user, message) => {
-    const userToEmit = { ...user, userId: req.session.userId };
+    const userId = req.session.userId;
+    const userToEmit = { ...user, userId: userId };
+    const idsToSendPost = req.app.locals[userId];
 
-    UserModel.updateOne({ _id: req.session.userId }, user)
-        .then(() => {
-            Socket.emit("newUserInfo", userToEmit);
-            res.status(200).json({ message: message });
-        })
-        .catch((error) => {
-            return next(ApiError.badRequest(error.message));
-        });
+    if (idsToSendPost) {
+        UserModel.updateOne({ _id: req.session.userId }, user)
+            .then(() => {
+                idsToSendPost.map(
+                    (room) =>
+                        Socket.has(room) &&
+                        Socket.to(room, "newUserInfo", userToEmit)
+                );
+                res.status(200).json({ message: message });
+            })
+            .catch((error) => {
+                return next(ApiError.badRequest(error.message));
+            });
+    } else {
+        UserModel.findOne({ _id: userId })
+            .then((user) => (req.app.locals[userId] = [...user.amis, userId]))
+            .then(() => {
+                UserModel.updateOne({ _id: req.session.userId }, user)
+                    .then(() => {
+                        req.app.locals[userId].map(
+                            (room) =>
+                                Socket.has(room) &&
+                                Socket.to(room, "newUserInfo", userToEmit)
+                        );
+                        res.status(200).json({ message: message });
+                    })
+                    .catch((error) => {
+                        return next(ApiError.badRequest(error.message));
+                    });
+            });
+    }
 };

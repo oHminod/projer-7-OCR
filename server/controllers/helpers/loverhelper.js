@@ -1,6 +1,5 @@
 const ApiError = require("../../error/ApiError");
 const PostModel = require("../../models/post");
-// const updatePost = require("../helpers/updatePost");
 const { Socket } = require("../../utils/socket");
 
 module.exports = (req, res, next, idsToSendPost) => {

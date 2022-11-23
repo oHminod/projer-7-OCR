@@ -18,6 +18,7 @@ const ResponsePrompt = ({ thisComment, thisCommentUser, setRepondre }) => {
         const comment = {
             userId: user._id,
             postId: thisPost._id,
+            postUserId: thisPost.userId,
             commentId: commentId,
             threadId: thisComment.commentId,
             text: text,

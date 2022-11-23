@@ -18,6 +18,7 @@ const CommentPrompt = () => {
         const comment = {
             userId: user._id,
             postId: thisPost._id,
+            postUserId: thisPost.userId,
             commentId: commentId,
             threadId: commentId,
             text: text,

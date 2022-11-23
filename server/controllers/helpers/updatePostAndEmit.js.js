@@ -14,13 +14,17 @@ const { Socket } = require("../../utils/socket");
  * Express router which, when invoked, executes the middleware
  * succeeding the current middleware.
  */
-module.exports = (req, res, next) => {
+module.exports = (req, res, next, idsToSendPost) => {
     CommentModel.findOne({ userId: req.session.userId })
         .sort({ createdAt: -1 })
         .then((newComment) => {
-            Socket.emit("newComment", {
-                newComment: newComment,
-            });
+            idsToSendPost.map(
+                (room) =>
+                    Socket.has(room) &&
+                    Socket.to(room, "newComment", {
+                        newComment: newComment,
+                    })
+            );
             return newComment;
         })
         .then((newComment) =>
@@ -28,7 +32,10 @@ module.exports = (req, res, next) => {
                 _id: newComment.postId,
             }).then((post) => {
                 post.commentaires = [...post.commentaires, newComment._id];
-                Socket.emit("postUpdate", post);
+                idsToSendPost.map(
+                    (room) =>
+                        Socket.has(room) && Socket.to(room, "postUpdate", post)
+                );
                 PostModel.updateOne({ _id: newComment.postId }, post).catch(
                     (error) => {
                         return next(ApiError.badRequest(error.message));
