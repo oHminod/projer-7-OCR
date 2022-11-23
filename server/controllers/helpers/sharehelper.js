@@ -2,7 +2,7 @@ const PostModel = require("../../models/post");
 const CommentModel = require("../../models/comment");
 const fs = require("fs");
 const ApiError = require("../../error/ApiError");
-const { Socket } = require("../../utils/socket");
+const emitToConnectedUsers = require("../../utils/emitToConnectedUsers");
 
 module.exports = (req, res, next, idsToSendPost) => {
     const shareThisPost = req.body.post;
@@ -13,11 +13,7 @@ module.exports = (req, res, next, idsToSendPost) => {
         shareThisPost.shares = shareThisPost.usersShared.length;
         PostModel.updateOne({ _id: shareThisPost._id }, shareThisPost)
             .then(() =>
-                idsToSendPost.map(
-                    (room) =>
-                        Socket.has(room) &&
-                        Socket.to(room, "postUpdate", shareThisPost)
-                )
+                emitToConnectedUsers(idsToSendPost, "postUpdate", shareThisPost)
             )
             .then(() => {
                 let newPost = {};
@@ -50,12 +46,12 @@ module.exports = (req, res, next, idsToSendPost) => {
                             PostModel.findOne({ userId: req.session.userId })
                                 .sort({ createdAt: -1 })
                                 .then((data) =>
-                                    idsToSendPost.map(
-                                        (room) =>
-                                            Socket.has(room) &&
-                                            Socket.to(room, "newPost", {
-                                                newPost: data,
-                                            })
+                                    emitToConnectedUsers(
+                                        idsToSendPost,
+                                        "newPost",
+                                        {
+                                            newPost: data,
+                                        }
                                     )
                                 )
                                 .catch((err) =>
@@ -78,11 +74,7 @@ module.exports = (req, res, next, idsToSendPost) => {
         shareThisPost.shares = shareThisPost.usersShared.length;
         PostModel.updateOne({ _id: shareThisPost._id }, shareThisPost)
             .then(() =>
-                idsToSendPost.map(
-                    (room) =>
-                        Socket.has(room) &&
-                        Socket.to(room, "postUpdate", shareThisPost)
-                )
+                emitToConnectedUsers(idsToSendPost, "postUpdate", shareThisPost)
             )
             .then(() => {
                 PostModel.findOne({
@@ -107,14 +99,10 @@ module.exports = (req, res, next, idsToSendPost) => {
                                         sharedPost
                                     )
                                         .then(() =>
-                                            idsToSendPost.map(
-                                                (room) =>
-                                                    Socket.has(room) &&
-                                                    Socket.to(
-                                                        room,
-                                                        "PropageContentDelete",
-                                                        post._id
-                                                    )
+                                            emitToConnectedUsers(
+                                                idsToSendPost,
+                                                "PropageContentDelete",
+                                                post._id
                                             )
                                         )
                                         .catch((error) => {
@@ -157,14 +145,10 @@ module.exports = (req, res, next, idsToSendPost) => {
                                                 _id: post._id,
                                             })
                                                 .then(() => {
-                                                    idsToSendPost.map(
-                                                        (room) =>
-                                                            Socket.has(room) &&
-                                                            Socket.to(
-                                                                room,
-                                                                "postDeleted",
-                                                                post._id
-                                                            )
+                                                    emitToConnectedUsers(
+                                                        idsToSendPost,
+                                                        "postDeleted",
+                                                        post._id
                                                     );
                                                     return res
                                                         .status(200)
@@ -185,14 +169,10 @@ module.exports = (req, res, next, idsToSendPost) => {
                                 } else {
                                     PostModel.deleteOne({ _id: post._id })
                                         .then(() => {
-                                            idsToSendPost.map(
-                                                (room) =>
-                                                    Socket.has(room) &&
-                                                    Socket.to(
-                                                        room,
-                                                        "postDeleted",
-                                                        post._id
-                                                    )
+                                            emitToConnectedUsers(
+                                                idsToSendPost,
+                                                "postDeleted",
+                                                post._id
                                             );
                                             return res.status(200).json({
                                                 message: "Post supprimée !",

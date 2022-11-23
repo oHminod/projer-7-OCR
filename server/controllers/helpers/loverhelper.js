@@ -1,6 +1,6 @@
 const ApiError = require("../../error/ApiError");
 const PostModel = require("../../models/post");
-const { Socket } = require("../../utils/socket");
+const emitToConnectedUsers = require("../../utils/emitToConnectedUsers");
 
 module.exports = (req, res, next, idsToSendPost) => {
     PostModel.findOne({ _id: req.params.id })
@@ -15,10 +15,10 @@ module.exports = (req, res, next, idsToSendPost) => {
                         setTimeout(() => {
                             PostModel.findOne({ _id: req.params.id })
                                 .then((data) =>
-                                    idsToSendPost.map(
-                                        (room) =>
-                                            Socket.has(room) &&
-                                            Socket.to(room, "postUpdate", data)
+                                    emitToConnectedUsers(
+                                        idsToSendPost,
+                                        "postUpdate",
+                                        data
                                     )
                                 )
                                 .catch((err) =>
@@ -40,10 +40,10 @@ module.exports = (req, res, next, idsToSendPost) => {
                         setTimeout(() => {
                             PostModel.findOne({ _id: req.params.id })
                                 .then((data) =>
-                                    idsToSendPost.map(
-                                        (room) =>
-                                            Socket.has(room) &&
-                                            Socket.to(room, "postUpdate", data)
+                                    emitToConnectedUsers(
+                                        idsToSendPost,
+                                        "postUpdate",
+                                        data
                                     )
                                 )
                                 .catch((err) =>

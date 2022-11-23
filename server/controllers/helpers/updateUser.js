@@ -1,6 +1,6 @@
 const ApiError = require("../../error/ApiError");
 const UserModel = require("../../models/user");
-const { Socket } = require("../../utils/socket");
+const emitToConnectedUsers = require("../../utils/emitToConnectedUsers");
 
 /**
  * * updateUser :
@@ -25,11 +25,7 @@ module.exports = (req, res, next, user, message) => {
     if (idsToSendPost) {
         UserModel.updateOne({ _id: req.session.userId }, user)
             .then(() => {
-                idsToSendPost.map(
-                    (room) =>
-                        Socket.has(room) &&
-                        Socket.to(room, "newUserInfo", userToEmit)
-                );
+                emitToConnectedUsers(idsToSendPost, "newUserInfo", userToEmit);
                 res.status(200).json({ message: message });
             })
             .catch((error) => {
@@ -41,10 +37,10 @@ module.exports = (req, res, next, user, message) => {
             .then(() => {
                 UserModel.updateOne({ _id: req.session.userId }, user)
                     .then(() => {
-                        req.app.locals[userId].map(
-                            (room) =>
-                                Socket.has(room) &&
-                                Socket.to(room, "newUserInfo", userToEmit)
+                        emitToConnectedUsers(
+                            req.app.locals[userId],
+                            "newUserInfo",
+                            userToEmit
                         );
                         res.status(200).json({ message: message });
                     })

@@ -1,6 +1,6 @@
 const PostModel = require("../../models/post");
 const ApiError = require("../../error/ApiError");
-const { Socket } = require("../../utils/socket");
+const emitToConnectedUsers = require("../../utils/emitToConnectedUsers");
 require("dotenv").config();
 
 module.exports = (req, res, next, idsToSendPost) => {
@@ -20,13 +20,9 @@ module.exports = (req, res, next, idsToSendPost) => {
                     PostModel.findOne({ userId: req.session.userId })
                         .sort({ createdAt: -1 })
                         .then((data) =>
-                            idsToSendPost.map(
-                                (room) =>
-                                    Socket.has(room) &&
-                                    Socket.to(room, "newPost", {
-                                        newPost: data,
-                                    })
-                            )
+                            emitToConnectedUsers(idsToSendPost, "newPost", {
+                                newPost: data,
+                            })
                         )
                         .catch((err) => next(ApiError.internal(err.message)));
                 }, 500)
@@ -45,13 +41,9 @@ module.exports = (req, res, next, idsToSendPost) => {
                     PostModel.findOne({ userId: req.session.userId })
                         .sort({ createdAt: -1 })
                         .then((data) =>
-                            idsToSendPost.map(
-                                (room) =>
-                                    Socket.has(room) &&
-                                    Socket.to(room, "newPost", {
-                                        newPost: data,
-                                    })
-                            )
+                            emitToConnectedUsers(idsToSendPost, "newPost", {
+                                newPost: data,
+                            })
                         )
                         .catch((err) => next(ApiError.internal(err.message)));
                 }, 500)

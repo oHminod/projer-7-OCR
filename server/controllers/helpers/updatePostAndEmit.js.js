@@ -1,7 +1,7 @@
 const ApiError = require("../../error/ApiError");
 const PostModel = require("../../models/post");
 const CommentModel = require("../../models/comment");
-const { Socket } = require("../../utils/socket");
+const emitToConnectedUsers = require("../../utils/emitToConnectedUsers");
 
 /**
  * * updatePostAndEmit.js :
@@ -18,13 +18,9 @@ module.exports = (req, res, next, idsToSendPost) => {
     CommentModel.findOne({ userId: req.session.userId })
         .sort({ createdAt: -1 })
         .then((newComment) => {
-            idsToSendPost.map(
-                (room) =>
-                    Socket.has(room) &&
-                    Socket.to(room, "newComment", {
-                        newComment: newComment,
-                    })
-            );
+            emitToConnectedUsers(idsToSendPost, "newComment", {
+                newComment: newComment,
+            });
             return newComment;
         })
         .then((newComment) =>
@@ -32,10 +28,7 @@ module.exports = (req, res, next, idsToSendPost) => {
                 _id: newComment.postId,
             }).then((post) => {
                 post.commentaires = [...post.commentaires, newComment._id];
-                idsToSendPost.map(
-                    (room) =>
-                        Socket.has(room) && Socket.to(room, "postUpdate", post)
-                );
+                emitToConnectedUsers(idsToSendPost, "postUpdate", post);
                 PostModel.updateOne({ _id: newComment.postId }, post).catch(
                     (error) => {
                         return next(ApiError.badRequest(error.message));

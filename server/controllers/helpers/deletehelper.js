@@ -2,7 +2,7 @@ const PostModel = require("../../models/post");
 const CommentModel = require("../../models/comment");
 const fs = require("fs");
 const ApiError = require("../../error/ApiError");
-const { Socket } = require("../../utils/socket");
+const emitToConnectedUsers = require("../../utils/emitToConnectedUsers");
 
 module.exports = (req, res, next, idsToSendPost) => {
     PostModel.findOne({ _id: req.params.id })
@@ -26,10 +26,10 @@ module.exports = (req, res, next, idsToSendPost) => {
                     .then((fromPost) => {
                         PostModel.updateOne({ _id: fromPost._id }, fromPost)
                             .then(() =>
-                                idsToSendPost.map(
-                                    (room) =>
-                                        Socket.has(room) &&
-                                        Socket.to(room, "postUpdate", fromPost)
+                                emitToConnectedUsers(
+                                    idsToSendPost,
+                                    "postUpdate",
+                                    fromPost
                                 )
                             )
                             .catch((error) => {
@@ -53,14 +53,10 @@ module.exports = (req, res, next, idsToSendPost) => {
                             "La publication a été supprimée";
                         PostModel.updateOne({ _id: sharedPost._id }, sharedPost)
                             .then(() =>
-                                idsToSendPost.map(
-                                    (room) =>
-                                        Socket.has(room) &&
-                                        Socket.to(
-                                            room,
-                                            "PropageContentDelete",
-                                            post._id
-                                        )
+                                emitToConnectedUsers(
+                                    idsToSendPost,
+                                    "PropageContentDelete",
+                                    post._id
                                 )
                             )
                             .catch((error) => {
@@ -90,14 +86,10 @@ module.exports = (req, res, next, idsToSendPost) => {
                         fs.unlink(`images/posts/${filename}`, () => {
                             PostModel.deleteOne({ _id: post._id })
                                 .then(() => {
-                                    idsToSendPost.map(
-                                        (room) =>
-                                            Socket.has(room) &&
-                                            Socket.to(
-                                                room,
-                                                "postDeleted",
-                                                post._id
-                                            )
+                                    emitToConnectedUsers(
+                                        idsToSendPost,
+                                        "postDeleted",
+                                        post._id
                                     );
                                     return res.status(200).json({
                                         message: "Post supprimée !",
@@ -112,10 +104,10 @@ module.exports = (req, res, next, idsToSendPost) => {
                     } else {
                         PostModel.deleteOne({ _id: post._id })
                             .then(() => {
-                                idsToSendPost.map(
-                                    (room) =>
-                                        Socket.has(room) &&
-                                        Socket.to(room, "postDeleted", post._id)
+                                emitToConnectedUsers(
+                                    idsToSendPost,
+                                    "postDeleted",
+                                    post._id
                                 );
                                 return res.status(200).json({
                                     message: "Post supprimée !",
