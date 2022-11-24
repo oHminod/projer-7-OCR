@@ -16,9 +16,10 @@ const useMyInfiniteFetch = (go, offset, lastItemId = "") => {
     const token = useAuth();
 
     useEffect(() => {
+        console.log("coucou", lastItemId);
         if (myPosts && myPosts.length > 0 && !lastItemId)
             return setLoading(false);
-        setLoading(true);
+        // setLoading(true);
 
         const config = token && {
             headers: {

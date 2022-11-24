@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navigate } from "react-router-dom";
 import Timeline from "../components/layouts/home/Timeline";
@@ -14,6 +14,10 @@ const Home = () => {
 
     useVerify();
     useSetUsersInfo();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return authToken ? (
         <motion.div

@@ -15,7 +15,7 @@ const sharehelper = require("../helpers/sharehelper");
  * current middleware.
  */
 const sharePost = (req, res, next) => {
-    const userId = req.session.userId;
+    const userId = req.body.post.userId;
     const idsToSendPost = req.app.locals[userId];
 
     if (idsToSendPost) {

@@ -35,7 +35,7 @@ const Loves = () => {
 
         setThisPost(postObj);
 
-        let obj = {};
+        let obj = thisPost && { userId: thisPost.userId };
         actif ? (obj.love = "0") : (obj.love = "1");
 
         thisPost && loverPost(thisPost._id, obj);

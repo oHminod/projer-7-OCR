@@ -3,11 +3,14 @@ import { MPACTIONS } from "../actions/myPosts";
 export function myPostsReducer(myPosts, action) {
     switch (action.type) {
         case MPACTIONS.ADD_MY_POSTS:
-            return [...new Set([...myPosts, ...action.payload.myPosts])];
+            const temp1 = [...myPosts, ...action.payload.myPosts];
+            return [...new Set(temp1)];
         case MPACTIONS.ADD_MY_POSTS_ON_TOP:
-            return [...new Set([...action.payload.myPosts, ...myPosts])];
+            const temp2 = [...action.payload.myPosts, ...myPosts];
+            return [...new Set(temp2)];
         case MPACTIONS.ADD_MY_POST_ON_TOP:
-            return [...new Set([action.payload.myPost, ...myPosts])];
+            const temp3 = [action.payload.myPost, ...myPosts];
+            return [...new Set(temp3)];
         case MPACTIONS.UPDATE_MY_POST:
             return myPosts.map((post) => {
                 if (post._id === action.payload.post._id) {

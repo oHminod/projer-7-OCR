@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import UserInfo from "../components/layouts/membre/userInfo/UserInfo";
 import { motion } from "framer-motion";
@@ -13,6 +13,10 @@ const Membre = () => {
     const width = useCurrentWidth();
     useVerify();
     useSetUsersInfo();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return auth ? (
         <motion.main

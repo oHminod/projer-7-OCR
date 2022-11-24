@@ -1,16 +1,17 @@
 import React, {
     useCallback,
     useEffect,
-    useMemo,
+    // useMemo,
     useRef,
     useState,
 } from "react";
-import useInfiniteFetch from "../../../hooks/useInfiniteFetch";
+import useFetchPosts from "../../../hooks/useFetchPosts";
+// import useInfiniteFetch from "../../../hooks/useInfiniteFetch";
 import { NPACTIONS } from "../../contexts/actions/newPosts";
 import { PACTIONS } from "../../contexts/actions/posts";
 import { useNewPosts, useNewPostsUpdate } from "../../contexts/NewPostsContext";
 import { usePosts, usePostsUpdate } from "../../contexts/PostsContext";
-import { useUser } from "../../contexts/UserContext";
+// import { useUser } from "../../contexts/UserContext";
 import PostProvider from "./PostContext";
 import SinglePost from "./singlePost/SinglePost";
 
@@ -20,11 +21,13 @@ const Posts = () => {
     const dispatchPosts = usePostsUpdate();
     const newPosts = useNewPosts();
     const dispatchNewPosts = useNewPostsUpdate();
-    const [go, setGo] = useState(false);
-    const user = useUser();
+    // const [go, setGo] = useState(false);
+    // const user = useUser();
     const observer = useRef();
 
-    const { loading } = useInfiniteFetch(go, 2, lastItemId);
+    // const { loading } = useInfiniteFetch(go, 2, lastItemId);
+
+    const { loading } = useFetchPosts(4, lastItemId);
 
     const lastItemElementRef = useCallback(
         (node) => {
@@ -47,9 +50,9 @@ const Posts = () => {
         [loading]
     );
 
-    useMemo(() => {
-        user && setGo(true);
-    }, [user]);
+    // useMemo(() => {
+    //     user && setGo(true);
+    // }, [user]);
 
     useEffect(() => {
         if (newPosts && newPosts.length > 0) {
