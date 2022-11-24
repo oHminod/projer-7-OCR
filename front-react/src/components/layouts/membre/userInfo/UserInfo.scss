@@ -1,10 +1,72 @@
 @import "../../../../styles/settings.scss";
 
+.avatar {
+    width: 50px;
+    border-radius: 50%;
+    transition: all .3s;
+    margin: 5px;
+
+    &:hover {
+        cursor: pointer;
+        @extend .card_shadow;
+        transform: scale(1.005);
+    }
+}
+
+.aUser {
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 0 5px;
+    margin: 5px 0;
+
+    button {
+        padding: 2px;
+        margin: 2px;
+        font-size: 15px;
+    }
+
+}
+
+.utilisateurs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: rgba(255, 255, 255, .8);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 15px;
+    width: 200px;
+    transition: all .3s;
+    @extend .card_shadow;
+
+    &:hover {
+        @extend .card_shadow_hover;
+        transform: scale(1.005);
+    }
+
+    .userContainer {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h2 {
+        width: 200px;
+        text-align: center;
+        font-weight: 400;
+        color: #7c7c85;
+    }
+
+}
+
 .UserInfo {
     background-color: rgba(255, 255, 255, .8);
     box-sizing: content-box;
     backdrop-filter: blur(10px);
-    position: fixed;
     display: inline-flex;
     flex-direction: column;
     align-self: flex-start;
@@ -137,5 +199,6 @@
         padding: 8px;
         border-radius: 8px;
     }
+
 
 }

@@ -8,6 +8,19 @@
         width: calc(100% - 280px);
     }
 
+    .userInfoContainer {
+        position: fixed;
+        height: 93vh;
+        right: calc(0.5*calc(100vw - 1160px));
+        overflow-y: scroll;
+
+        @media screen and (max-width: 1160px) {
+            right: 0;
+        }
+
+    }
+
+
     .content {
         display: flex;
         flex-direction: row;
