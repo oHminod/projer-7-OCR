@@ -18,6 +18,7 @@ const UpdateMyInfoListener = () => {
                         return {
                             ...myPreviousInfo,
                             email: myNewInfo.email,
+                            avatar: myNewInfo.avatar,
                             pseudo: myNewInfo.pseudo,
                             bio: myNewInfo.bio,
                             amis: myNewInfo.amis,

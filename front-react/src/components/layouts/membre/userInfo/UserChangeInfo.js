@@ -19,9 +19,9 @@ const UserChangeInfo = ({ setModifier }) => {
 
     const submitNewInfos = (e) => {
         e.preventDefault();
-        const pseudo = inputPseudo.current.value;
-        const email = inputEmail.current.value;
-        const bio = inputBio.current.value;
+        const pseudo = inputPseudo.current.value || user.pseudo;
+        const email = inputEmail.current.value || user.email;
+        const bio = inputBio.current.value || user.bio;
         if (email && !verifEmail(email)) return;
         selectedImage && (obj.avatar = URL.createObjectURL(selectedImage));
         pseudo && (obj.pseudo = pseudo);
@@ -37,6 +37,7 @@ const UserChangeInfo = ({ setModifier }) => {
         } else if (pseudo || email || bio) {
             let userInfo = {};
             userInfo.userId = user._id;
+            userInfo.avatar = user.avatar;
             userInfo.email = email || user.email;
             userInfo.pseudo = pseudo || user.pseudo;
             userInfo.bio = bio || user.bio;

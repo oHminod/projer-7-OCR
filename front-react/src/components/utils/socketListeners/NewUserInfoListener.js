@@ -19,6 +19,7 @@ const NewUserInfoListener = () => {
                         return {
                             ...myPreviousInfo,
                             email: newUserInfo.email,
+                            avatar: newUserInfo.avatar,
                             pseudo: newUserInfo.pseudo,
                             bio: newUserInfo.bio,
                         };

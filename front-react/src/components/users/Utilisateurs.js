@@ -52,7 +52,9 @@ const Utilisateurs = () => {
             ) : demande ? (
                 <button onClick={handleCancelFriend}>Annuler la demande</button>
             ) : (
-                <button onClick={handleAddFriend}>Ajouter un ami</button>
+                user._id !== me._id && (
+                    <button onClick={handleAddFriend}>Ajouter un ami</button>
+                )
             )}
         </div>
     );

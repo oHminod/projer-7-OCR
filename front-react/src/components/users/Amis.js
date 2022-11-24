@@ -34,7 +34,7 @@ const Amis = () => {
         return null;
 
     const amis = my && my.amis.length > 0 && usersInfo && (
-        <div className="utilisateurs">
+        <div className="utilisateurs amis">
             <h2>Amis</h2>
             {my.amis.map((ami, index) => {
                 const infosAmi = usersInfo.find((user) => user.userId === ami);

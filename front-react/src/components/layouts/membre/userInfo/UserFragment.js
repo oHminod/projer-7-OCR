@@ -6,12 +6,12 @@ const UserFragment = () => {
 
     if (!user) return null;
     return (
-        <div>
+        <>
             <img src={user.avatar} alt="avatar" width="200" height="200" />
             <h2>{user.pseudo}</h2>
             <p>{user.email}</p>
             {user.bio && <p>{user.bio}</p>}
-        </div>
+        </>
     );
 };
 
