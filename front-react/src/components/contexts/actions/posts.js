@@ -5,4 +5,5 @@ export const PACTIONS = {
     ADD_MY_POST_ON_TOP: "add-my-post-on-top",
     UPDATE_POST: "update-post",
     DELETE_POST: "delete-post",
+    DELETE_POSTS: "delete-posts",
 };

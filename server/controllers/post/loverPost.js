@@ -15,7 +15,7 @@ const loverhelper = require("../helpers/loverhelper");
  * middleware.
  */
 const loverPost = (req, res, next) => {
-    const userId = req.body.userId;
+    const userId = req.body.userId; // Id du créateur du post
     const idsToSendPost = req.app.locals[userId];
 
     if (idsToSendPost) {

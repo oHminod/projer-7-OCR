@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../components/contexts/AuthContext";
+import { useMyPosts } from "../components/contexts/MyPostsContext";
 import { useMyOldestPostUpdate } from "../components/contexts/OldestPostContext";
 import { API } from "../utils/axiosCalls";
 
 const useMyOldestPostFetch = () => {
     const token = useAuth();
     const setMyOldestPost = useMyOldestPostUpdate();
+    const myPosts = useMyPosts();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -16,14 +18,16 @@ const useMyOldestPostFetch = () => {
         };
         token &&
             loading &&
+            myPosts &&
+            myPosts.length > 0 &&
             API.get(`post/myOldest`, config)
                 .then((res) => {
                     setMyOldestPost(res.data.oldestPostId);
                     setLoading(false);
                 })
                 .catch((err) => {
-                    console.log("setOldestPostId : " + err.response.data);
+                    err.response.status !== 404 && console.log(err.message);
                 });
-    }, [token, loading, setMyOldestPost]);
+    }, [token, myPosts, loading, setMyOldestPost]);
 };
 export default useMyOldestPostFetch;

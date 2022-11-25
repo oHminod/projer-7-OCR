@@ -78,6 +78,7 @@ const useSetUsersInfo = () => {
 
     useEffect(() => {
         usersWhoHavePost &&
+            usersInfo &&
             usersWhoHavePost.map((id) => {
                 if (usersInfo.find((findUser) => findUser.userId === id))
                     return id;
@@ -85,7 +86,7 @@ const useSetUsersInfo = () => {
                 return id;
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [usersWhoHavePost]);
+    }, [usersWhoHavePost, usersInfo]);
 };
 
 export default useSetUsersInfo;

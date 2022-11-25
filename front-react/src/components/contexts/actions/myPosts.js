@@ -5,4 +5,5 @@ export const MPACTIONS = {
     ADD_MY_POSTS: "add-my-posts",
     UPDATE_MY_POST: "update-my-post",
     DELETE_MY_POST: "delete-my-post",
+    DELETE_MY_POSTS: "delete-my-posts",
 };

@@ -21,6 +21,8 @@ export function usersInfoReducer(usersInfo, action) {
                 }
                 return userInfo;
             });
+        case UIACTIONS.DELETE_USERS:
+            return [];
         default:
             return usersInfo;
     }

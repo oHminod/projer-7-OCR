@@ -26,6 +26,8 @@ export function myPostsReducer(myPosts, action) {
                 return myPosts.filter((post) => post._id !== action.payload.id);
             }
             return myPosts;
+        case MPACTIONS.DELETE_MY_POSTS:
+            return [];
         default:
             return myPosts;
     }

@@ -24,6 +24,7 @@
     padding: 5px;
     margin: 5px;
     max-width: 100px;
+    transition: all .3s;
 
     &:hover {
         cursor: pointer;
@@ -49,6 +50,7 @@
         align-items: center;
         justify-content: center;
         margin: 2px;
+        transition: all .3s;
     }
 
     // .userCard {

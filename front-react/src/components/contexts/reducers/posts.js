@@ -23,6 +23,8 @@ export function postsReducer(posts, action) {
                 return posts.filter((post) => post._id !== action.payload.id);
             }
             return posts;
+        case PACTIONS.DELETE_POSTS:
+            return [];
         default:
             return posts;
     }
