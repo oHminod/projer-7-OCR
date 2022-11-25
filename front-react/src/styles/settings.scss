@@ -13,6 +13,27 @@ $tertiaire: #4e5166;
 $success: rgb(0, 189, 0);
 $successHover: rgb(0, 145, 0);
 
+.primary {
+    background-color: $primaire;
+    color: white;
+}
+
+.success {
+    background-color: $success;
+    color: white;
+
+    &:hover {
+        background-color: $successHover;
+    }
+}
+
+.messages {
+    background-color: #3093ef;
+
+    &:hover {
+        background-color: #095caa;
+    }
+}
 
 body {
     font-family: 'Lato', sans-serif;

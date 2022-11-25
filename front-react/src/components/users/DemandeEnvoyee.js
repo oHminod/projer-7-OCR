@@ -15,8 +15,14 @@ const DemandeEnvoyee = ({ ami }) => {
                 alt={"avatar de " + ami.pseudo}
                 className="avatar"
             />
+            <p>{ami.pseudo}</p>
             <div className="choix">
-                <button onClick={handleCancelFriend}>Annuler</button>
+                <button
+                    className="primary btnFollow"
+                    onClick={handleCancelFriend}
+                >
+                    <i className="fa-solid fa-x"></i>
+                </button>
             </div>
         </div>
     );

@@ -41,11 +41,6 @@ const Amis = () => {
 
                 return (
                     <div className="aUser" key={"amis" + index}>
-                        <img
-                            src={infosAmi.avatar}
-                            alt={"avatar de " + infosAmi.pseudo}
-                            className="avatar"
-                        />
                         <UserCard user={infosAmi} />
                     </div>
                 );

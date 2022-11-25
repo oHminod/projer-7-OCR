@@ -32,7 +32,7 @@ const DemandesAmis = () => {
         });
 
     const demandesAmis = (
-        <div className="utilisateurs">
+        <div className="utilisateurs amis">
             <h2>Demandes d'Amis</h2>
             {my &&
                 my.demandesAmis.length > 0 &&

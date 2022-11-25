@@ -9,10 +9,28 @@ const UserCard = ({ user }) => {
         setGoRemove(true);
     };
     return (
-        <div className="userCard">
+        <>
+            <img
+                src={user.avatar}
+                alt={"avatar de " + user.pseudo}
+                className="avatar"
+            />
             <p>{user.pseudo}</p>
-            <button onClick={handleRemoveFriend}>retirer</button>
-        </div>
+            <div className="choix">
+                <button
+                    className="primary btnFollow"
+                    onClick={handleRemoveFriend}
+                >
+                    <i className="fa-solid fa-x"></i>
+                </button>
+                <button
+                    className="messages btnFollow"
+                    // onClick={handleChatWithFriend}
+                >
+                    <i className="fa-solid fa-comment"></i>
+                </button>
+            </div>
+        </>
     );
 };
 

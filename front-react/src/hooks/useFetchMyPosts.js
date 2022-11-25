@@ -52,7 +52,7 @@ const useFetchMyPosts = (offset, lastItemId = "") => {
             ignore = true;
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [lastItemId, myOldestPostId, myPosts, offset]);
+    }, [lastItemId, offset]);
 
     return { loading };
 };

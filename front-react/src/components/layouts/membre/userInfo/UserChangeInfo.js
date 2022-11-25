@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import verifEmail from "../../../../utils/verifEmail";
 // import { motion } from "framer-motion";
 import { useUser } from "../../../contexts/UserContext";
@@ -10,6 +10,7 @@ const UserChangeInfo = ({ setModifier }) => {
     const inputEmail = useRef("");
     const inputBio = useRef("");
     const [selectedImage, setSelectedImage] = useState(null);
+    const [bio, setBio] = useState("");
     const [newInfos, setNewInfos] = useState({});
     const [go, setGo] = useState(false);
     const [dbError, setDbError] = useState();
@@ -58,6 +59,14 @@ const UserChangeInfo = ({ setModifier }) => {
         verifEmail(inputEmail.current.value, "userEmail");
     };
 
+    const handleBioChange = () => {
+        setBio(inputBio.current.value);
+    };
+
+    useEffect(() => {
+        setBio(user.bio);
+    }, [user.bio]);
+
     if (!user) return null;
     return (
         <form onSubmit={submitNewInfos}>
@@ -100,7 +109,12 @@ const UserChangeInfo = ({ setModifier }) => {
                 placeholder={user && user.email}
                 onChange={handleEmailChange}
             />
-            <textarea ref={inputBio} placeholder={user.bio} />
+            <textarea
+                ref={inputBio}
+                placeholder="Bio"
+                value={bio}
+                onChange={handleBioChange}
+            />
             <button onClick={submitNewInfos} className="success">
                 Enregistrer
             </button>

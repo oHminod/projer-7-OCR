@@ -21,9 +21,14 @@ const DemandeAmi = ({ ami }) => {
                 alt={"avatar de " + ami.pseudo}
                 className="avatar"
             />
+            <p>{ami.pseudo}</p>
             <div className="choix">
-                <button onClick={handleAccept}>Accepter</button>
-                <button onClick={handleReject}>Refuser</button>
+                <button className="primary btnFollow" onClick={handleReject}>
+                    <i className="fa-solid fa-x"></i>
+                </button>
+                <button className="success btnFollow" onClick={handleAccept}>
+                    <i className="fa-solid fa-check"></i>
+                </button>
             </div>
         </div>
     );

@@ -15,19 +15,71 @@
 }
 
 .aUser {
+    position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     border: 1px solid lightgrey;
     border-radius: 5px;
-    padding: 0 5px;
-    margin: 5px 0;
+    padding: 5px;
+    margin: 5px;
+    max-width: 100px;
 
-    button {
-        padding: 2px;
-        margin: 2px;
-        font-size: 15px;
+    &:hover {
+        cursor: pointer;
+        @extend .card_shadow;
+        transform: scale(1.005);
     }
 
+    p {
+        text-align: center;
+        margin: 8px 0;
+        font-weight: 300;
+    }
+
+    .choix {
+        display: flex;
+    }
+
+    .btnFollow {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 2px;
+    }
+
+    // .userCard {
+    //     display: none;
+    //     position: absolute;
+    //     z-index: 1;
+    //     bottom: 45px;
+    //     width: 200px;
+    //     height: 100px;
+    //     background-color: rgba(255, 255, 255, .8);
+    //     border-radius: 15px;
+    //     backdrop-filter: blur(10px);
+    //     padding: 20px;
+    // }
+
+    // &:hover .userCard {
+    //     display: block;
+    // }
+}
+
+.avatar {
+    width: 50px;
+    border-radius: 50%;
+    transition: all .3s;
+    margin: 5px;
+
+    // &:hover {
+    //     cursor: pointer;
+    //     @extend .card_shadow;
+    //     transform: scale(1.005);
+    // }
 }
 
 .utilisateurs {
@@ -38,8 +90,10 @@
     backdrop-filter: blur(10px);
     padding: 20px;
     margin: 20px;
+    max-height: 500px;
+    overflow-y: scroll;
     border-radius: 15px;
-    width: 300px;
+    width: 370px;
     transition: all .3s;
     @extend .card_shadow;
 
@@ -56,7 +110,7 @@
     }
 
     h2 {
-        width: 300px;
+        width: 370px;
         text-align: center;
         font-weight: 400;
         color: #7c7c85;
@@ -75,7 +129,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 300px;
+    width: 370px;
     padding: 20px;
     margin: 20px;
     border-radius: 15px;
@@ -98,7 +152,7 @@
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        width: 300px;
+        width: 370px;
     }
 
     input[type=text] {
@@ -125,7 +179,7 @@
 
     textarea {
         background-color: rgba(255, 255, 255, .7);
-        font-size: 22px;
+        font-size: 18px;
         font-weight: 300;
         padding: 15px;
         width: 270px;
@@ -138,10 +192,9 @@
         transition: all .3s;
         @extend .card_shadow;
 
-        &::placeholder {
-            text-align: center;
-            line-height: 149px;
-        }
+        // &::placeholder {
+        //     text-align: center;
+        // }
 
         &:focus {
             background-color: rgba(255, 255, 255, 1);
@@ -203,7 +256,7 @@
         text-align: center;
         background-color: $primaire;
         color: white;
-        max-width: 300px;
+        max-width: 370px;
         padding: 8px;
         border-radius: 8px;
     }
