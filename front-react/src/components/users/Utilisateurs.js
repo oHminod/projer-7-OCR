@@ -45,7 +45,7 @@ const Utilisateurs = () => {
     const userCard = user && (
         <div className="userContainer">
             <img className="avatar" src={user.avatar} alt="" />
-            <p>{user.pseudo}</p>
+            <h3>{user.pseudo}</h3>
             <p>{user.bio}</p>
             {ami ? (
                 <button onClick={handleRemoveFriend}>Retirer des amis</button>
