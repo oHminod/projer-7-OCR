@@ -1,11 +1,9 @@
 import { useEffect } from "react";
 import { useSocket } from "../../contexts/SocketContext";
 import { useUser, useUserUpdate } from "../../contexts/UserContext";
-import { useUsersInfoUpdate } from "../../contexts/UsersInfoContext";
 
 const UpdateMyInfoListener = () => {
     const socket = useSocket();
-    const dispatchUsersInfo = useUsersInfoUpdate();
     const my = useUser();
     const setMyInfo = useUserUpdate();
 
@@ -27,7 +25,7 @@ const UpdateMyInfoListener = () => {
                         };
                     });
             });
-    }, [dispatchUsersInfo, my, setMyInfo, socket]);
+    }, [my, setMyInfo, socket]);
 };
 
 export default UpdateMyInfoListener;
