@@ -39,13 +39,13 @@ const useGetUsersInfo = (idsToFetch = []) => {
             post.sharedUserId &&
             !prev.includes(post.sharedUserId)
         ) {
-            return [...new Set([...prev, post.userId, post.sharedUserId])];
+            return [...prev, post.userId, post.sharedUserId];
         } else if (!prev.includes(post.userId)) {
-            return [...new Set([...prev, post.userId])];
+            return [...prev, post.userId];
         } else if (post.sharedUserId && !prev.includes(post.sharedUserId)) {
-            return [...new Set([...prev, post.sharedUserId])];
+            return [...prev, post.sharedUserId];
         } else {
-            return [...new Set([...prev])];
+            return prev;
         }
     };
 
@@ -53,12 +53,10 @@ const useGetUsersInfo = (idsToFetch = []) => {
         let temp = [];
         user &&
             (temp = [
-                ...new Set([
-                    ...temp,
-                    ...user.amis,
-                    ...user.demandesAmis,
-                    ...user.demandesEnvoyees,
-                ]),
+                ...temp,
+                ...user.amis,
+                ...user.demandesAmis,
+                ...user.demandesEnvoyees,
             ]);
         posts &&
             posts.map((post) => {
