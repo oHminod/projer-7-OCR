@@ -32,6 +32,3 @@ export function myPostsReducer(myPosts, action) {
             return myPosts;
     }
 }
-
-// case MPACTIONS.GET_MY_POSTS:
-//     return action.payload.myPosts;

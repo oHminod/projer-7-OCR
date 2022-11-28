@@ -16,6 +16,7 @@ const retirerAmi = require("../controllers/user/retirerAmi");
 const accepterAmi = require("../controllers/user/accepterAmi");
 const refuserAmi = require("../controllers/user/refuserAmi");
 const annulerDemande = require("../controllers/user/annulerDemande");
+const getUsersInfo = require("../controllers/user/getUsersInfo");
 
 const multer = require("../middleware/multer-config");
 const sessionOk = require("../middleware/session");
@@ -23,6 +24,7 @@ const sessionOk = require("../middleware/session");
 user.post("/signup", userSignUp);
 user.post("/login", userLogin);
 user.post("/search", sessionOk, searchUser);
+user.post("/getUsersInfo", sessionOk, getUsersInfo);
 user.get("/friends/add/:id", sessionOk, ajouterAmi);
 user.get("/friends/remove/:id", sessionOk, retirerAmi);
 user.get("/friends/accept/:id", sessionOk, accepterAmi);

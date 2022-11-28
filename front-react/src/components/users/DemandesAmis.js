@@ -1,21 +1,12 @@
 import React from "react";
-import { getAvatarAndPseudo } from "../../utils/axiosCalls";
 import { useUser } from "../contexts/UserContext";
-import { useUsersInfo, useUsersInfoUpdate } from "../contexts/UsersInfoContext";
+import { useUsersInfo } from "../contexts/UsersInfoContext";
 import DemandeAmi from "./DemandeAmi";
 import DemandeEnvoyee from "./DemandeEnvoyee";
 
 const DemandesAmis = () => {
     const my = useUser();
     const usersInfo = useUsersInfo();
-    const dispatchUsersInfo = useUsersInfoUpdate();
-
-    usersInfo &&
-        my.demandesAmis.map(
-            (friendId) =>
-                !usersInfo.find((user) => user.userId === friendId) &&
-                getAvatarAndPseudo(friendId, dispatchUsersInfo)
-        );
 
     const demandesEnvoyees =
         my &&
@@ -23,9 +14,6 @@ const DemandesAmis = () => {
         my.demandesEnvoyees &&
         my.demandesEnvoyees.length > 0 &&
         my.demandesEnvoyees.map((friendId, index) => {
-            if (!usersInfo.find((user) => user.userId === friendId)) {
-                getAvatarAndPseudo(friendId, dispatchUsersInfo);
-            }
             const infosAmi = usersInfo.find((user) => user.userId === friendId);
             if (infosAmi) {
                 return <DemandeEnvoyee ami={infosAmi} key={"envoi" + index} />;
@@ -40,9 +28,6 @@ const DemandesAmis = () => {
                 usersInfo &&
                 my.demandesAmis.length > 0 &&
                 my.demandesAmis.map((friendId, index) => {
-                    if (!usersInfo.find((user) => user.userId === friendId)) {
-                        getAvatarAndPseudo(friendId, dispatchUsersInfo);
-                    }
                     const infosAmi = usersInfo.find(
                         (user) => user.userId === friendId
                     );

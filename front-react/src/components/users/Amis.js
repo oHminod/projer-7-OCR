@@ -1,34 +1,17 @@
 import React from "react";
-import { getAvatarAndPseudo } from "../../utils/axiosCalls";
 import { useUser } from "../contexts/UserContext";
-import { useUsersInfo, useUsersInfoUpdate } from "../contexts/UsersInfoContext";
+import { useUsersInfo } from "../contexts/UsersInfoContext";
 import UserCard from "./UserCard";
 
 const Amis = () => {
     const my = useUser();
     const usersInfo = useUsersInfo();
-    const dispatchUsersInfo = useUsersInfoUpdate();
-
-    my &&
-        my.amis.length > 0 &&
-        my.amis.map((idAmi) => {
-            if (!usersInfo.find((user) => user.userId === idAmi)) {
-                getAvatarAndPseudo(idAmi, dispatchUsersInfo);
-            }
-
-            return null;
-        });
 
     if (
         my &&
         my.amis.length > 0 &&
         my.amis
-            .map((idAmi) => {
-                if (!usersInfo.find((user) => user.userId === idAmi)) {
-                    return true;
-                }
-                return false;
-            })
+            .map((idAmi) => !usersInfo.find((user) => user.userId === idAmi))
             .includes(true)
     )
         return null;

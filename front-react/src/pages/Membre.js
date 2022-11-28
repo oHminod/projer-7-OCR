@@ -6,13 +6,13 @@ import Wall from "../components/layouts/membre/mur/Wall";
 import { useCurrentWidth } from "../components/utils/windowWidth";
 import { useVerify } from "../utils/axiosCalls";
 import { useAuth } from "../components/contexts/AuthContext";
-import useSetUsersInfo from "../hooks/useSetUsersInfo";
+import useGetUsersInfo from "../hooks/useGetUsersInfo";
 
 const Membre = () => {
     const auth = useAuth();
     const width = useCurrentWidth();
     useVerify();
-    useSetUsersInfo();
+    useGetUsersInfo();
 
     useEffect(() => {
         window.scrollTo(0, 0);

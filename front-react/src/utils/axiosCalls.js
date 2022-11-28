@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { UIACTIONS } from "../components/contexts/actions/usersInfo";
 import { useAuth, useAuthUpdate } from "../components/contexts/AuthContext";
 import { useUser, useUserUpdate } from "../components/contexts/UserContext";
 
@@ -177,30 +176,6 @@ export function useAxiosPostPost(obj, setDbError, go, setGo) {
                     setDbError(err.response.data);
                 });
     }, [go, obj, setDbError, setGo, token]);
-}
-
-export function getAvatarAndPseudo(userId, dispatchUsersInfo) {
-    const token = JSON.parse(window.localStorage.getItem("groupomania-token"));
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-    token &&
-        API.get(`user/posterinfo/${userId}`, config)
-            .then((data) => {
-                const user = (data && data.data) || false;
-                user &&
-                    dispatchUsersInfo({
-                        type: UIACTIONS.ADD_USER,
-                        payload: { user: user },
-                    });
-                return data.data;
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            });
-    return null;
 }
 
 export function postCommentWithoutImage(obj) {

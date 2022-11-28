@@ -1,14 +1,9 @@
 import React, { useMemo, useState } from "react";
-import {
-    getAvatarAndPseudo,
-    getThisPostComments,
-} from "../../../../../utils/axiosCalls";
+import useGetUsersInfo from "../../../../../hooks/useGetUsersInfo";
+import { getThisPostComments } from "../../../../../utils/axiosCalls";
 
 import { useAuth } from "../../../../contexts/AuthContext";
-import {
-    useUsersInfo,
-    useUsersInfoUpdate,
-} from "../../../../contexts/UsersInfoContext";
+import { useUsersInfo } from "../../../../contexts/UsersInfoContext";
 import {
     useComment,
     useCommentaires,
@@ -25,8 +20,9 @@ const DisplayComments = () => {
     const commentActif = useComment();
     const thisPost = usePost();
     const usersInfo = useUsersInfo();
-    const dispatchUsersInfo = useUsersInfoUpdate();
     const [usersWhoNeedsInfo, setUsersWhoNeedsInfo] = useState([]);
+
+    useGetUsersInfo(usersWhoNeedsInfo);
 
     useMemo(() => {
         commentActif &&
@@ -49,15 +45,6 @@ const DisplayComments = () => {
             return usersWhoNeedsInfo;
         }
     }, [comments, usersWhoNeedsInfo, usersInfo]);
-
-    useMemo(() => {
-        usersWhoNeedsInfo &&
-            usersWhoNeedsInfo.map(
-                (ID) =>
-                    !usersInfo.find((findUser) => findUser.userId === ID) &&
-                    getAvatarAndPseudo(ID, dispatchUsersInfo)
-            );
-    }, [usersWhoNeedsInfo, usersInfo, dispatchUsersInfo]);
 
     if (!comments) return null;
     return (

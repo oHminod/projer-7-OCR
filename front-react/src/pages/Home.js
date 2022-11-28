@@ -4,16 +4,16 @@ import { Navigate } from "react-router-dom";
 import Timeline from "../components/layouts/home/Timeline";
 import { useVerify } from "../utils/axiosCalls";
 import { useAuth } from "../components/contexts/AuthContext";
-import useSetUsersInfo from "../hooks/useSetUsersInfo";
 import { useCurrentWidth } from "../components/utils/windowWidth";
 import Users from "../components/users/Users";
+import useGetUsersInfo from "../hooks/useGetUsersInfo";
 
 const Home = () => {
     const width = useCurrentWidth();
     const authToken = useAuth();
 
     useVerify();
-    useSetUsersInfo();
+    useGetUsersInfo();
 
     useEffect(() => {
         window.scrollTo(0, 0);

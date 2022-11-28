@@ -29,5 +29,3 @@ export function postsReducer(posts, action) {
             return posts;
     }
 }
-// case PACTIONS.GET_POSTS:
-//     return action.payload.posts;
