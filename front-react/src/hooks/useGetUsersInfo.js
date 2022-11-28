@@ -26,8 +26,7 @@ const useGetUsersInfo = (idsToFetch = []) => {
     }, [usersInfo, usersWhoHavePost]);
 
     useEffect(() => {
-        idsToFetch &&
-            idsToFetch.length > 0 &&
+        idsToFetch.length > 0 &&
             setUsersWhoHavePost((prev) => [
                 ...new Set([...prev, ...idsToFetch]),
             ]);

@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const helmet = require("helmet");
 const errorHandler = require("./error/error-handler");
+const UserModel = require("./models/user");
+const ApiError = require("./error/ApiError");
 
 const routes = require("./routes");
 
@@ -37,6 +39,22 @@ groupomania.use((req, res, next) => {
         "Access-Control-Allow-Methods",
         "GET, POST, PUT, DELETE, PATCH, OPTIONS"
     );
+    next();
+});
+
+groupomania.use((req, res, next) => {
+    UserModel.find()
+        .then((users) => {
+            users = users.map((user) => {
+                const userId = user._id
+                    .toString()
+                    .replace(/ObjectId\("(.*)"\)/, "$1");
+                groupomania.set(userId, [userId, ...user.amis]);
+            });
+        })
+        .catch((error) => {
+            return next(ApiError.notFound(error.message));
+        });
     next();
 });
 

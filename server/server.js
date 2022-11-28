@@ -1,5 +1,6 @@
 const http = require("http");
 const groupomania = require("./groupomania");
+const { io } = require("./utils/socket");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -38,7 +39,6 @@ const errorServerHandler = (error) => {
 
 const server = http.createServer(groupomania);
 
-const { io } = require("./utils/socket");
 io.attach(server, {
     cors: {
         origin: "*",

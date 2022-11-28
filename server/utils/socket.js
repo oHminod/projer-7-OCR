@@ -18,7 +18,7 @@ const Socket = {
     },
 };
 
-const userAuth = (header, userId) => {
+const userAuth = (header, userId, next) => {
     try {
         const token = header.split(" ")[1];
         const decodedToken = jwt.verify(token, process.env.TOKEN);
@@ -39,7 +39,7 @@ io.use((socket, next) => {
     const header = socket.handshake.headers["authorization"];
     userId = socket.handshake.headers["userid"];
 
-    if (userAuth(header, userId)) {
+    if (userAuth(header, userId, next)) {
         return next();
     }
     return next(ApiError.forbidden("Accès interdit"));

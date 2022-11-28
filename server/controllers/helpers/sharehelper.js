@@ -47,7 +47,9 @@ module.exports = (req, res, next, idsToSendPost) => {
                                 .sort({ createdAt: -1 })
                                 .then((data) =>
                                     emitToConnectedUsers(
-                                        idsToSendPost,
+                                        req.app.locals.settings[
+                                            req.session.userId
+                                        ],
                                         "newPost",
                                         {
                                             newPost: data,
