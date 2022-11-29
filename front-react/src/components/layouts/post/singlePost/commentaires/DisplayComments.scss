@@ -27,7 +27,13 @@
     }
 
     .creatorInfo {
+        .wrapper {
+            width: 100%;
+        }
+
         .legendeCom {
+            width: 100%;
+
             p {
                 font-style: italic;
                 font-size: 14px;
@@ -119,4 +125,24 @@
         margin-left: -2.1%;
         border-radius: 50%;
     }
+}
+
+.prompt {
+    background-color: rgb(243, 240, 240);
+    height: 24px;
+    // line-height: 32px;
+    width: calc(100% - 32px);
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 24px;
+    padding: 12px;
+    resize: vertical;
+    border-radius: 24px;
+    border: none;
+    transition: all .3s;
+
+    &::placeholder {
+        line-height: 24px;
+    }
+
 }

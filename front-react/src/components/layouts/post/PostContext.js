@@ -55,6 +55,20 @@ export function PostProvider({ children, thisPost }) {
             });
     }, [socket, thisPost]);
 
+    useEffect(() => {
+        socket &&
+            socket.on("commentUpdate", (data) => {
+                setCommentaires((prev) =>
+                    prev.map((commentaire) => {
+                        if (commentaire._id === data._id) {
+                            return data;
+                        }
+                        return commentaire;
+                    })
+                );
+            });
+    }, [socket, thisPost]);
+
     return (
         <PostContext.Provider value={post}>
             <PostUpdateContext.Provider value={setPost}>

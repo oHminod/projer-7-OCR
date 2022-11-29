@@ -18,6 +18,9 @@ const updateComment = (req, res, next) => {
             CommentModel.updateOne({ _id: commentId }, updatedComment)
                 .then(() => {
                     Socket.emit("commentUpdate", updatedComment);
+                    res.status(200).json({
+                        message: "Commentaire mis à jour",
+                    });
                 })
                 .catch((error) => {
                     return next(ApiError.badRequest(error.message));
