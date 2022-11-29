@@ -14,24 +14,28 @@ $success: rgb(0, 189, 0);
 $successHover: rgb(0, 145, 0);
 
 .primary {
-    background-color: $primaire;
-    color: white;
-}
-
-.success {
-    background-color: $success;
+    background-color: $tertiaire;
     color: white;
 
     &:hover {
-        background-color: $successHover;
+        background-color: $primaire;
+    }
+}
+
+.success {
+    background-color: $tertiaire;
+    color: white;
+
+    &:hover {
+        background-color: $success;
     }
 }
 
 .messages {
-    background-color: #3093ef;
+    background-color: $tertiaire;
 
     &:hover {
-        background-color: #095caa;
+        background-color: #3093ef;
     }
 }
 
