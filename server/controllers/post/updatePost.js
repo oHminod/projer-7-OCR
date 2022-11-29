@@ -27,7 +27,7 @@ const updatePost = (req, res, next) => {
                 return post;
             })
             .then((post) => {
-                PostModel.updateOne({ _id: postId })
+                PostModel.updateOne({ _id: postId }, post)
                     .then(() => {
                         Socket.emit("postUpdate", post);
                         res.status(200).json({
@@ -55,7 +55,7 @@ const updatePost = (req, res, next) => {
                 return post;
             })
             .then((post) => {
-                PostModel.updateOne({ _id: postId })
+                PostModel.updateOne({ _id: postId }, post)
                     .then(() => {
                         Socket.emit("postUpdate", post);
                         res.status(200).json({

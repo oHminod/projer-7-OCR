@@ -12,7 +12,6 @@ const getMyOldestPostId = require("../controllers/post/getMyOldestPostId");
 const getAllMyPostsPaginated = require("../controllers/post/getAllMyPostsPaginated");
 const sharePost = require("../controllers/post/sharePost");
 const updatePost = require("../controllers/post/updatePost");
-// const deleteSharedPost = require("../controllers/post/deleteSharedPost");
 /**
  * Routes post.
  */

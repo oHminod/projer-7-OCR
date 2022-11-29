@@ -4,6 +4,7 @@ import { useUser } from "../../../contexts/UserContext";
 import { useUsersInfo } from "../../../contexts/UsersInfoContext";
 import { usePost } from "../PostContext";
 import ModifierOuSupprimer from "./modifierOuSupprimer/ModifierOuSupprimer";
+import UpdatePostForm from "./modifierOuSupprimer/UpdatePostForm";
 
 const PostPart = () => {
     const [updatedAt, setUpdatedAt] = useState();
@@ -11,6 +12,7 @@ const PostPart = () => {
     const [thisUser, setThisUser] = useState();
     const [editModal, setEditModal] = useState(false);
     const [tabTexte, setTabTexte] = useState([]);
+    const [updateMode, setUpdateMode] = useState(false);
     const usersInfo = useUsersInfo();
     const my = useUser();
     const thisPost = usePost();
@@ -46,7 +48,10 @@ const PostPart = () => {
             setUpdatedAt(localeDateFromDate(thisPost.createdAt));
     }, [thisPost]);
     const handleEdit = () => {
-        setEditModal(!editModal);
+        setEditModal((prev) => {
+            prev && setUpdateMode(false);
+            return !prev;
+        });
     };
 
     return (
@@ -78,34 +83,46 @@ const PostPart = () => {
                         )}
                     </div>
                 </div>
-                {thisPost && my && thisPost.userId === my._id && (
-                    <div className="wrapper">
-                        {editModal && (
-                            <ModifierOuSupprimer setEditModal={setEditModal} />
-                        )}
-                        <button
-                            className="modifierOuSupprimer"
-                            onClick={handleEdit}
-                        >
-                            <i className="fa-solid fa-ellipsis"></i>
-                        </button>
-                    </div>
-                )}
+                {thisPost &&
+                    my &&
+                    (thisPost.userId === my._id || my.role === "admin") && (
+                        <div className="wrapper">
+                            {editModal && (
+                                <ModifierOuSupprimer
+                                    setEditModal={setEditModal}
+                                    setUpdateMode={setUpdateMode}
+                                />
+                            )}
+                            <button
+                                className="modifierOuSupprimer"
+                                onClick={handleEdit}
+                            >
+                                <i className="fa-solid fa-ellipsis"></i>
+                            </button>
+                        </div>
+                    )}
             </div>
-            <div className="postContainer">
-                {thisPost && thisPost.texte && tabTexte.length > 0
-                    ? tabTexte.map((paragraphe, index) => (
-                          <p key={index}>{paragraphe}</p>
-                      ))
-                    : thisPost && thisPost.texte && <p>{thisPost.texte}</p>}
-                {thisPost && thisPost.image && (
-                    <img
-                        className="imgPost"
-                        src={thisPost.image}
-                        alt="illustration"
-                    />
-                )}
-            </div>
+            {updateMode ? (
+                <UpdatePostForm
+                    setUpdateMode={setUpdateMode}
+                    setEditModal={setEditModal}
+                />
+            ) : (
+                <div className="postContainer">
+                    {thisPost && thisPost.texte && tabTexte.length > 0
+                        ? tabTexte.map((paragraphe, index) => (
+                              <p key={index}>{paragraphe}</p>
+                          ))
+                        : thisPost && thisPost.texte && <p>{thisPost.texte}</p>}
+                    {thisPost && thisPost.image && (
+                        <img
+                            className="imgPost"
+                            src={thisPost.image}
+                            alt="illustration"
+                        />
+                    )}
+                </div>
+            )}
         </>
     );
 };

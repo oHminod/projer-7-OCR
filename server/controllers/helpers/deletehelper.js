@@ -7,8 +7,11 @@ const emitToConnectedUsers = require("../../utils/emitToConnectedUsers");
 module.exports = (req, res, next, idsToSendPost) => {
     PostModel.findOne({ _id: req.params.id })
         .then((post) => {
-            post.userId != req.session.userId &&
-                next(ApiError.unauthorized("Accès refusé"));
+            if (
+                post.userId !== req.session.userId &&
+                req.session.userRole !== "admin"
+            )
+                return next(ApiError.unauthorized("Accès refusé"));
 
             if (post.fromPostId) {
                 PostModel.findOne({ _id: post.fromPostId })

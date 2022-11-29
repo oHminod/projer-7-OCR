@@ -47,7 +47,7 @@ const SinglePostForm = () => {
     };
 
     return (
-        <form onSubmit={submitNewPost} method="post" id="postForm">
+        <form onSubmit={submitNewPost} method="post" className="postForm">
             <TextArea
                 name="textePost"
                 setText={setText}
