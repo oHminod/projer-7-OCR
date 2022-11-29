@@ -27,13 +27,11 @@ module.exports = (req, res, next, post, postId) => {
                             });
                         })
                         .catch((error) => {
-                            return next(ApiError.badRequest(error.message));
+                            return next(ApiError.notFound(error.message));
                         });
                 })
-                .catch(() => {
-                    res.status(200).json({
-                        message: "Publication mise à jour",
-                    });
+                .catch((error) => {
+                    return next(ApiError.badRequest(error.message));
                 });
         })
         .catch((error) => {

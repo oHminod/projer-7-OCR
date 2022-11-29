@@ -17,7 +17,7 @@ export function SocketProvider({ children }) {
     const user = useUser();
 
     useEffect(() => {
-        token &&
+        token !== "" &&
             user &&
             disconnected &&
             setSocket(
@@ -32,9 +32,11 @@ export function SocketProvider({ children }) {
                     },
                 })
             );
-        token && setDisconnected(false);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [token, user]);
+    }, [token, user, disconnected]);
+
+    useEffect(() => {
+        token !== "" ? setDisconnected(false) : setDisconnected(true);
+    }, [token]);
 
     return (
         <SocketContext.Provider value={socket}>
