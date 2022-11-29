@@ -1,6 +1,7 @@
 const ApiError = require("../../error/ApiError");
 const PostModel = require("../../models/post");
-const { Socket } = require("../../utils/socket");
+const fs = require("fs");
+const updateHelper = require("../helpers/updateHelper");
 
 const updatePost = (req, res, next) => {
     const postId = req.params.id;
@@ -24,19 +25,18 @@ const updatePost = (req, res, next) => {
                     }`,
                 };
 
-                return post;
-            })
-            .then((post) => {
-                PostModel.updateOne({ _id: postId }, post)
-                    .then(() => {
-                        Socket.emit("postUpdate", post);
-                        res.status(200).json({
-                            message: "Publication mise à jour",
-                        });
-                    })
-                    .catch((error) => {
-                        return next(ApiError.badRequest(error.message));
+                const filename =
+                    (postDb.image !== "" &&
+                        postDb.image.split("/images/posts/")[1]) ||
+                    null;
+
+                if (filename) {
+                    fs.unlink(`images/posts/${filename}`, () => {
+                        updateHelper(req, res, next, post, postId);
                     });
+                } else {
+                    updateHelper(req, res, next, post, postId);
+                }
             })
             .catch((error) => {
                 return next(ApiError.notFound(error.message));
@@ -55,16 +55,7 @@ const updatePost = (req, res, next) => {
                 return post;
             })
             .then((post) => {
-                PostModel.updateOne({ _id: postId }, post)
-                    .then(() => {
-                        Socket.emit("postUpdate", post);
-                        res.status(200).json({
-                            message: "Publication mise à jour",
-                        });
-                    })
-                    .catch((error) => {
-                        return next(ApiError.badRequest(error.message));
-                    });
+                updateHelper(req, res, next, post, postId);
             })
             .catch((error) => {
                 return next(ApiError.notFound(error.message));

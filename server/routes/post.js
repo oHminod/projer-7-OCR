@@ -17,6 +17,7 @@ const updatePost = require("../controllers/post/updatePost");
  */
 
 const multerPost = require("../middleware/multer-post");
+const multerUpdatePost = require("../middleware/multer-updatepost");
 
 post.get("/oldest", sessionOk, getOldestPostId);
 post.get("/myOldest", sessionOk, getMyOldestPostId);
@@ -25,7 +26,7 @@ post.get("/:offset/:lastItemId?", sessionOk, getAllPostsPaginated);
 post.post("/post", sessionOk, xss(), multerPost, postPost);
 post.post("/share", sessionOk, xss(), sharePost);
 post.post("/:id/love", sessionOk, xss(), loverPost);
-post.put("/update/:id", sessionOk, xss(), updatePost);
+post.put("/update/:id", sessionOk, xss(), multerUpdatePost, updatePost);
 post.delete("/delete/:id", sessionOk, deletePost);
 
 module.exports = post;
