@@ -4,6 +4,7 @@ import Response from "./Response";
 
 const DisplayResponses = ({ comment, resTargetPseudo }) => {
     const commentaires = useCommentaires();
+
     return (
         commentaires &&
         commentaires.map(
