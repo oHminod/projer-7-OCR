@@ -98,8 +98,14 @@
 
     }
 
+    .margin {
+        min-width: 15px;
+    }
+
     .amis {
-        justify-content: space-around;
+        display: flex;
+        overflow: scroll;
+        min-width: 100%
     }
 
     h2 {
@@ -130,10 +136,11 @@
     }
 
     .aUserContainer {
-        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
+        height: 100%;
+        justify-content: space-between;
     }
 
     .aUser {
@@ -141,6 +148,7 @@
         border-radius: 5px;
         padding: 5px;
         margin: 5px;
+        min-width: 80px;
         max-width: 100px;
         transition: all .3s;
 

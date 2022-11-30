@@ -17,17 +17,21 @@ const Amis = () => {
         return null;
 
     const amis = my && my.amis.length > 0 && usersInfo && (
-        <div className="utilisateurs amis">
+        <div className="utilisateurs">
             <h2>Amis</h2>
-            {my.amis.map((ami, index) => {
-                const infosAmi = usersInfo.find((user) => user.userId === ami);
+            <div className="amis">
+                {my.amis.map((ami, index) => {
+                    const infosAmi = usersInfo.find(
+                        (user) => user.userId === ami
+                    );
 
-                return (
-                    <div className="aUser" key={"amis" + index}>
-                        <UserCard user={infosAmi} />
-                    </div>
-                );
-            })}
+                    return (
+                        <div className="aUser" key={"amis" + index}>
+                            <UserCard user={infosAmi} />
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 
