@@ -1,11 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import verifEmail from "../../../../utils/verifEmail";
-// import { motion } from "framer-motion";
 import { useUser } from "../../../contexts/UserContext";
 import { useAxiosSetUser } from "../../../../utils/axiosCalls";
-
+/**
+ * Composant gérant le formulaire de modification de l'utilisateur
+ * @param {bool} setModifier permet de désactiver le formulaire de
+ * modification quand la requête est complétée.
+ * @returns le formulaire de modification de l'utilisateur
+ */
 const UserChangeInfo = ({ setModifier }) => {
+    /**
+     * utilisateur actif tiré du UserContext
+     */
     const user = useUser();
+    /**
+     * input où l'utilisateur entre son pseudo
+     */
     const inputPseudo = useRef("");
     const inputEmail = useRef("");
     const inputBio = useRef("");
@@ -50,7 +60,10 @@ const UserChangeInfo = ({ setModifier }) => {
         inputEmail.current.value = "";
         inputBio.current.value = "";
     };
-
+    /**
+     * Attribut l'image sélectionnée par l'utilisateur au state selectedImage
+     * @param {image} e
+     */
     const setImage = (e) => {
         setSelectedImage(e.target.files[0]);
     };

@@ -1,17 +1,9 @@
-import React, {
-    useCallback,
-    useEffect,
-    // useMemo,
-    useRef,
-    useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import useFetchPosts from "../../../hooks/useFetchPosts";
-// import useInfiniteFetch from "../../../hooks/useInfiniteFetch";
 import { NPACTIONS } from "../../contexts/actions/newPosts";
 import { PACTIONS } from "../../contexts/actions/posts";
 import { useNewPosts, useNewPostsUpdate } from "../../contexts/NewPostsContext";
 import { usePosts, usePostsUpdate } from "../../contexts/PostsContext";
-// import { useUser } from "../../contexts/UserContext";
 import PostProvider from "./PostContext";
 import SinglePost from "./singlePost/SinglePost";
 
@@ -21,11 +13,7 @@ const Posts = () => {
     const dispatchPosts = usePostsUpdate();
     const newPosts = useNewPosts();
     const dispatchNewPosts = useNewPostsUpdate();
-    // const [go, setGo] = useState(false);
-    // const user = useUser();
     const observer = useRef();
-
-    // const { loading } = useInfiniteFetch(go, 2, lastItemId);
 
     const { loading } = useFetchPosts(4, lastItemId);
 
@@ -49,10 +37,6 @@ const Posts = () => {
         },
         [loading]
     );
-
-    // useMemo(() => {
-    //     user && setGo(true);
-    // }, [user]);
 
     useEffect(() => {
         if (newPosts && newPosts.length > 0) {
@@ -80,7 +64,6 @@ const Posts = () => {
                                 <SinglePost
                                     lastItemElementRef={lastItemElementRef}
                                     key={"post-" + index}
-                                    setLastItemId={setLastItemId}
                                 />
                             </PostProvider>
                         );
@@ -90,10 +73,7 @@ const Posts = () => {
                                 key={"postContext-" + index}
                                 thisPost={post}
                             >
-                                <SinglePost
-                                    key={"post-" + index}
-                                    setLastItemId={setLastItemId}
-                                />
+                                <SinglePost key={"post-" + index} />
                             </PostProvider>
                         );
                     }

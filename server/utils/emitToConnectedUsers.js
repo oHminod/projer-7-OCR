@@ -1,7 +1,7 @@
 const { Socket } = require("./socket");
 
 module.exports = (idsToSendPost, event, objectToSend) => {
-    idsToSendPost.map(
-        (room) => Socket.has(room) && Socket.to(room, event, objectToSend)
-    );
+    // const curatedRooms = idsToSendPost.filter((room) => Socket.has(room));
+    // Socket.to(curatedRooms, event, objectToSend);
+    Socket.emit(event, objectToSend);
 };

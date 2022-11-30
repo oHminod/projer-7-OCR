@@ -250,29 +250,6 @@ export function deletePost(postId) {
     return;
 }
 
-export function useGetAllUsers(users, setUsers) {
-    const token = useAuth();
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        const config = token && {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        !users &&
-            token &&
-            loading &&
-            API.get(`user/getAll`, config)
-                .then((data) => {
-                    setUsers(data.data);
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    console.log(err.response.data);
-                });
-    }, [loading, setUsers, token, users]);
-}
-
 export function useSearchUser(query, setUser) {
     const token = useAuth();
     const [loading, setLoading] = useState(false);

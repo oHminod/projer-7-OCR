@@ -1,4 +1,3 @@
-const UserModel = require("../../models/user");
 const deletehelper = require("../helpers/deletehelper");
 
 /**
@@ -15,17 +14,6 @@ const deletehelper = require("../helpers/deletehelper");
  * current middleware.
  */
 const deletePost = (req, res, next) => {
-    const userId = req.session.userId;
-    const idsToSendPost = req.app.locals[userId];
-
-    if (idsToSendPost) {
-        deletehelper(req, res, next, idsToSendPost);
-    } else {
-        UserModel.findOne({ _id: userId })
-            .then((user) => (req.app.locals[userId] = [...user.amis, userId]))
-            .then(() => {
-                deletehelper(req, res, next, req.app.locals[userId]);
-            });
-    }
+    deletehelper(req, res, next);
 };
 module.exports = deletePost;

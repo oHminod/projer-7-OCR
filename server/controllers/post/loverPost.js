@@ -1,5 +1,4 @@
 const ApiError = require("../../error/ApiError");
-const UserModel = require("../../models/user");
 const loverhelper = require("../helpers/loverhelper");
 
 /**
@@ -15,17 +14,6 @@ const loverhelper = require("../helpers/loverhelper");
  * middleware.
  */
 const loverPost = (req, res, next) => {
-    const userId = req.body.userId; // Id du créateur du post
-    const idsToSendPost = req.app.locals[userId];
-
-    if (idsToSendPost) {
-        loverhelper(req, res, next, idsToSendPost);
-    } else {
-        UserModel.findOne({ _id: userId })
-            .then((user) => (req.app.locals[userId] = [...user.amis, userId]))
-            .then(() => {
-                loverhelper(req, res, next, req.app.locals[userId]);
-            });
-    }
+    loverhelper(req, res, next);
 };
 module.exports = loverPost;

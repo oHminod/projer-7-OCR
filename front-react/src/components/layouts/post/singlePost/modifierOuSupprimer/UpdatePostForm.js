@@ -53,6 +53,7 @@ const UpdatePostForm = ({ setUpdateMode, setEditModal }) => {
     return (
         <form onSubmit={handleSubmit} className="postForm">
             <textarea
+                className="updatePost"
                 name="updatePost"
                 ref={inputText}
                 value={text}

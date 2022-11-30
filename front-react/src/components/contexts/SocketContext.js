@@ -35,7 +35,7 @@ export function SocketProvider({ children }) {
     }, [token, user, disconnected]);
 
     useEffect(() => {
-        token !== "" ? setDisconnected(false) : setDisconnected(true);
+        token === "" ? setDisconnected(true) : setDisconnected(false);
     }, [token]);
 
     return (

@@ -1,4 +1,3 @@
-const UserModel = require("../../models/user");
 const sharehelper = require("../helpers/sharehelper");
 
 /**
@@ -15,19 +14,6 @@ const sharehelper = require("../helpers/sharehelper");
  * current middleware.
  */
 const sharePost = (req, res, next) => {
-    const userId = req.body.post.userId; //id minimaliste, il faudrait envoyé aux amis du créateur du post l'update du nombre de partage et envoyer aux amis de l'utilisateur qui partage le nouveau post partagé. Idem quand on départage
-    const idsToSendPost = req.app.locals.settings[userId];
-
-    // console.log(req.app.locals.settings[userId]);
-
-    sharehelper(req, res, next, idsToSendPost);
-    // if (idsToSendPost) {
-    // } else {
-    //     UserModel.findOne({ _id: userId })
-    //         .then((user) => (req.app.locals[userId] = [...user.amis, userId]))
-    //         .then(() => {
-    //             sharehelper(req, res, next, req.app.locals[userId]);
-    //         });
-    // }
+    sharehelper(req, res, next);
 };
 module.exports = sharePost;
