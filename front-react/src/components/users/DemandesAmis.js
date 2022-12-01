@@ -22,7 +22,7 @@ const DemandesAmis = () => {
         });
 
     const demandesAmis = (
-        <div className="utilisateurs amis">
+        <div className="utilisateurs">
             <h2>Demandes d'Amis</h2>
             {my &&
                 usersInfo &&

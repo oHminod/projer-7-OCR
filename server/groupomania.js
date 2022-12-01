@@ -42,22 +42,6 @@ groupomania.use((req, res, next) => {
     next();
 });
 
-groupomania.use((req, res, next) => {
-    UserModel.find()
-        .then((users) => {
-            users = users.map((user) => {
-                const userId = user._id
-                    .toString()
-                    .replace(/ObjectId\("(.*)"\)/, "$1");
-                groupomania.set(userId, [userId, ...user.amis]);
-            });
-        })
-        .catch((error) => {
-            return next(ApiError.notFound(error.message));
-        });
-    next();
-});
-
 /**
  * Emplacement du dossier images.
  */

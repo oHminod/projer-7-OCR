@@ -19,11 +19,8 @@ const CommentLayout = ({ comment, setRepondre, user, resTargetPseudo }) => {
     }, [comment]);
 
     const text =
-        tabTexte.length > 0
-            ? tabTexte.map((paragraphe, index) => (
-                  <p key={index}>{paragraphe}</p>
-              ))
-            : comment && comment.text && <p>{comment.text}</p>;
+        comment.text &&
+        tabTexte.map((paragraphe, index) => <p key={index}>{paragraphe}</p>);
 
     if (!user) return null;
     return (

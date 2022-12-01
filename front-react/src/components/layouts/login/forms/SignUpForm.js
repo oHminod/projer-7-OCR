@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useAxiosSignup } from "../../../../utils/axiosCalls";
 import verifEmail from "../../../../utils/verifEmail";
+import verifPassword from "../../../../utils/verifPassword";
 
 const SignUpForm = () => {
     const [email, setEmail] = useState("");
@@ -11,21 +12,42 @@ const SignUpForm = () => {
     const inputEmail = useRef();
     const inputPseudo = useRef();
     const inputPassword = useRef();
+    const inputVerifPassword = useRef();
     const [dbError, setDbError] = useState("");
 
     useAxiosSignup(email, pseudo, password, setDbError);
 
     const handleSignup = (e) => {
         e.preventDefault();
-        verifEmail(inputEmail.current.value) &&
-            inputEmail.current.value &&
+        if (
+            verifPassword(
+                inputPassword.current.value,
+                inputVerifPassword.current.value
+            ) &&
+            verifEmail(inputEmail.current.value) &&
+            inputPseudo.current.value.length > 0 &&
+            inputPassword.current.value.length >= 4
+        ) {
             setEmail(inputEmail.current.value);
-        inputPassword.current.value && setPassword(inputPassword.current.value);
-        inputPseudo.current.value && setPseudo(inputPseudo.current.value);
+            setPassword(inputPassword.current.value);
+            setPseudo(inputPseudo.current.value);
+        } else {
+            setDbError(
+                "Les mots de passes doivent être identiques et d'au moins 4 caractères. Le champ pseudo doit être rempli"
+            );
+        }
     };
 
     const handleEmailChange = () => {
         verifEmail(inputEmail.current.value, "email-inscription", setEmailOk);
+    };
+
+    const handleVerifPassChange = () => {
+        verifPassword(
+            inputPassword.current.value,
+            inputVerifPassword.current.value,
+            "password-verification"
+        );
     };
 
     return (
@@ -53,6 +75,15 @@ const SignUpForm = () => {
                     placeholder="password"
                     autoComplete="password-inscription"
                     ref={inputPassword}
+                />
+                <input
+                    type="password"
+                    id="password-verification"
+                    name="password-verification"
+                    placeholder="password verification"
+                    autoComplete="password-verification"
+                    ref={inputVerifPassword}
+                    onChange={handleVerifPassChange}
                 />
                 {emailOk && <button onClick={handleSignup}>S'inscrire</button>}
             </form>

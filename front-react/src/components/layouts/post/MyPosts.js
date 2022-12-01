@@ -1,19 +1,14 @@
 import React, { useCallback, useRef, useState } from "react";
 import useFetchMyPosts from "../../../hooks/useFetchMyPosts";
-// import useMyInfiniteFetch from "../../../hooks/useMyInfiniteFetch";
 import { useMyPosts } from "../../contexts/MyPostsContext";
-// import { useUser } from "../../contexts/UserContext";
 import PostProvider from "./PostContext";
 import SinglePost from "./singlePost/SinglePost";
 
 const MyPosts = () => {
     const myPosts = useMyPosts();
     const [lastItemId, setLastItemId] = useState("");
-    // const [go, setGo] = useState(false);
-    // const user = useUser();
     const observer = useRef();
 
-    // const { loading } = useMyInfiniteFetch(go, 2, lastItemId);
     const { loading } = useFetchMyPosts(4, lastItemId);
 
     const lastItemElementRef = useCallback(
@@ -36,10 +31,6 @@ const MyPosts = () => {
         },
         [loading]
     );
-
-    // useMemo(() => {
-    //     user && setGo(true);
-    // }, [user]);
 
     return (
         <>
