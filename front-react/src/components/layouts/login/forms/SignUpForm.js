@@ -20,10 +20,7 @@ const SignUpForm = () => {
     const handleSignup = (e) => {
         e.preventDefault();
         if (
-            verifPassword(
-                inputPassword.current.value,
-                inputVerifPassword.current.value
-            ) &&
+            inputPassword.current.value === inputVerifPassword.current.value &&
             verifEmail(inputEmail.current.value) &&
             inputPseudo.current.value.length > 0 &&
             inputPassword.current.value.length >= 4

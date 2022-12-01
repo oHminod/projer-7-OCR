@@ -9,7 +9,6 @@
     position: relative;
     margin-top: 10px;
     margin-bottom: 5px;
-    // border-left: 1px solid rgba(15, 15, 15, .08);
     border-radius: 15px;
     border-top-left-radius: 25.75px;
 
@@ -51,8 +50,6 @@
                     font-style: normal;
                     font-weight: 300;
                     margin: 3px 10px;
-                    // margin-bottom: 10px;
-                    // margin-left: 10px;
 
                     &:first-child {
                         margin-top: 10px;
@@ -133,7 +130,6 @@
 .prompt {
     background-color: rgb(243, 240, 240);
     height: 24px;
-    // line-height: 32px;
     width: calc(100% - 32px);
     font-size: 18px;
     font-weight: 300;

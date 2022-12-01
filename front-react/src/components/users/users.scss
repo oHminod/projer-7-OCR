@@ -153,7 +153,7 @@
 
         &:hover {
             cursor: pointer;
-            @extend .card_shadow;
+            @extend .light_shadow;
             transform: scale(1.005);
         }
 
@@ -162,35 +162,5 @@
             margin: 8px 0;
             font-weight: 300;
         }
-
-        // .userCard {
-        //     display: none;
-        //     position: absolute;
-        //     z-index: 1;
-        //     bottom: 45px;
-        //     width: 200px;
-        //     height: 100px;
-        //     background-color: rgba(255, 255, 255, .8);
-        //     border-radius: 15px;
-        //     backdrop-filter: blur(10px);
-        //     padding: 20px;
-        // }
-
-        // &:hover .userCard {
-        //     display: block;
-        // }
-    }
-
-    .avatar {
-        width: 50px;
-        border-radius: 50%;
-        transition: all .3s;
-        margin: 5px;
-
-        // &:hover {
-        //     cursor: pointer;
-        //     @extend .card_shadow;
-        //     transform: scale(1.005);
-        // }
     }
 }
