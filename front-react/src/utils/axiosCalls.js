@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth, useAuthUpdate } from "../components/contexts/AuthContext";
 import { useUser, useUserUpdate } from "../components/contexts/UserContext";
+import useLogout from "../components/utils/useLogout";
 
 const API_URL = process.env.REACT_APP_API_URL;
 export const API = axios.create({
@@ -102,6 +103,9 @@ export function useGetUser() {
 export function useVerify() {
     const token = useAuth();
     const setAuthToken = useAuthUpdate();
+
+    const { logout } = useLogout();
+
     useEffect(() => {
         const config = {
             headers: {
@@ -114,8 +118,8 @@ export function useVerify() {
                     setAuthToken(data.data.token);
                 })
                 .catch((err) => {
-                    setAuthToken("");
                     console.log("authContext : " + err.message);
+                    logout();
                 });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

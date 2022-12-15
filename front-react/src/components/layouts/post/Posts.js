@@ -51,33 +51,33 @@ const Posts = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    if (!posts) return;
     return (
         <>
-            {posts &&
-                posts.map((post, index) => {
-                    if (posts.length === index + 1) {
-                        return (
-                            <PostProvider
-                                key={"postContext-" + index}
-                                thisPost={post}
-                            >
-                                <SinglePost
-                                    lastItemElementRef={lastItemElementRef}
-                                    key={"post-" + index}
-                                />
-                            </PostProvider>
-                        );
-                    } else {
-                        return (
-                            <PostProvider
-                                key={"postContext-" + index}
-                                thisPost={post}
-                            >
-                                <SinglePost key={"post-" + index} />
-                            </PostProvider>
-                        );
-                    }
-                })}
+            {posts.map((post, index) => {
+                if (posts.length === index + 1) {
+                    return (
+                        <PostProvider
+                            key={"postContext-" + index}
+                            thisPost={post}
+                        >
+                            <SinglePost
+                                lastItemElementRef={lastItemElementRef}
+                                key={"post-" + index}
+                            />
+                        </PostProvider>
+                    );
+                } else {
+                    return (
+                        <PostProvider
+                            key={"postContext-" + index}
+                            thisPost={post}
+                        >
+                            <SinglePost key={"post-" + index} />
+                        </PostProvider>
+                    );
+                }
+            })}
             {loading && <div>loading...</div>}
         </>
     );

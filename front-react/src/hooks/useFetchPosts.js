@@ -22,7 +22,8 @@ const useFetchPosts = (offset, lastItemId) => {
 
     useEffect(() => {
         let ignore = false;
-
+        const controller = new AbortController();
+        const signal = controller.signal;
         if (
             (posts.length > 0 && lastItemId === "") ||
             (lastItemId !== "" && oldestPostId >= lastItemId) ||
@@ -47,7 +48,7 @@ const useFetchPosts = (offset, lastItemId) => {
                 Authorization: `Bearer ${token}`,
             },
         };
-        API.get(`post/${offset}/${lastItemId}`, config)
+        API.get(`post/${offset}/${lastItemId}`, config, { signal })
             .then((res) => {
                 if (!ignore) {
                     setLoading(false);
@@ -59,9 +60,14 @@ const useFetchPosts = (offset, lastItemId) => {
                 }
             })
             .catch((err) => {
-                console.log("myInfiniteFetch : " + err.response.data);
+                if (err.name === "AbortError") {
+                    // Gérer l'erreur d'abort ici si nécessaire
+                } else {
+                    console.log("myInfiniteFetch : " + err.response.data);
+                }
             });
         return () => {
+            controller.abort();
             ignore = true;
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -10,6 +10,7 @@ import UsersInfoProvider from "./components/contexts/UsersInfoContext";
 import AnimatedRoutes from "./components/utils/AnimatedRoutes";
 import GlobalSocketListener from "./components/utils/GlobalSocketListener";
 import SetOldestsPosts from "./components/utils/SetOldestsPosts";
+import Header from "./components/layouts/header/Header";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                                         <BrowserRouter>
                                             <SetOldestsPosts />
                                             <GlobalSocketListener />
+                                            <Header />
                                             <AnimatedRoutes />
                                         </BrowserRouter>
                                     </MyPostsProvider>

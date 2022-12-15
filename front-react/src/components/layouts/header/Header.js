@@ -4,12 +4,12 @@ import Navigation from "./navbar/Navigation";
 
 const Header = () => {
     const token = useAuth();
+
+    if (!token) return;
     return (
-        token && (
-            <header>
-                <Navigation />
-            </header>
-        )
+        <header>
+            <Navigation />
+        </header>
     );
 };
 
