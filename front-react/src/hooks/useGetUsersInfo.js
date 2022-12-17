@@ -8,22 +8,22 @@ import useGetAvatar from "./useGetAvatar";
 
 const useGetUsersInfo = (idsToFetch = []) => {
     const [usersWhoHavePost, setUsersWhoHavePost] = useState([]);
-    const [sanitizedIds, setSanitizedIds] = useState([]);
     const posts = usePosts();
     const myPosts = useMyPosts();
     const newPosts = useNewPosts();
     const user = useUser();
     const usersInfo = useUsersInfo();
 
-    useGetAvatar(sanitizedIds);
+    const { getAvatar } = useGetAvatar();
 
     useEffect(() => {
-        setSanitizedIds(
+        getAvatar(
             usersWhoHavePost.filter(
                 (id) => !usersInfo.find((user) => user.userId === id)
             )
         );
-    }, [usersInfo, usersWhoHavePost]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [usersWhoHavePost]);
 
     useEffect(() => {
         idsToFetch.length > 0 &&

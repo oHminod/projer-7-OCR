@@ -1,13 +1,14 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { UIACTIONS } from "../components/contexts/actions/usersInfo";
 import { useAuth } from "../components/contexts/AuthContext";
 import { useUsersInfoUpdate } from "../components/contexts/UsersInfoContext";
 import { API } from "../utils/axiosCalls";
 
-const useGetAvatar = (sanitizedIds) => {
+const useGetAvatar = () => {
     const token = useAuth();
     const dispatchUsersInfo = useUsersInfoUpdate();
-    useEffect(() => {
+
+    const getAvatar = (sanitizedIds) => {
         const headers = token && {
             Authorization: `Bearer ${token}`,
         };
@@ -27,9 +28,9 @@ const useGetAvatar = (sanitizedIds) => {
                 .catch((err) => {
                     console.log(err.response.data);
                 });
-    }, [dispatchUsersInfo, sanitizedIds, token]);
+    };
 
-    return null;
+    return { getAvatar };
 };
 
 export default useGetAvatar;
