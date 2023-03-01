@@ -17,7 +17,7 @@ Ceci fait, copier le fichier `env-front-react` dans le dossier `front-react` et 
 
 ### Démarrage
 
-Pour démarrer le projet, commencer par aller dans le dossier server avec le terminal et lancer la commande `npm start`.
+Pour démarrer le projet, commencer par aller dans le dossier `server` avec le terminal et lancer la commande `npm start`.
 
 ```bash
 groupomania/server % npm start
@@ -37,7 +37,7 @@ Connexion à MongoDB réussie !
 ```
 
 Ceci indique que l'API fonctionne normalement.
-Maintenant aller dans le dossier front-react et lancer également la commande `npm start`.
+Maintenant aller dans le dossier `front-react` et lancer également la commande `npm start`.
 
 ```bash
 Compiled successfully!
