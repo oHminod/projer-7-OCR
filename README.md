@@ -62,7 +62,7 @@ Sur la même machine, vous pouvez vous rendre à l'adresse localhost dans votre 
 Pour se connecter au compte administrateur, utiliser l'adresse email `admin@groupomania.com` et le mot de passe `admin`.
 Le compte administrateur peut modifier et supprimer tous les posts.
 
-## Spécifications fonctionnelles
+## Spécifications fonctionnelles demandées
 
 ### Page de connexion
 
