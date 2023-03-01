@@ -31,12 +31,14 @@ const UserCard = ({ user }) => {
                         <button
                             className="primary btnFollow"
                             onClick={handleRemoveFriend}
+                            title="Retirer de la liste d'amis"
                         >
                             <i className="fa-solid fa-x"></i>
                         </button>
                         <button
                             className="messages btnFollow"
                             // onClick={handleChatWithFriend}
+                            title="Envoyer un message"
                         >
                             <i className="fa-solid fa-comment"></i>
                         </button>

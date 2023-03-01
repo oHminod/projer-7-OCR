@@ -20,6 +20,7 @@ const DemandeEnvoyee = ({ ami }) => {
                 <button
                     className="primary btnFollow"
                     onClick={handleCancelFriend}
+                    title="Annuler la demande d'ami"
                 >
                     <i className="fa-solid fa-x"></i>
                 </button>

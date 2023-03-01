@@ -23,10 +23,18 @@ const DemandeAmi = ({ ami }) => {
             />
             <p>{ami.pseudo}</p>
             <div className="choix">
-                <button className="primary btnFollow" onClick={handleReject}>
+                <button
+                    className="primary btnFollow"
+                    onClick={handleReject}
+                    title="Refuser la demande d'ami"
+                >
                     <i className="fa-solid fa-x"></i>
                 </button>
-                <button className="success btnFollow" onClick={handleAccept}>
+                <button
+                    className="success btnFollow"
+                    onClick={handleAccept}
+                    title="Accepter la demande d'ami"
+                >
                     <i className="fa-solid fa-check"></i>
                 </button>
             </div>

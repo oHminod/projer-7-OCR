@@ -4,7 +4,7 @@ La direction a promis des mesures d’amélioration de la communication entre co
 
 ## Installation et mise en route
 
-Après avoir récupéré le code source du projet, aller dans le dossier `front-react` avec un terminal et utiliser la commande `npm install`, répéter l'opération dans le dossier `server`
+Après avoir récupéré le code source du projet, aller dans le dossier `front-react` avec un terminal et utiliser la commande `npm install`, répéter l'opération dans le dossier `server`.
 
 ```bash
 cd ../server
