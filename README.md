@@ -91,3 +91,11 @@ Un utilisateur doit pouvoir liker un post, une seule fois pour chaque post.
 ### Rôle administrateur
 
 Dans le but de pouvoir faire de la modération si nécessaire, il faudra créer un utilisateur “administrateur” ; celui-ci aura les droits de modification / suppression sur tous les posts du réseau social. Il faudra donc nous communiquer les identifiants de cet administrateur.
+
+### Identité graphique
+
+Police d’écriture : tous les textes du site doivent utiliser la police Lato. Couleurs : vous êtes libre sur les couleurs, mais voici notre palette actuelle dont vous pouvez vous inspirer.
+
+-   Primaire : #FD2D01
+-   Secondaire : #FFD7D7
+-   Tertiaire : #4E5166
