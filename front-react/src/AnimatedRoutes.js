@@ -1,10 +1,10 @@
 import { AnimatePresence } from "framer-motion";
 import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import Home from "../../pages/Home";
-import Login from "../../pages/Login";
-import Membre from "../../pages/Membre";
-import { useAuth } from "../contexts/AuthContext";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Membre from "./pages/Membre";
+import { useAuth } from "./components/contexts/AuthContext";
 
 const AnimatedRoutes = () => {
     const location = useLocation();
@@ -19,10 +19,7 @@ const AnimatedRoutes = () => {
                         <Route path="/membre" element={<Membre />}></Route>
                     </>
                 ) : (
-                    <>
-                        <Route path="*" element={<Login />}></Route>
-                        <Route path="/membre" element={<Login />}></Route>
-                    </>
+                    <Route path="*" element={<Login />}></Route>
                 )}
             </Routes>
         </AnimatePresence>

@@ -7,10 +7,10 @@ import PostsProvider from "./components/contexts/PostsContext";
 import SocketProvider from "./components/contexts/SocketContext";
 import UserProvider from "./components/contexts/UserContext";
 import UsersInfoProvider from "./components/contexts/UsersInfoContext";
-import AnimatedRoutes from "./components/utils/AnimatedRoutes";
 import GlobalSocketListener from "./components/utils/GlobalSocketListener";
 import SetOldestsPosts from "./components/utils/SetOldestsPosts";
 import Header from "./components/layouts/header/Header";
+import AnimatedRoutes from "./AnimatedRoutes";
 
 function App() {
     return (
