@@ -8,7 +8,7 @@ Après avoir récupéré le code source du projet, aller dans le dossier `front-
 
 Ceci fait, copier le fichier `env-server` dans le dossier `server` et le renommer `.env`.
 
-> Le fichier env-server se trouve dans l'archive des livrables pour l'évaluation du projet 7 sur la plateforme OpenClassRooms.
+> Le fichier env-server se trouve avec les dump de la base de données, dans l'archive des livrables pour l'évaluation du projet 7 sur la plateforme OpenClassRooms.
 > Attention à ne pas ajouter d'extension au fichier. Une fois à son emplacement de destination, prendre garde à ce que le fichier se nomme juste `.env` et non `.env.txt` par exemple.
 
 ### Démarrage
@@ -34,7 +34,7 @@ Connexion à MongoDB réussie !
 
 Ceci indique que l'API fonctionne normalement.
 
-Maintenant aller dans le dossier `front-react` et lancer également la commande `npm start`.
+Maintenant, aller dans le dossier `front-react` et lancer également la commande `npm start`.
 
 ```bash
 Compiled successfully!
