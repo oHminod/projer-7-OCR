@@ -11,10 +11,10 @@ cd ../server
 npm install
 ```
 
-Ceci fait, copier le fichier `env-front-react` dans le dossier `front-react` et le renommer `.env`. De même, copier le fichier `env-server` dans le dossier `server` et le renommer `.env` également.
+Ceci fait, copier le fichier `env-server` dans le dossier `server` et le renommer `.env`.
 
-> Les fichiers env-front-react et env-server se trouvent dans l'archive des livrables pour l'évaluation du projet 7 sur la plateforme OpenClassRooms.
-> Attention à ne pas ajouter d'extension aux fichiers. Une fois à leurs emplacements de destination, prendre garde à ce que les fichiers se nomment juste `.env` et non `.env.txt` par exemple.
+> Le fichier env-server se trouve dans l'archive des livrables pour l'évaluation du projet 7 sur la plateforme OpenClassRooms.
+> Attention à ne pas ajouter d'extension au fichier. Une fois à son emplacement de destination, prendre garde à ce que le fichier se nomme juste `.env` et non `.env.txt` par exemple.
 
 ### Démarrage
 

@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useAuth, useAuthUpdate } from "../components/contexts/AuthContext";
 import { useUser, useUserUpdate } from "../components/contexts/UserContext";
 import useLogout from "../components/utils/useLogout";
+import { API_URL } from "./settings";
 
-const API_URL = process.env.REACT_APP_API_URL;
 export const API = axios.create({
     baseURL: API_URL,
 });

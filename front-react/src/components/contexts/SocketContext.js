@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import socketio from "socket.io-client";
 import { useUser } from "./UserContext";
-const API_URL = process.env.REACT_APP_API_URL;
+import { API_URL } from "../../utils/settings";
 
 export const SocketContext = createContext();
 
