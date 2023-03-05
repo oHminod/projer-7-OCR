@@ -6,11 +6,6 @@ La direction a promis des mesures d’amélioration de la communication entre co
 
 Après avoir récupéré le code source du projet, aller dans le dossier `front-react` avec un terminal et utiliser la commande `npm install`, répéter l'opération dans le dossier `server`.
 
-```bash
-cd ../server
-npm install
-```
-
 Ceci fait, copier le fichier `env-server` dans le dossier `server` et le renommer `.env`.
 
 > Le fichier env-server se trouve dans l'archive des livrables pour l'évaluation du projet 7 sur la plateforme OpenClassRooms.
