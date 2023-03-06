@@ -6,6 +6,12 @@ const UserCard = ({ user }) => {
     const [showControls, setShowControls] = useState(false);
 
     const handleRemoveFriend = () => {
+        let confirm = window.confirm(
+            "Voulez-vous vraiment retirer " +
+                user.pseudo +
+                " de votre liste d'amis ?"
+        );
+        if (!confirm) return;
         setIdRemove(user.userId);
         setGoRemove(true);
     };

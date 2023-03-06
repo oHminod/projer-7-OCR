@@ -6,6 +6,10 @@ const DeletePost = ({ setEditModal }) => {
     const post = usePost();
 
     const handleClick = () => {
+        let confirm = window.confirm(
+            "Voulez-vous vraiment supprimer ce post ?"
+        );
+        if (!confirm) return;
         setEditModal(false);
         post && deletePost(post._id);
     };
