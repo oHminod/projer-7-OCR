@@ -60,7 +60,11 @@ Le compte administrateur peut modifier et supprimer tous les posts.
 ### Demo
 
 
-https://user-images.githubusercontent.com/85355838/224208684-0e907880-c81f-41c0-8f99-439e00cd82e1.mov
+
+
+https://user-images.githubusercontent.com/85355838/224209767-5ed7e0ab-bdaf-48f5-8a57-2e4734ccfaf0.mov
+
+
 
 
 
