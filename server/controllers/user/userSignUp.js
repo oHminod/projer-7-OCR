@@ -16,6 +16,12 @@ require("dotenv").config();
  * succeeding the current middleware.
  */
 const userSignUp = async (req, res, next) => {
+    const passwordRegex =
+        /^(?=.*[a-zà-ÿ])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Zà-ÿ]).{6,}$/;
+
+    if (!passwordRegex.test(req.body.password))
+        return next(ApiError.badRequest("Mot de passe invalide"));
+
     const salt = await bcrypt.genSalt(10);
     req.body.password = await bcrypt.hash(req.body.password, salt);
     const user = new UserModel({

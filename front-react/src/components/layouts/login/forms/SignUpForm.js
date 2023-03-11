@@ -14,6 +14,8 @@ const SignUpForm = () => {
     const inputPassword = useRef();
     const inputVerifPassword = useRef();
     const [dbError, setDbError] = useState("");
+    const passwordRegex =
+        /^(?=.*[a-zà-ÿ])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Zà-ÿ]).{6,}$/;
 
     useAxiosSignup(email, pseudo, password, setDbError);
 
@@ -23,14 +25,15 @@ const SignUpForm = () => {
             inputPassword.current.value === inputVerifPassword.current.value &&
             verifEmail(inputEmail.current.value) &&
             inputPseudo.current.value.length > 0 &&
-            inputPassword.current.value.length >= 4
+            inputPassword.current.value.length >= 4 &&
+            passwordRegex.test(inputPassword.current.value)
         ) {
             setEmail(inputEmail.current.value);
             setPassword(inputPassword.current.value);
             setPseudo(inputPseudo.current.value);
         } else {
             setDbError(
-                "Les mots de passes doivent être identiques et d'au moins 4 caractères. Le champ pseudo doit être rempli"
+                "Les mots de passes doivent être identiques et d'au moins 6 caractères et contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial. Le pseudo doit contenir au moins 1 caractère. L'email doit être valide."
             );
         }
     };
@@ -45,6 +48,15 @@ const SignUpForm = () => {
             inputVerifPassword.current.value,
             "password-verification"
         );
+    };
+    const handlepasswordChange = () => {
+        if (passwordRegex.test(inputPassword.current.value)) {
+            setDbError("");
+        } else {
+            setDbError(
+                "Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial"
+            );
+        }
     };
 
     return (
@@ -72,6 +84,7 @@ const SignUpForm = () => {
                     placeholder="password"
                     autoComplete="password-inscription"
                     ref={inputPassword}
+                    onChange={handlepasswordChange}
                 />
                 <input
                     type="password"
