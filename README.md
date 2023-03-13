@@ -4,12 +4,12 @@ La direction a promis des mesures d’amélioration de la communication entre co
 
 ## Installation et mise en route
 
-Après avoir récupéré le code source du projet, aller dans le dossier `front-react` avec un terminal et utiliser la commande `npm install`, répéter l'opération dans le dossier `server`.
+Après avoir récupéré le code source du projet, aller dans le dossier `front-react` avec un terminal et exécuter la commande `npm install`, répéter l'opération pour le backend en tapant la commande `npm install` depuis la racine du dossier `server`.
 
-Ceci fait, copier le fichier `env-server` dans le dossier `server` et le renommer `.env`.
+Ceci fait, déplacer le fichier `env-server` à la racine du dossier `server` et renommer le fichier `env-server` en `.env`.
 
-> Le fichier env-server se trouve avec les dump de la base de données, dans l'archive des livrables pour l'évaluation du projet 7 sur la plateforme OpenClassRooms.
-> Attention à ne pas ajouter d'extension au fichier. Une fois à son emplacement de destination, prendre garde à ce que le fichier se nomme juste `.env` et non `.env.txt` par exemple.
+> Le fichier env-server se trouve avec les dumps de la base de données, dans l'archive des livrables pour l'évaluation du projet 7, sur la plateforme OpenClassRooms.
+> Attention à ne pas ajouter d'extension au fichier. Une fois à la racine du dossier `server`, prendre garde à ce que le fichier se nomme juste `.env` et non `.env.txt` par exemple.
 
 ### Démarrage
 
